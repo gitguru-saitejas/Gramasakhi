@@ -18,6 +18,7 @@ from app.models.citizen_account import CitizenAccount
 from app.services import rag as rag_service
 from app.services.language_service import (
     LANG_EN,
+    detect_previous_answer_transform,
     language_metadata,
     language_name,
     normalize_language_code,
@@ -465,8 +466,12 @@ def handle_citizen_chat(
         input_mode=mode,
     )
     _touch_conversation(conv, title_if_empty=original_query)
-    # Translation-only: previous answer → target language (no RAG / no live)
-    if lang_decision.is_translation_only:
+    prev_transform = detect_previous_answer_transform(
+        original_query,
+        conversation_language=conv.language,
+    )
+    # Transform prior answer (translate / rephrase) — no RAG / no live
+    if lang_decision.is_translation_only or prev_transform.apply:
         prev_assistant = next(
             (m for m in reversed(prior) if (m.role or "") == "assistant" and (m.content or "").strip()),
             None,
@@ -487,13 +492,25 @@ def handle_citizen_chat(
             rewritten_query = original_query
             rewrite = {"was_rewritten": False, "method": "translation_only"}
         else:
-            from app.services.llm_service import translate_answer
-            target = lang_decision.target_language or response_language
-            tr = translate_answer(
-                prev_assistant.content,
-                target_language=target,
-                strict_language_mode=lang_decision.strict_language_mode,
+            from app.services.llm_service import rephrase_answer, translate_answer
+
+            target = (
+                lang_decision.target_language
+                or prev_transform.target_language
+                or response_language
             )
+            if prev_transform.mode == "rephrase":
+                tr = rephrase_answer(
+                    prev_assistant.content,
+                    response_language=target,
+                    strict_language_mode=lang_decision.strict_language_mode,
+                )
+            else:
+                tr = translate_answer(
+                    prev_assistant.content,
+                    target_language=target,
+                    strict_language_mode=lang_decision.strict_language_mode,
+                )
             if tr.get("success"):
                 answer = tr["answer"]
                 llm_invoked = True
@@ -679,6 +696,8 @@ def handle_citizen_chat(
     required_information: List[str] = []
     missing_information: List[str] = []
     known_information: Dict[str, Any] = {}
+    eligibility_status: Optional[str] = None
+    eligibility_evaluation: Optional[Dict[str, Any]] = None
 
     if explain_followup and prior_session is not None:
         expl = explain_eligibility_evaluation(
@@ -724,11 +743,37 @@ def handle_citizen_chat(
         required_information = list(elig_turn.required_information or [])
         missing_information = list(elig_turn.missing_information or [])
         known_information = dict(elig_turn.known_information or {})
+    elif (
+        getattr(assistance, "nlu_needs_clarification", False)
+        and getattr(assistance, "nlu_clarification_prompt", None)
+        and assistance.intent == CitizenIntent.CLARIFICATION
+    ):
+        rag_result = {
+            "answer": assistance.nlu_clarification_prompt,
+            "confidence": "high",
+            "reason": "nlu_clarification",
+            "signals": {},
+            "sources": [],
+            "validated": True,
+            "llm_invoked": False,
+            "knowledge_source": "conversation",
+        }
     else:
-        # Retrieval uses REWRITTEN query; answer language uses response_language.
+        # Prefer context rewrite; use NLU-normalized query for vague scheme follow-ups only.
+        retrieval_query = rewritten_query
+        if rewrite.get("was_rewritten") and rewritten_query:
+            retrieval_query = rewritten_query
+        elif getattr(assistance, "normalized_query", None) and assistance.detected_scheme:
+            from app.services.human_language.retrieval_routing import should_use_nlu_retrieval_query
+
+            if should_use_nlu_retrieval_query(
+                original_query,
+                rewrite_was_applied=bool(rewrite.get("was_rewritten")),
+            ):
+                retrieval_query = assistance.normalized_query
         rag_result = rag_service.answer_with_evidence_gate(
             db,
-            rewritten_query,
+            retrieval_query,
             language=language_name(response_language),
             conversation_context=history,
             skip_llm=skip_llm,
@@ -809,11 +854,13 @@ def handle_citizen_chat(
                         seen_urls.add(url)
 
     if not (elig_turn.handled and elig_turn.skip_rag):
-        if (
+        from app.services.scenario_eligibility import should_attempt_scenario_evaluation
+
+        eligibility_pipeline = (
             assistance.intent in (CitizenIntent.ELIGIBILITY, CitizenIntent.PERSONAL_ELIGIBILITY)
-            and rag_result.get("validated")
-            and sources
-        ):
+            or should_attempt_scenario_evaluation(original_query)
+        )
+        if eligibility_pipeline and rag_result.get("validated") and sources:
             from app.services.eligibility_criteria import (
                 enrich_assistance_fields_from_criteria,
                 extract_eligibility_criteria,
@@ -861,10 +908,50 @@ def handle_citizen_chat(
                         required_information = list(eligibility_session.required_information)
                         missing_information = list(eligibility_session.missing_information)
                         known_information = dict(eligibility_session.known_information)
-            elif assistance.intent == CitizenIntent.ELIGIBILITY:
+            elif assistance.intent == CitizenIntent.ELIGIBILITY or should_attempt_scenario_evaluation(
+                original_query
+            ):
                 required_information, _, missing_information = enrich_assistance_fields_from_criteria(
                     criteria
                 )
+                from app.services.scenario_eligibility import try_evaluate_scenario_eligibility
+
+                scenario_eval = try_evaluate_scenario_eligibility(
+                    query=original_query,
+                    criteria=criteria,
+                    scheme_name=criteria.scheme_name,
+                    scheme_id=criteria.scheme_id,
+                    evidence_validated=validated,
+                )
+                if scenario_eval is not None and not explain_followup and not action_plan_followup:
+                    eligibility_evaluation = scenario_eval.to_dict()
+                    eligibility_status = scenario_eval.status
+                    from app.services.eligibility_explanation import explain_eligibility_evaluation
+
+                    expl = explain_eligibility_evaluation(
+                        scenario_eval,
+                        query=original_query,
+                        response_language=response_language,
+                        requested_scheme=assistance.detected_scheme or (scheme_identity or {}).get("scheme_name"),
+                        requested_scheme_id=(scheme_identity or {}).get("scheme_id"),
+                        evidence_validated=validated,
+                        use_llm=not skip_llm,
+                    )
+                    answer = expl.get("answer") or answer
+                    llm_invoked = bool(expl.get("llm_invoked")) or llm_invoked
+                    if expl.get("llm_model"):
+                        rag_result["llm_model"] = expl.get("llm_model")
+                    if expl.get("llm_latency_ms") is not None:
+                        rag_result["llm_latency_ms"] = expl.get("llm_latency_ms")
+                    rag_result["knowledge_source"] = "eligibility_explanation"
+                    rag_result["reason"] = "scenario_eligibility_evaluation"
+                    eligibility_explanation_meta = expl
+                    if expl.get("sources"):
+                        from app.services.eligibility_explanation import merge_official_sources
+
+                        official_sources = merge_official_sources(
+                            official_sources, expl.get("sources") or []
+                        )
 
         if (
             prior_session
@@ -881,8 +968,6 @@ def handle_citizen_chat(
     sources = embed_session_in_sources(strip_internal_sources(sources), eligibility_session)
     api_sources = strip_internal_sources(sources)
 
-    eligibility_status = None
-    eligibility_evaluation = None
     if eligibility_session and eligibility_session.completed:
         from app.services.eligibility_evaluation import evaluate_session_if_ready
 
@@ -1017,6 +1102,13 @@ def handle_citizen_chat(
     session_fields = session_outcome_from(eligibility_session)
     if known_information:
         session_fields["known_information"] = known_information
+    from app.services.eligibility_api import eligibility_status_for_api, normalize_eligibility_status
+
+    if eligibility_status is None and eligibility_evaluation:
+        eligibility_status = normalize_eligibility_status(
+            eligibility_evaluation.get("status")
+        ) or eligibility_evaluation.get("status")
+    api_eligibility_status = eligibility_status_for_api(eligibility_status)
     assistance_meta = build_message_assistance_meta(
         citizen_intent=assistance.intent.value,
         assistance_mode=assistance.assistance_mode.value,
@@ -1097,13 +1189,16 @@ def handle_citizen_chat(
         "input_mode": mode,
         "voice_request_id": voice_request_id,
         "citizen_intent": assistance.intent.value,
+        "nlu_intent": getattr(assistance, "nlu_intent", None),
+        "normalized_query": getattr(assistance, "normalized_query", None),
+        "scheme_id": getattr(assistance, "scheme_id", None),
         "assistance_mode": assistance.assistance_mode.value,
         "detected_scheme": assistance.detected_scheme,
         "comparison_schemes": list(assistance.comparison_schemes or []),
         "eligibility_criteria": eligibility_payload,
         "required_information": required_information or None,
         "missing_information": missing_information or None,
-        "eligibility_status": eligibility_status,
+        "eligibility_status": api_eligibility_status,
         "eligibility_evaluation": eligibility_evaluation,
         "eligibility_explanation": (
             {

@@ -64,6 +64,23 @@ _AGE_YEARS = re.compile(
     r"(\d{1,3})\s*(?:years?\s+old|years?|yrs?)(?:\s+of\s+age)?",
     re.I,
 )
+_AGE_BAND = re.compile(
+    r"(?:commonly|eligible\s+age\s+band|age\s+band).*?(?:commonly\s+)?"
+    r"(\d{1,3})\s*(?:to|-|and)\s*(\d{1,3})\s*(?:years?|yrs?)?",
+    re.I,
+)
+_AGE_COMMONLY_PAREN = re.compile(
+    r"\(\s*commonly\s+(\d{1,3})\s*(?:to|-|and)\s*(\d{1,3})\s*years?\s*\)",
+    re.I,
+)
+_AGE_HYPHEN_BAND = re.compile(
+    r"\b(\d{1,3})\s*-\s*(\d{1,3})\s*(?:years?|yrs?|band)?\b",
+    re.I,
+)
+_AGE_BAND_SIMPLE = re.compile(
+    r"\b(\d{1,3})\s*(?:to|-|and)\s*(\d{1,3})\s*(?:years?|yrs?)\b",
+    re.I,
+)
 
 _INCOME_MAX = re.compile(
     r"(?:income|family\s+income|annual\s+income|household\s+income)"
@@ -207,6 +224,7 @@ class EligibilityCriteriaResult:
             CriterionType.MARITAL_STATUS.value: "marital_status",
             CriterionType.BENEFICIARY_STATUS.value: "beneficiary_status",
             CriterionType.OWNERSHIP.value: "ownership",
+            CriterionType.SCHEME_SPECIFIC.value: "scheme_specific",
         }
         out: List[str] = []
         for c in self.criteria:
@@ -277,6 +295,13 @@ def _extract_eligibility_blobs(content: str) -> List[str]:
         # Use whole chunk when clearly eligibility-focused and no section split found.
         if "section:" not in low or "eligibility" in low:
             return [text[:4000]]
+    if re.search(
+        r"\b(?:commonly|age\s+band).*?\d{1,3}\s*(?:to|-|and)\s*\d{1,3}\s*years?\b",
+        low,
+    ):
+        return [text[:4000]]
+    if re.search(r"growing notified crops in notified areas|coverage applies only for crops", low):
+        return [text[:4000]]
     return []
 
 
@@ -321,6 +346,50 @@ def _split_logical_clauses(sentence: str) -> List[Tuple[str, Optional[str]]]:
 
 
 def _parse_age_criteria(clause: str, *, connector: Optional[str], base: Dict[str, Any]) -> List[EligibilityCriterion]:
+    m_paren = _AGE_COMMONLY_PAREN.search(clause)
+    m_notified_band = _AGE_BAND.search(clause)
+    if m_paren or m_notified_band:
+        m = m_paren or m_notified_band
+        lo, hi = int(m.group(1)), int(m.group(2))
+        if lo > hi:
+            lo, hi = hi, lo
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.AGE.value,
+                statement=clause.strip(),
+                operator=">=",
+                value=lo,
+                unit="years",
+                logical_connector="AND",
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            ),
+            EligibilityCriterion(
+                criterion_type=CriterionType.AGE.value,
+                statement=clause.strip(),
+                operator="<=",
+                value=hi,
+                unit="years",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            ),
+        ]
+    m_band = _AGE_BAND_SIMPLE.search(clause) if re.search(r"\bage\b", clause, re.I) else None
+    if m_band:
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.AGE.value,
+                statement=clause.strip(),
+                operator="between",
+                value=int(m_band.group(1)),
+                value_max=int(m_band.group(2)),
+                unit="years",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
     if _is_ambiguous(clause):
         return []
     out: List[EligibilityCriterion] = []
@@ -370,6 +439,33 @@ def _parse_age_criteria(clause: str, *, connector: Optional[str], base: Dict[str
         )
     if out:
         return out
+    m_hyphen = _AGE_HYPHEN_BAND.search(clause) if re.search(r"\bage\b|band\b", clause, re.I) else None
+    if m_hyphen:
+        lo, hi = int(m_hyphen.group(1)), int(m_hyphen.group(2))
+        if lo > hi:
+            lo, hi = hi, lo
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.AGE.value,
+                statement=clause.strip(),
+                operator=">=",
+                value=lo,
+                unit="years",
+                logical_connector="AND",
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            ),
+            EligibilityCriterion(
+                criterion_type=CriterionType.AGE.value,
+                statement=clause.strip(),
+                operator="<=",
+                value=hi,
+                unit="years",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            ),
+        ]
     # Single explicit age mention only when clearly numeric eligibility (not vague).
     m_years = _AGE_YEARS.search(clause)
     if m_years and re.search(r"\bage\b", clause, re.I):
@@ -412,6 +508,34 @@ def _parse_income_criteria(clause: str, *, connector: Optional[str], base: Dict[
 
 
 def _parse_gender_criteria(clause: str, *, connector: Optional[str], base: Dict[str, Any]) -> List[EligibilityCriterion]:
+    low = clause.lower()
+    if re.search(r"\bmen\s+are\s+not\s+eligible\b|\bnot\s+eligible\s+for\s+men\b", low):
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.GENDER.value,
+                statement=clause.strip(),
+                operator="!=",
+                value="male",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
+    if re.search(
+        r"\beligible\s+woman\b|\bwoman\s+head\s+of\s+(?:the\s+)?family\b|\bwomen\s+citizens\b",
+        low,
+    ):
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.GENDER.value,
+                statement=clause.strip(),
+                operator="=",
+                value="female",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
     for pattern, gender in _GENDER_PATTERNS:
         if re.search(pattern, clause, re.I):
             return [
@@ -425,6 +549,124 @@ def _parse_gender_criteria(clause: str, *, connector: Optional[str], base: Dict[
                     **base,
                 )
             ]
+    return []
+
+
+def _parse_beneficiary_criteria(clause: str, *, connector: Optional[str], base: Dict[str, Any]) -> List[EligibilityCriterion]:
+    low = clause.lower()
+    if re.search(r"\bwoman\s+head\s+of\s+(?:the\s+)?family\b|\beligible\s+woman\s+head\b", low):
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.BENEFICIARY_STATUS.value,
+                statement=clause.strip(),
+                operator="=",
+                value="female_head",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
+    if re.search(r"\bhead\s+of\s+(?:the\s+)?family\b|\bhead\s+of\s+household\b", low):
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.BENEFICIARY_STATUS.value,
+                statement=clause.strip(),
+                operator="=",
+                value="head_of_family",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
+    return []
+
+
+def _parse_document_requirement_criteria(
+    clause: str, *, connector: Optional[str], base: Dict[str, Any]
+) -> List[EligibilityCriterion]:
+    low = clause.lower()
+    if re.search(
+        r"\bmust\s+have\s+a\s+savings\s+bank\s+account\b|\bmust\s+have\s+a\s+savings\s+account\b"
+        r"|\bhave\s+a\s+savings\s+bank\s+account\b",
+        low,
+    ):
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.BENEFICIARY_STATUS.value,
+                statement=clause.strip(),
+                operator="=",
+                value="has_savings_account",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
+    if re.search(r"\baadhaar[- ]linked\s+bank\s+account\b", low):
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.BENEFICIARY_STATUS.value,
+                statement=clause.strip(),
+                operator="=",
+                value="aadhaar_bank_account",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
+    if re.search(r"\bvalid\s+karnataka\s+ration\s+card\b|\bmust\s+hold\s+a\s+valid\s+karnataka\s+ration\s+card\b", low):
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.BENEFICIARY_STATUS.value,
+                statement=clause.strip(),
+                operator="=",
+                value="karnataka_ration_card",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
+    if re.search(r"\bonly\s+one\s+woman\s+per\s+family\b", low):
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.SCHEME_SPECIFIC.value,
+                statement=clause.strip(),
+                operator="=",
+                value="one_woman_per_family",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
+    if re.search(
+        r"growing\s+notified\s+crops?\s+in\s+notified\s+areas?"
+        r"|coverage\s+applies\s+only\s+for\s+crops?\s+and\s+areas?\s+notified",
+        low,
+    ):
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.SCHEME_SPECIFIC.value,
+                statement=clause.strip(),
+                operator="=",
+                value="notified_crop_area",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
+    if re.search(r"\bnotified\s+crop\b|\bnotified\s+area\b", low) and re.search(
+        r"\benroll|eligible|coverage|apply|can\s+enroll\b", low
+    ):
+        return [
+            EligibilityCriterion(
+                criterion_type=CriterionType.SCHEME_SPECIFIC.value,
+                statement=clause.strip(),
+                operator="=",
+                value="notified_crop_area",
+                logical_connector=connector,
+                confidence=CriterionConfidence.EXPLICIT.value,
+                **base,
+            )
+        ]
     return []
 
 
@@ -493,6 +735,8 @@ def _parse_clause(clause: str, *, connector: Optional[str], base: Dict[str, Any]
     parsers = (
         _parse_age_criteria,
         _parse_income_criteria,
+        _parse_beneficiary_criteria,
+        _parse_document_requirement_criteria,
         _parse_gender_criteria,
         _parse_state_criteria,
         _parse_occupation_criteria,

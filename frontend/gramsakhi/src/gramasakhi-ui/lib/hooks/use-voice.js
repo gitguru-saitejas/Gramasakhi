@@ -5,18 +5,51 @@ import { useLanguageStore } from '@/stores/language-store';
 import { transcribeVoice } from '@/lib/api/chat-api';
 import { uiLangToApi } from '@/lib/api/backend-adapter';
 
+function pickRecorderMimeType() {
+  if (typeof MediaRecorder === 'undefined') return '';
+  const candidates = [
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/ogg;codecs=opus',
+    'audio/mp4',
+  ];
+  for (const type of candidates) {
+    if (MediaRecorder.isTypeSupported(type)) return type;
+  }
+  return '';
+}
+
+function extractTranscript(data) {
+  if (!data || data.success === false) {
+    return {
+      text: '',
+      error: data?.message || 'Could not understand your voice. Please try again or type your question.',
+    };
+  }
+  const text = (data.text || data.transcript || data.normalized_transcript || '').trim();
+  if (!text) {
+    return {
+      text: '',
+      error: data?.message || 'No speech was detected. Please try again.',
+    };
+  }
+  return { text, error: null };
+}
+
 /**
  * Voice input via GramSakhi backend STT (MediaRecorder + /chat/voice/transcribe).
  * Falls back to browser SpeechRecognition only when backend path is unavailable.
  */
 export function useVoice() {
   const [isListening, setIsListening] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [error, setError] = useState(null);
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
   const streamRef = useRef(null);
   const recognitionRef = useRef(null);
+  const mimeTypeRef = useRef('audio/webm');
   const { getCurrentLanguageObj } = useLanguageStore();
 
   const stopTracks = useCallback(() => {
@@ -27,12 +60,17 @@ export function useVoice() {
   }, []);
 
   const startBackendRecording = useCallback(async (onResultCallback) => {
+    if (isListening || isProcessing) return;
     setError(null);
     setTranscript('');
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
-      const recorder = new MediaRecorder(stream);
+      const mimeType = pickRecorderMimeType();
+      mimeTypeRef.current = mimeType || 'audio/webm';
+      const recorder = mimeType
+        ? new MediaRecorder(stream, { mimeType })
+        : new MediaRecorder(stream);
       chunksRef.current = [];
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunksRef.current.push(e.data);
@@ -40,32 +78,40 @@ export function useVoice() {
       recorder.onstop = async () => {
         stopTracks();
         setIsListening(false);
-        const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        if (!blob.size) return;
+        const blob = new Blob(chunksRef.current, { type: mimeTypeRef.current });
+        if (!blob.size) {
+          setError('No audio was captured. Hold the mic a little longer and try again.');
+          return;
+        }
+        setIsProcessing(true);
         try {
           const langObj = getCurrentLanguageObj();
           const data = await transcribeVoice(blob, { language: langObj?.code });
-          const text = (data.text || data.transcript || '').trim();
-          if (text) {
-            setTranscript(text);
-            onResultCallback?.(text, {
-              input_mode: 'voice',
-              stt_language: uiLangToApi(langObj?.code),
-              voice_request_id: data.voice_request_id || data.request_id,
-            });
+          const { text, error: sttError } = extractTranscript(data);
+          if (sttError) {
+            setError(sttError);
+            return;
           }
-        } catch (e) {
-          setError('Could not understand your voice. Please try again or type your question.');
+          setTranscript(text);
+          onResultCallback?.(text, {
+            input_mode: 'voice',
+            stt_language: uiLangToApi(langObj?.code),
+            voice_request_id: data.voice_request_id || data.request_id,
+          });
+        } catch {
+          setError("Couldn't understand the audio. Please try again.");
+        } finally {
+          setIsProcessing(false);
         }
       };
       mediaRecorderRef.current = recorder;
-      recorder.start();
+      recorder.start(250);
       setIsListening(true);
     } catch {
       setError('Microphone access was denied.');
       setIsListening(false);
     }
-  }, [getCurrentLanguageObj, stopTracks]);
+  }, [getCurrentLanguageObj, stopTracks, isListening, isProcessing]);
 
   const stopBackendRecording = useCallback(() => {
     if (mediaRecorderRef.current?.state === 'recording') {
@@ -134,6 +180,7 @@ export function useVoice() {
 
   return {
     isListening,
+    isProcessing,
     transcript,
     error,
     stopListening,

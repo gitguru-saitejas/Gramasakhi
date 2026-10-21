@@ -30,7 +30,7 @@ export default function Login() {
               </div>
             </div>
             <h1 className="text-2xl font-bold text-primary tracking-tight">Welcome back</h1>
-            <p className="text-sm text-on-surface-variant">Sign in to ask about government schemes</p>
+            <p className="text-sm text-on-surface-variant">Sign in with your mobile number</p>
           </div>
 
           <LoginForm />

@@ -68,6 +68,7 @@ export const useChatStore = create((set, get) => ({
   syncRoute: async (routeConversationId) => {
     if (routeConversationId) {
       if (String(routeConversationId) === String(get().activeConversationId)) return;
+      if (get().isGenerating) return;
       await get().loadConversation(routeConversationId);
       return;
     }
@@ -82,6 +83,7 @@ export const useChatStore = create((set, get) => ({
     }
     const last = localStorage.getItem(LS_KEY);
     if (last) {
+      if (get().isGenerating) return;
       get().navigateRef?.(`/chat/${last}`, { replace: true });
     }
   },
@@ -95,6 +97,8 @@ export const useChatStore = create((set, get) => ({
       error: null,
       activeConversationId: id,
       messages: [],
+      isGenerating: false,
+      currentStreamText: "",
     });
     try {
       const res = await api.get(`/chat/conversations/${id}`, { skipErrorToast: true });
@@ -208,66 +212,99 @@ export const useChatStore = create((set, get) => ({
 
     const assistantTempId = `msg-ast-${Date.now()}`;
 
-    await sendChatMessage(
-      {
-        conversation_id: get().activeConversationId,
-        message: text.trim(),
-        language,
-        input_mode: voiceOpts.input_mode || "text",
-        stt_language: voiceOpts.stt_language,
-        voice_request_id: voiceOpts.voice_request_id,
-      },
-      {
-        onComplete: (data) => {
-          if (gen !== get().chatGeneration) {
-            set({ isGenerating: false, currentStreamText: "" });
-            return;
-          }
+    const finishGenerating = () => {
+      if (gen !== get().chatGeneration) return;
+      set({ isGenerating: false, currentStreamText: "" });
+    };
 
-          if (data.conversation_id) {
-            localStorage.setItem(LS_KEY, data.conversation_id);
-            sessionStorage.removeItem(FORCE_NEW_KEY);
-            const nav = get().navigateRef;
-            if (nav && String(get().activeConversationId) !== String(data.conversation_id)) {
-              set({ activeConversationId: data.conversation_id });
-              nav(`/chat/${data.conversation_id}`, { replace: true });
-            } else {
-              set({ activeConversationId: data.conversation_id });
+    try {
+      await sendChatMessage(
+        {
+          conversation_id: get().activeConversationId,
+          message: text.trim(),
+          language,
+          input_mode: voiceOpts.input_mode || "text",
+          stt_language: voiceOpts.stt_language,
+          voice_request_id: voiceOpts.voice_request_id,
+        },
+        {
+          onComplete: (data) => {
+            if (gen !== get().chatGeneration) {
+              finishGenerating();
+              return;
             }
-          }
 
-          const finalAssistantMsg = {
-            id: assistantTempId,
-            role: "assistant",
-            content: data.message,
-            timestamp: new Date().toISOString(),
-            sources: data.sources || [],
-            schemes: data.schemes || [],
-            grounding: data.grounding,
-            meta: data.meta,
-            language: data.language,
-          };
+            const assistantId =
+              data.assistant_message_id ||
+              data.raw?.assistant_message_id ||
+              assistantTempId;
 
-          set((state) => ({
-            messages: [...state.messages, finalAssistantMsg],
-            isGenerating: false,
-            currentStreamText: "",
-          }));
+            const responseLang =
+              data.language ||
+              (data.response_language
+                ? String(data.response_language).toLowerCase()
+                : undefined);
 
-          get().fetchConversations();
-        },
-        onError: (err) => {
-          if (gen !== get().chatGeneration) {
-            set({ isGenerating: false, currentStreamText: "" });
-            return;
-          }
-          set({
-            isGenerating: false,
-            currentStreamText: "",
-            error: friendlyError(err),
-          });
-        },
+            if (responseLang && ["kn", "hi", "en"].includes(responseLang)) {
+              useLanguageStore.getState().setLanguage(responseLang);
+            }
+
+            const finalAssistantMsg = {
+              id: assistantId,
+              role: "assistant",
+              content: data.message,
+              timestamp: new Date().toISOString(),
+              sources: data.sources || [],
+              schemes: data.schemes || [],
+              grounding: data.grounding,
+              meta: data.meta,
+              language: responseLang,
+            };
+
+            const prevConversationId = get().activeConversationId;
+            const convId = data.conversation_id || prevConversationId;
+
+            set((state) => ({
+              messages: [...state.messages, finalAssistantMsg],
+              isGenerating: false,
+              currentStreamText: "",
+              activeConversationId: convId || state.activeConversationId,
+            }));
+
+            if (data.conversation_id) {
+              localStorage.setItem(LS_KEY, data.conversation_id);
+              sessionStorage.removeItem(FORCE_NEW_KEY);
+              const nav = get().navigateRef;
+              if (nav && String(prevConversationId) !== String(data.conversation_id)) {
+                nav(`/chat/${data.conversation_id}`, { replace: true });
+              }
+            }
+
+            get().fetchConversations();
+          },
+          onError: (err) => {
+            if (gen !== get().chatGeneration) {
+              finishGenerating();
+              return;
+            }
+            set({
+              isGenerating: false,
+              currentStreamText: "",
+              error: friendlyError(err),
+            });
+          },
+        }
+      );
+    } finally {
+      if (gen === get().chatGeneration && get().isGenerating) {
+        set({
+          isGenerating: false,
+          currentStreamText: "",
+          error:
+            get().error ||
+            "GramSakhi could not finish updating the chat. Please try again.",
+        });
       }
-    );
+    }
   },
 }));

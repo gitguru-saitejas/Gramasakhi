@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
+import { TtsPlaybackProvider } from "@/context/TtsPlaybackContext";
 import { useChatStore } from "@/stores/chat-store";
 import "../gramasakhi-ui/globals.css";
 
@@ -25,7 +26,9 @@ export default function GramSakhiChat() {
 
   return (
     <div className="gramsakhi-ui-root h-screen w-screen overflow-hidden" style={{ fontFamily: "var(--font-vietnam), sans-serif" }}>
-      <AppShell />
+      <TtsPlaybackProvider>
+        <AppShell />
+      </TtsPlaybackProvider>
     </div>
   );
 }

@@ -360,24 +360,264 @@ def _parse_age_value(text: str) -> Optional[int]:
     return None
 
 
+_SCHEME_REQUIREMENT_CTX = re.compile(
+    r"\b(?:require|requires|must|need|does\s+the\s+note\s+require)\b",
+    re.I,
+)
+
+_FARMER_CITIZEN = re.compile(
+    r"\b(?:a|an|the|loanee|non-loanee|i\s+am\s+a)\s+farmer\b"
+    r"|\bfarmer\s+(?:grows|growing|who)\b"
+    r"|\bi\s+am\s+a\s+farmer\b",
+    re.I,
+)
+_META_FARMER = re.compile(
+    r"\b(?:eligible|describe\s+(?:this\s+person|him|her|them)\s+as\s+an?)\s+farmer\b",
+    re.I,
+)
+
+
+def _canonical_state_name(place: str) -> Optional[str]:
+    fragment = (place or "").strip().split(".")[0].split(",")[0].split(" but")[0][:40]
+    if not fragment or len(fragment) < 3:
+        return None
+    low = fragment.lower()
+    for key, canon in _STATE_CANONICAL.items():
+        if key in low or low == key:
+            return canon
+    if low in ("the", "a", "an"):
+        return None
+    return fragment.title()
+
+
+def _state_in_scheme_requirement_context(text: str, key: str) -> bool:
+    low = text.lower()
+    for match in re.finditer(re.escape(key), low):
+        ctx = low[max(0, match.start() - 45) : match.end() + 25]
+        if _SCHEME_REQUIREMENT_CTX.search(ctx):
+            return True
+    return False
+
+
+def _extract_citizen_residency(text: str) -> Optional[str]:
+    raw = (text or "").strip()
+    if not raw:
+        return None
+    m = re.search(
+        r"\b(?:i\s+)?(?:live|lives|living|reside|resides|residing)\s+in\s+"
+        r"([A-Za-z]+(?:\s+[A-Za-z]+)?)\b",
+        raw,
+        re.I,
+    )
+    if m:
+        return _canonical_state_name(m.group(1))
+    for match in re.finditer(
+        r"\b(?:a|an|the|i\s+am\s+a)\s+(?:\w+\s+){0,4}?resident\s+of\s+"
+        r"([A-Za-z]+(?:\s+[A-Za-z]+)?)\b",
+        raw,
+        re.I,
+    ):
+        prefix = raw[max(0, match.start() - 35) : match.start()].lower()
+        if _SCHEME_REQUIREMENT_CTX.search(prefix):
+            continue
+        place = _canonical_state_name(match.group(1))
+        if place:
+            return place
+    m = re.search(
+        r"\b(?:i\s+am\s+a|am\s+a)\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)\s+resident\b",
+        raw,
+        re.I,
+    )
+    if m:
+        return _canonical_state_name(m.group(1))
+    m = re.search(
+        r"\b(?:a|an)\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)\s+resident\b",
+        raw,
+        re.I,
+    )
+    if m:
+        prefix = raw[max(0, m.start() - 35) : m.start()].lower()
+        if not _SCHEME_REQUIREMENT_CTX.search(prefix):
+            return _canonical_state_name(m.group(1))
+    return None
+
+
 def _parse_state_value(text: str) -> Optional[str]:
+    residency = _extract_citizen_residency(text)
+    if residency:
+        return residency
     low = text.lower()
     for key, canon in _STATE_CANONICAL.items():
-        if key in low:
+        if key in low and not _state_in_scheme_requirement_context(text, key):
             return canon
     m = re.search(
-        r"(?:live in|from|reside in|based in|alli iddini|mein rehte|rahta hoon)\s+([A-Za-z\u0C80-\u0CFF\u0900-\u097F\s]+)",
+        r"(?:live in|reside in|based in|alli iddini|mein rehte|rahta hoon)\s+"
+        r"([A-Za-z\u0C80-\u0CFF\u0900-\u097F\s]+)",
         text,
         re.I,
     )
     if m:
-        fragment = m.group(1).strip().split(".")[0].split(",")[0][:40]
-        for key, canon in _STATE_CANONICAL.items():
-            if key in fragment.lower():
-                return canon
-        if len(fragment) >= 3:
-            return fragment.title()
+        return _canonical_state_name(m.group(1))
     return None
+
+
+def extract_scenario_facts_from_text(text: str) -> Dict[str, Any]:
+    """Extract third-person scenario facts explicitly stated in the query."""
+    known = extract_known_information_from_text(text)
+    raw = (text or "").strip()
+    if not raw:
+        return known
+
+    low = raw.lower()
+
+    # Age from natural phrasing
+    m = re.search(r"\bi\s+am\s+(\d{1,3})\s+years?\s+old\b", raw, re.I)
+    if m and "age" not in known:
+        known["age"] = int(m.group(1))
+    m = re.search(r"\b(\d{1,3})[- ]year[- ]old\b", raw, re.I)
+    if m and "age" not in known:
+        known["age"] = int(m.group(1))
+    m = re.search(r"\baged?\s+(\d{1,3})\b", raw, re.I)
+    if m and "age" not in known:
+        known["age"] = int(m.group(1))
+    m = re.search(r"\b(?:just\s+)?turned\s+(\d{1,3})\b", raw, re.I)
+    if m and "age" not in known:
+        known["age"] = int(m.group(1))
+    m = re.search(r"\bage\s+(\d{1,3})\b", raw, re.I)
+    if m and "age" not in known:
+        known["age"] = int(m.group(1))
+
+    # Gender — subject, not generic mentions
+    if re.search(r"\bmy\s+husband\b", low):
+        known["gender"] = "female"
+    if re.search(r"\bmy\s+wife\b", low):
+        known["gender"] = "male"
+    if re.search(r"\ba\s+man\b|\bmale\b", raw, re.I) and "gender" not in known:
+        if not re.search(r"\bwoman\s+citizens\b|\bwomen\s+citizens\b", raw, re.I):
+            known["gender"] = "male"
+    if re.search(r"\ba\s+woman\b|\bfemale\b|\bwomen\b", raw, re.I) and "gender" not in known:
+        if not re.search(r"\bmen\s+are\s+not\b", raw, re.I):
+            known["gender"] = "female"
+
+    # Head of family — respect explicit negation
+    if re.search(r"\bnot\s+the\s+head\s+of\s+(?:the\s+)?family\b", low):
+        known["head_of_family"] = False
+    elif re.search(r"\bhusband\s+is\s+(?:the\s+)?head\b", low):
+        known.setdefault("gender", "female")
+        known["head_of_family"] = False
+    elif re.search(
+        r"\b(?:who\s+is|is\s+the|as\s+the|woman\s+head\s+of)\s+(?:the\s+)?(?:family|household)\b"
+        r"|\bhead\s+of\s+(?:her|his|their)\s+family\b",
+        raw,
+        re.I,
+    ):
+        known["head_of_family"] = True
+    elif re.search(
+        r"\ba\s+man\b.*\bhead\s+of\s+(?:the\s+)?(?:family|household)\b"
+        r"|\bman\s+who\s+is\s+(?:the\s+)?head\s+of\s+(?:the\s+)?family\b",
+        raw,
+        re.I,
+    ):
+        known.setdefault("gender", "male")
+        known["head_of_family"] = True
+    elif re.search(
+        r"\ba\s+woman\b.*\bhead\s+of\s+(?:the\s+)?(?:family|household)\b"
+        r"|\bwoman\s+who\s+is\s+(?:the\s+)?head\s+of\s+(?:the\s+)?family\b",
+        raw,
+        re.I,
+    ):
+        known.setdefault("gender", "female")
+        known["head_of_family"] = True
+
+    # Residency — citizen location only; ignore scheme-requirement state mentions
+    residency = _extract_citizen_residency(raw)
+    if residency:
+        known["state"] = residency
+        known["residence"] = residency
+    else:
+        state = _parse_state_value(raw)
+        if state:
+            known["state"] = state
+            known["residence"] = state
+        elif re.search(
+            r"\b(?:karnataka\s+)?resident\b|\bresides?\s+in\s+karnataka\b",
+            raw,
+            re.I,
+        ) and not _SCHEME_REQUIREMENT_CTX.search(raw):
+            known.setdefault("state", "Karnataka")
+            known.setdefault("residence", "Karnataka")
+
+    # Multiple locations — residency vs ration-card state are independent
+    ration_state = re.search(
+        r"\bration\s+card\s+(?:is\s+)?from\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)\b",
+        raw,
+        re.I,
+    )
+    if ration_state:
+        rc_state = _canonical_state_name(ration_state.group(1))
+        known["has_ration_card"] = True
+        if rc_state and rc_state.lower() == "karnataka":
+            known["karnataka_ration_card"] = True
+        elif rc_state:
+            known["karnataka_ration_card"] = False
+            known["ration_card_state"] = rc_state
+
+    # Bank / ration / crop / duplicate-beneficiary facts
+    if re.search(
+        r"\b(?:don't|do\s+not|doesn't|does\s+not)\s+have\s+(?:a\s+)?(?:ration\s+card|savings(?:\s+bank)?\s+account|bank\s+account)\b",
+        low,
+    ):
+        if re.search(r"ration\s+card", low):
+            known["has_ration_card"] = False
+        if re.search(r"savings|bank\s+account", low):
+            known["has_savings_account"] = False
+            known["aadhaar_bank_account"] = False
+    if re.search(r"\bno\s+(?:aadhaar[- ]linked\s+)?(?:bank\s+)?account\b|\bhas\s+no\s+(?:aadhaar|bank)\b", low):
+        known["has_savings_account"] = False
+        known["aadhaar_bank_account"] = False
+    if re.search(r"\baadhaar[- ]linked\s+bank\s+account\b", low) and "aadhaar_bank_account" not in known:
+        known["aadhaar_bank_account"] = True
+        known["has_savings_account"] = True
+    if re.search(r"\bno\s+savings\s+bank\s+account\b|\bno\s+savings\s+account\b", low):
+        known["has_savings_account"] = False
+    if re.search(r"\bsavings\s+(?:bank\s+)?account\b", low) and "has_savings_account" not in known:
+        if not re.search(r"\bno\s+savings\b", low):
+            known["has_savings_account"] = True
+    if re.search(r"\bauto[- ]debit\s+consent\b", low):
+        known["auto_debit_consent"] = True
+    if re.search(r"\bno\s+ration\s+card\b|\bhas\s+no\s+ration\s+card\b", low):
+        known["has_ration_card"] = False
+    if re.search(r"\bholds?\s+a\s+valid\b.*\bkarnataka\s+ration\s+card\b", low):
+        known["has_ration_card"] = True
+        known.setdefault("state", "Karnataka")
+        known.setdefault("residence", "Karnataka")
+    if re.search(r"\bration\s+card\b", low) and "has_ration_card" not in known:
+        if re.search(r"\banother\s+state\b|\bissued\s+in\s+another\s+state\b", low):
+            known["has_ration_card"] = True
+            known["karnataka_ration_card"] = False
+        elif re.search(r"\bkarnataka\s+ration\s+card\b", low):
+            known["has_ration_card"] = True
+            known["karnataka_ration_card"] = True
+    if re.search(r"\bnot\s+growing\s+(?:any\s+)?crop\b|\bdoes\s+not\s+grow\b", low):
+        known["growing_crop"] = False
+    if re.search(r"\bcrop\s+that\s+is\s+not\s+notified\b", low):
+        known["crop_notified"] = False
+    if re.search(r"\bnotified\s+crop\b", low) and "crop_notified" not in known:
+        if not re.search(r"\bnot\s+notified\b", low):
+            known["crop_notified"] = True
+    if re.search(r"\bsecond\s+woman\b|\balready\s+receiving\b.*\bgruha\b", low):
+        known["second_woman_in_family"] = True
+
+    # Occupation — citizen-described only; ignore meta references like "eligible farmer"
+    if _FARMER_CITIZEN.search(raw) and not _META_FARMER.search(raw):
+        known["occupation"] = "farmer"
+    elif known.get("growing_crop") is False:
+        known.pop("occupation", None)
+    elif "occupation" in known and known.get("occupation") == "farmer":
+        if not _FARMER_CITIZEN.search(raw):
+            known.pop("occupation", None)
+
+    return known
 
 
 def extract_known_information_from_text(text: str) -> Dict[str, Any]:
@@ -401,12 +641,13 @@ def extract_known_information_from_text(text: str) -> Dict[str, Any]:
     income = _parse_income_value(raw)
     if income is not None and re.search(r"income|aad|salary|₹|rs\.?|lakh|lac", raw, re.I):
         known["income"] = income
-    for pat, occ in _OCCUPATION_EXTRACT:
-        if pat.search(raw):
-            known["occupation"] = occ
-            break
-    if re.search(r"\bfarmer\b|\bkrushik\b|\bkisan\b", raw, re.I) and "occupation" not in known:
+    if _FARMER_CITIZEN.search(raw) and not _META_FARMER.search(raw):
         known["occupation"] = "farmer"
+    else:
+        for pat, occ in _OCCUPATION_EXTRACT:
+            if pat.search(raw) and occ != "farmer":
+                known["occupation"] = occ
+                break
     yes_no_farmer = re.search(r"\b(?:are you|am i)\s+a\s+farmer\b", raw, re.I)
     if yes_no_farmer and re.search(r"\byes\b", raw, re.I):
         known["occupation"] = "farmer"

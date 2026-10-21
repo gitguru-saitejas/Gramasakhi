@@ -77,6 +77,36 @@ def _guard_production_config() -> None:
 _guard_production_config()
 
 
+def _log_dev_otp_console_hint() -> None:
+    if any(name in sys.modules for name in ("pytest", "unittest")):
+        return
+    from app.services.otp_console import otp_console_simulator_enabled
+
+    if otp_console_simulator_enabled():
+        from app.services.otp_console import DEV_OTP_MIRROR_FILE
+
+        print(
+            "GramSakhi OTP console simulator: ENABLED — codes print as VERIFICATION OTP",
+            flush=True,
+        )
+        print(
+            f"OTP mirror file (always updated on send): {DEV_OTP_MIRROR_FILE}",
+            flush=True,
+        )
+        return
+    env = settings.APP_ENV.strip().lower()
+    if settings.OTP_CONSOLE_SIMULATOR_ENABLED and env in ("production", "prod"):
+        print(
+            "NOTE: OTP terminal output is disabled (APP_ENV=production). "
+            "For local login testing set APP_ENV=development in backend/.env, "
+            "or enable OTP_DEV_RETRIEVAL with a dev key.",
+            flush=True,
+        )
+
+
+_log_dev_otp_console_hint()
+
+
 def _guard_ivr_production_config() -> None:
     if any(name in sys.modules for name in ("pytest", "unittest")):
         return

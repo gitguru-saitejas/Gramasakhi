@@ -37,3 +37,16 @@ export async function validateSession(token: string): Promise<boolean> {
 export function isTokenResponse(data: OtpVerifyResponse): data is TokenResponse {
   return typeof data === 'object' && data !== null && 'accessToken' in data && Boolean(data.accessToken);
 }
+
+export interface RegisterRequest {
+  credentials: { phone_number: string };
+  display_name?: string;
+}
+
+export async function registerCitizen(payload: RegisterRequest): Promise<TokenResponse> {
+  return apiRequest<TokenResponse>('/auth/register', {
+    method: 'POST',
+    body: payload,
+    skipAuth: true,
+  });
+}

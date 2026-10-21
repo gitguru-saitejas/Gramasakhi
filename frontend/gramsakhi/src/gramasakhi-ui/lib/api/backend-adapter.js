@@ -5,7 +5,7 @@ const LANG_FROM_API = { KN: "kn", HI: "hi", EN: "en" };
 
 export function uiLangToApi(code) {
   const c = (code || "kn").toLowerCase();
-  return LANG_TO_API[c] || c.toUpperCase().slice(0, 2);
+  return LANG_TO_API[c] || "EN";
 }
 
 export function apiLangToUi(code) {
@@ -83,7 +83,9 @@ export function mapBackendChatResponse(data) {
     conversation_id: data?.conversation_id,
     title: data?.title,
     message: answer,
-    language: apiLangToUi(data?.response_language || data?.detected_language) || undefined,
+    language:
+      apiLangToUi(data?.response_language || data?.detected_language) || undefined,
+    assistant_message_id: data?.assistant_message_id || null,
     sources: normalizeSources(data?.sources, data?.official_sources),
     schemes: data?.detected_scheme
       ? [{ id: String(data.detected_scheme), name: data.detected_scheme }]
@@ -96,6 +98,7 @@ export function mapBackendChatResponse(data) {
         : data?.live_reason || data?.reason || undefined,
     },
     meta: buildAssistantMeta(data),
+    response_language: data?.response_language || null,
     raw: data,
   };
 }

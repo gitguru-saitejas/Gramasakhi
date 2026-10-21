@@ -212,14 +212,22 @@ def _scheme_identity_matches(
     _ = requested_scheme
     crit_key, crit_sid = _scheme_keys(criteria.scheme_name, criteria.scheme_id)
     sess_key, sess_sid = _scheme_keys(session_scheme, session_scheme_id)
-    if not sess_key:
+    if not sess_key and not sess_sid:
         return True
-    if crit_sid and sess_sid and crit_sid == sess_sid:
+    if crit_sid and sess_sid and crit_sid.lower() == sess_sid.lower():
         return True
     if crit_key and sess_key:
-        return bool(
-            crit_key == sess_key or crit_key in sess_key or sess_key in crit_key
-        )
+        if crit_key == sess_key or crit_key in sess_key or sess_key in crit_key:
+            return True
+    try:
+        from app.services.myscheme_service import normalize_scheme_key
+
+        ck = normalize_scheme_key(criteria.scheme_name or session_scheme or "")
+        sk = normalize_scheme_key(session_scheme or criteria.scheme_name or "")
+        if ck and sk and (ck == sk or ck in sk or sk in ck):
+            return True
+    except Exception:
+        pass
     return False
 
 
@@ -236,11 +244,74 @@ def _is_mandatory(criterion: EligibilityCriterion) -> bool:
 def _citizen_value_for_type(
     criterion_type: str,
     answers: Dict[str, Any],
+    *,
+    criterion_value: Any = None,
 ) -> Any:
     if criterion_type == CriterionType.AGE.value:
         return answers.get("age")
     if criterion_type == CriterionType.GENDER.value:
         return answers.get("gender")
+    if criterion_type == CriterionType.BENEFICIARY_STATUS.value:
+        expected = _norm_text(criterion_value) if criterion_value is not None else ""
+        if expected == "head_of_family":
+            if answers.get("head_of_family") is True:
+                return "head_of_family"
+            if answers.get("head_of_family") is False:
+                return "no_head_of_family"
+            return None
+        if expected == "aadhaar_bank_account":
+            if answers.get("aadhaar_bank_account") is True:
+                return "aadhaar_bank_account"
+            if answers.get("aadhaar_bank_account") is False:
+                return "no_aadhaar_bank_account"
+            return None
+        if expected == "female_head":
+            if answers.get("gender") == "male" and answers.get("head_of_family") is True:
+                return "not_female_head"
+            if answers.get("head_of_family") is True and answers.get("gender") == "female":
+                return "female_head"
+            if answers.get("gender") == "female" and answers.get("head_of_family") is False:
+                return "not_female_head"
+            return None
+        if expected == "has_savings_account":
+            if answers.get("has_savings_account") is True:
+                return "has_savings_account"
+            if answers.get("has_savings_account") is False:
+                return "no_savings_account"
+            return None
+        if expected == "karnataka_ration_card":
+            if answers.get("karnataka_ration_card") is False:
+                return "non_karnataka_ration_card"
+            if answers.get("has_ration_card") is False:
+                return "no_ration_card"
+            if answers.get("karnataka_ration_card") is True or answers.get("has_ration_card") is True:
+                return "karnataka_ration_card"
+            return None
+        if answers.get("gender") == "male" and answers.get("head_of_family") is True:
+            return "not_female_head"
+        if answers.get("head_of_family") is True and answers.get("gender") == "female":
+            return "female_head"
+        if answers.get("head_of_family") is True:
+            return "head_of_family"
+        if answers.get("has_savings_account") is True:
+            return "has_savings_account"
+        if answers.get("aadhaar_bank_account") is True:
+            return "aadhaar_bank_account"
+        return answers.get("beneficiary_status")
+    if criterion_type == CriterionType.OCCUPATION.value:
+        if answers.get("growing_crop") is False:
+            return "not_growing_crop"
+        return answers.get("occupation")
+    if criterion_type == CriterionType.SCHEME_SPECIFIC.value:
+        if answers.get("second_woman_in_family") is True:
+            return "second_woman_in_family"
+        if answers.get("crop_notified") is False:
+            return "crop_not_notified"
+        if answers.get("growing_crop") is False:
+            return "not_growing_crop"
+        if answers.get("crop_notified") is True:
+            return "notified_crop_area"
+        return answers.get("scheme_specific")
     if criterion_type in (CriterionType.STATE.value, CriterionType.DISTRICT.value, CriterionType.RESIDENCE.value):
         return answers.get(criterion_type) or answers.get("state") or answers.get("residence")
     return answers.get(criterion_type)
@@ -362,7 +433,22 @@ def _evaluate_single_criterion(
         return base
 
     if ctype == CriterionType.GENDER.value:
+        if op in ("!=", "not"):
+            if citizen_value is None:
+                base.outcome = CriterionOutcome.UNKNOWN.value
+                base.reason = "missing_gender"
+                return base
+            base.outcome = (
+                CriterionOutcome.FAIL.value
+                if _norm_gender(citizen_value) == _norm_gender(criterion.value)
+                else CriterionOutcome.PASS.value
+            )
+            return base
         if op in ("=", "==") or not op:
+            if citizen_value is None:
+                base.outcome = CriterionOutcome.UNKNOWN.value
+                base.reason = "missing_gender"
+                return base
             base.outcome = (
                 CriterionOutcome.PASS.value
                 if _norm_gender(citizen_value) == _norm_gender(criterion.value)
@@ -371,6 +457,58 @@ def _evaluate_single_criterion(
             return base
         base.outcome = CriterionOutcome.UNKNOWN.value
         base.reason = "unsupported_gender_operator"
+        return base
+
+    if ctype == CriterionType.BENEFICIARY_STATUS.value:
+        expected = _norm_text(criterion.value)
+        actual = _norm_text(citizen_value)
+        if op in ("=", "==") or not op:
+            if expected == "female_head":
+                if actual == "female_head":
+                    base.outcome = CriterionOutcome.PASS.value
+                elif actual in ("not_female_head", "no_female_head"):
+                    base.outcome = CriterionOutcome.FAIL.value
+                else:
+                    base.outcome = CriterionOutcome.UNKNOWN.value
+                    base.reason = "missing_female_head_status"
+                return base
+            if expected == "head_of_family":
+                if citizen_value is True or actual in ("head_of_family", "female_head", "true", "yes"):
+                    base.outcome = CriterionOutcome.PASS.value
+                elif citizen_value is False or actual in ("false", "no", "no_head_of_family"):
+                    base.outcome = CriterionOutcome.FAIL.value
+                else:
+                    base.outcome = CriterionOutcome.UNKNOWN.value
+                    base.reason = "missing_head_of_family"
+                return base
+            if expected in ("has_savings_account", "aadhaar_bank_account"):
+                positive = {
+                    "has_savings_account": ("has_savings_account", "aadhaar_bank_account"),
+                    "aadhaar_bank_account": ("aadhaar_bank_account",),
+                }[expected]
+                if actual in positive:
+                    base.outcome = CriterionOutcome.PASS.value
+                elif actual in ("no_savings_account", "no_aadhaar_bank_account"):
+                    base.outcome = CriterionOutcome.FAIL.value
+                else:
+                    base.outcome = CriterionOutcome.UNKNOWN.value
+                    base.reason = f"missing_{expected}"
+                return base
+            if expected == "karnataka_ration_card":
+                if actual == "karnataka_ration_card":
+                    base.outcome = CriterionOutcome.PASS.value
+                elif actual in ("no_ration_card", "non_karnataka_ration_card"):
+                    base.outcome = CriterionOutcome.FAIL.value
+                else:
+                    base.outcome = CriterionOutcome.UNKNOWN.value
+                    base.reason = "missing_ration_card"
+                return base
+            base.outcome = (
+                CriterionOutcome.PASS.value if actual == expected else CriterionOutcome.FAIL.value
+            )
+            return base
+        base.outcome = CriterionOutcome.UNKNOWN.value
+        base.reason = "unsupported_beneficiary_operator"
         return base
 
     if ctype in (CriterionType.STATE.value, CriterionType.DISTRICT.value, CriterionType.RESIDENCE.value):
@@ -388,6 +526,10 @@ def _evaluate_single_criterion(
     if ctype == CriterionType.OCCUPATION.value:
         citizen_occ = _norm_occupation(citizen_value)
         expected_occ = _norm_occupation(criterion.value)
+        if citizen_occ == "not_growing_crop":
+            base.outcome = CriterionOutcome.FAIL.value
+            base.reason = "not_growing_crop"
+            return base
         if op in ("=", "==") or not op:
             if citizen_occ == expected_occ:
                 base.outcome = CriterionOutcome.PASS.value
@@ -398,6 +540,36 @@ def _evaluate_single_criterion(
             return base
         base.outcome = CriterionOutcome.UNKNOWN.value
         base.reason = "unsupported_occupation_operator"
+        return base
+
+    if ctype == CriterionType.SCHEME_SPECIFIC.value:
+        expected = _norm_text(criterion.value)
+        actual = _norm_text(citizen_value)
+        if op in ("=", "==") or not op:
+            if expected == "one_woman_per_family":
+                if actual == "second_woman_in_family":
+                    base.outcome = CriterionOutcome.FAIL.value
+                elif actual in ("first_woman", "not_second_woman"):
+                    base.outcome = CriterionOutcome.PASS.value
+                else:
+                    base.outcome = CriterionOutcome.UNKNOWN.value
+                    base.reason = "missing_family_beneficiary_status"
+                return base
+            if expected == "notified_crop_area":
+                if actual in ("crop_not_notified", "not_growing_crop"):
+                    base.outcome = CriterionOutcome.FAIL.value
+                elif actual == "notified_crop_area":
+                    base.outcome = CriterionOutcome.PASS.value
+                else:
+                    base.outcome = CriterionOutcome.UNKNOWN.value
+                    base.reason = "missing_crop_notification"
+                return base
+            base.outcome = (
+                CriterionOutcome.PASS.value if actual == expected else CriterionOutcome.FAIL.value
+            )
+            return base
+        base.outcome = CriterionOutcome.UNKNOWN.value
+        base.reason = "unsupported_scheme_specific_operator"
         return base
 
     if op in ("=", "==") and criterion.value is not None:
@@ -422,7 +594,11 @@ def _evaluate_group(
     results: List[CriterionEvaluationResult] = []
     for offset, criterion in enumerate(group):
         idx = start_index + offset
-        citizen_val = _citizen_value_for_type(criterion.criterion_type, answers)
+        citizen_val = _citizen_value_for_type(
+            criterion.criterion_type,
+            answers,
+            criterion_value=criterion.value,
+        )
         results.append(
             _evaluate_single_criterion(criterion, index=idx, citizen_value=citizen_val)
         )
@@ -456,6 +632,29 @@ def _aggregate_overall(
     if all(o == CriterionOutcome.PASS.value for o in mandatory_outcomes):
         return EvaluationStatus.ELIGIBLE.value, DecisionReasonCode.ALL_MANDATORY_PASS.value
     return EvaluationStatus.CANNOT_DETERMINE.value, DecisionReasonCode.REQUIRED_UNKNOWN.value
+
+
+def _required_fact_present(req: str, answers: Dict[str, Any]) -> bool:
+    if req in answers and answers.get(req) not in (None, ""):
+        return True
+    if req == "beneficiary_status":
+        return any(
+            answers.get(k) is not None
+            for k in (
+                "head_of_family",
+                "has_savings_account",
+                "aadhaar_bank_account",
+                "has_ration_card",
+                "karnataka_ration_card",
+                "gender",
+            )
+        )
+    if req == "scheme_specific":
+        return any(
+            answers.get(k) is not None
+            for k in ("crop_notified", "growing_crop", "second_woman_in_family")
+        )
+    return False
 
 
 def evaluate_eligibility(
@@ -493,6 +692,21 @@ def evaluate_eligibility(
         result.decision_reason_code = DecisionReasonCode.EVIDENCE_NOT_VALIDATED.value
         return result
 
+    answers = dict(citizen_answers or {})
+    sid = (scheme_id or criteria_obj.scheme_id or "").strip().lower()
+    if sid == "pmfby" and answers.get("crop_notified") is False:
+        result.status = EvaluationStatus.NOT_ELIGIBLE.value
+        result.decision_reason_code = DecisionReasonCode.MANDATORY_FAIL.value
+        result.evaluation_complete = True
+        logger.info("ELIGIBILITY_EVALUATION_COMPLETE status=%s reason=crop_not_notified", result.status)
+        return result
+    if sid == "pmfby" and answers.get("growing_crop") is False:
+        result.status = EvaluationStatus.NOT_ELIGIBLE.value
+        result.decision_reason_code = DecisionReasonCode.MANDATORY_FAIL.value
+        result.evaluation_complete = True
+        logger.info("ELIGIBILITY_EVALUATION_COMPLETE status=%s reason=not_growing_crop", result.status)
+        return result
+
     if criteria_obj.rejected or criteria_obj.extraction_status != "ok" or not criteria_obj.criteria:
         result.status = EvaluationStatus.CANNOT_DETERMINE.value
         result.decision_reason_code = DecisionReasonCode.CRITERIA_UNAVAILABLE.value
@@ -500,15 +714,14 @@ def evaluate_eligibility(
 
     if not _scheme_identity_matches(
         criteria=criteria_obj,
-        session_scheme=scheme_name,
-        session_scheme_id=scheme_id,
+        session_scheme=scheme_name or criteria_obj.scheme_name,
+        session_scheme_id=scheme_id or criteria_obj.scheme_id,
     ):
         logger.warning("ELIGIBILITY_IDENTITY_MISMATCH reason=scheme_mismatch")
         result.status = EvaluationStatus.CANNOT_DETERMINE.value
         result.decision_reason_code = DecisionReasonCode.SCHEME_IDENTITY_MISMATCH.value
         return result
 
-    answers = dict(citizen_answers or {})
     required = list(required_information or criteria_obj.required_information_types())
     for req in required:
         if req not in answers or answers.get(req) in (None, ""):
@@ -565,7 +778,7 @@ def evaluate_eligibility(
 
     if status != EvaluationStatus.NOT_ELIGIBLE.value and required:
         for req in required:
-            if req not in answers or answers.get(req) in (None, ""):
+            if not _required_fact_present(req, answers):
                 result.status = EvaluationStatus.CANNOT_DETERMINE.value
                 result.decision_reason_code = DecisionReasonCode.MISSING_INFORMATION.value
                 break

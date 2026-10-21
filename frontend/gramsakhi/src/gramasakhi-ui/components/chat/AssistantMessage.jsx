@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 import { Bot, Sparkles } from 'lucide-react';
 import { SchemeCard } from '@/components/schemes/SchemeCard';
 import { SourceList } from '@/components/evidence/SourceList';
+import { ListenButton } from '@/components/chat/ListenButton';
 import { SufficiencyBadge } from '@/components/evidence/SufficiencyBadge';
 import { EligibilityGuidancePanel } from './EligibilityGuidancePanel';
 import { safeMarkdownUrl } from '@/lib/utils';
@@ -34,6 +35,12 @@ export function AssistantMessage({ message }) {
 
         {/* Markdown Content Area */}
         <div className="bg-surface-container-low md:bg-transparent p-4 md:p-0 rounded-2xl shadow-ambient md:shadow-none border md:border-none border-surface-variant/50">
+          <ListenButton
+            text={message.content}
+            messageId={message.id}
+            language={message.language}
+            className="mb-2"
+          />
           <div className="prose prose-sm md:prose-base max-w-none text-on-surface leading-relaxed space-y-2 prose-headings:font-bold prose-headings:text-primary prose-strong:text-primary prose-a:text-secondary prose-ul:my-2 prose-li:my-0.5">
             <ReactMarkdown remarkPlugins={[remarkGfm]} urlTransform={safeMarkdownUrl}>
               {message.content}
@@ -51,7 +58,7 @@ export function AssistantMessage({ message }) {
 
           {/* Evidence / Source List */}
           {message.sources && message.sources.length > 0 && (
-            <SourceList sources={message.sources} textToSpeak={message.content} />
+            <SourceList sources={message.sources} />
           )}
 
           <EligibilityGuidancePanel meta={message.meta} />

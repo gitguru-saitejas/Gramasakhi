@@ -1,0 +1,3762 @@
+{
+  "version": "benchmark_v1",
+  "generated_at": "2026-08-31T09:50:20.115457+00:00",
+  "repository_root": "C:\\Users\\tarun\\Downloads\\Gramasakhi",
+  "n_candidates": 100,
+  "n_accepted": 100,
+  "n_rejected": 0,
+  "target_quotas": {
+    "factual": 40,
+    "eligibility": 25,
+    "unsupported": 15,
+    "multilingual": 10,
+    "difficult": 10
+  },
+  "distribution": {
+    "category": {
+      "factual": 40,
+      "eligibility": 25,
+      "unsupported": 15,
+      "multilingual": 10,
+      "difficult": 10
+    },
+    "language": {
+      "en": 90,
+      "hi": 5,
+      "kn": 5
+    },
+    "difficulty": {
+      "easy": 54,
+      "medium": 18,
+      "hard": 15,
+      "adversarial": 13
+    },
+    "scheme": {
+      "pmfby": 25,
+      "shakti": 20,
+      "anna-bhagya": 12,
+      "pmsby": 23,
+      "gruha-lakshmi": 12,
+      "unspecified": 8
+    }
+  },
+  "source_coverage": {
+    "authoritative_seed_documents": [
+      {
+        "id": "seed-pmfby",
+        "scheme_id": "pmfby",
+        "path": "backend/data/demo_seeds/pmfby_scheme.txt",
+        "present": true,
+        "line_count": 37
+      },
+      {
+        "id": "seed-shakti",
+        "scheme_id": "shakti",
+        "path": "backend/data/demo_seeds/shakti_scheme.txt",
+        "present": true,
+        "line_count": 47
+      },
+      {
+        "id": "seed-anna-bhagya",
+        "scheme_id": "anna-bhagya",
+        "path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+        "present": true,
+        "line_count": 20
+      },
+      {
+        "id": "seed-pmsby",
+        "scheme_id": "pmsby",
+        "path": "backend/data/seed_schemes/pmsby_overview.txt",
+        "present": true,
+        "line_count": 26
+      },
+      {
+        "id": "seed-gruha-lakshmi",
+        "scheme_id": "gruha-lakshmi",
+        "path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+        "present": true,
+        "line_count": 28
+      }
+    ],
+    "catalog_schemes_without_seed": [
+      "pm-kisan",
+      "ayushman-bharat",
+      "mgnrega",
+      "pmjjby",
+      "ujjwala",
+      "jal-jeevan",
+      "pmay",
+      "national-portal",
+      "myscheme-hub",
+      "seva-sindhu",
+      "gruha-jyothi",
+      "yuva-nidhi",
+      "karnataka-rdpr",
+      "karnataka-ahvs",
+      "karnataka-food",
+      "bhagyalakshmi",
+      "ysr-vahana-mitra"
+    ],
+    "n_excerpts": 80,
+    "n_structured_schemes": 5
+  },
+  "shortages": {},
+  "validation_summary": {
+    "rejected": [],
+    "duplicates": []
+  },
+  "cases": [
+    {
+      "id": "gsb1-0001",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What is the official name of the central crop insurance scheme described as PMFBY?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Scheme name: Pradhan Mantri Fasal Bima Yojana (PMFBY)"
+        ],
+        "required_keyphrases": [
+          "Pradhan Mantri Fasal Bima Yojana",
+          "PMFBY"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "scheme_name",
+          "line_start": 3,
+          "line_end": 3,
+          "excerpt": "Scheme name: Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+          "excerpt_id": "seed-pmfby-001"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0002",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Which ministry administers PMFBY according to the scheme note?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Ministry: Ministry of Agriculture & Farmers Welfare, Government of India"
+        ],
+        "required_keyphrases": [
+          "Ministry of Agriculture",
+          "Farmers Welfare"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "ministry",
+          "line_start": 5,
+          "line_end": 5,
+          "excerpt": "Ministry: Ministry of Agriculture & Farmers Welfare, Government of India",
+          "excerpt_id": "seed-pmfby-003"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0003",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Which official PMFBY portal is listed in the scheme note?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Official portals: https://pmfby.gov.in/ and https://www.myscheme.gov.in/"
+        ],
+        "required_keyphrases": [
+          "pmfby.gov.in"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "portals",
+          "line_start": 6,
+          "line_end": 6,
+          "excerpt": "Official portals: https://pmfby.gov.in/ and https://www.myscheme.gov.in/",
+          "excerpt_id": "seed-pmfby-004"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0004",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What kind of farmer losses does PMFBY insure against?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop."
+        ],
+        "required_keyphrases": [
+          "yield losses",
+          "crop insurance"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop.",
+          "excerpt_id": "seed-pmfby-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0005",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Which natural risks does the PMFBY note mention as examples?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop."
+        ],
+        "required_keyphrases": [
+          "drought",
+          "flood",
+          "pest"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop.",
+          "excerpt_id": "seed-pmfby-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0006",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "Who can enroll in PMFBY according to the public scheme description?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications."
+        ],
+        "required_keyphrases": [
+          "notified crops",
+          "notified areas"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 15,
+          "excerpt": "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications.",
+          "excerpt_id": "seed-pmfby-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0007",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "Does PMFBY enrollment include loanee and non-loanee farmers?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications."
+        ],
+        "required_keyphrases": [
+          "loanee",
+          "non-loanee"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 15,
+          "excerpt": "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications.",
+          "excerpt_id": "seed-pmfby-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0008",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "Through which channels can farmers typically enroll in PMFBY?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Enrollment is typically done through banks, Common Service Centres (CSCs), insurance company channels, or the PMFBY portal as notified for the season."
+        ],
+        "required_keyphrases": [
+          "banks",
+          "Common Service Centres",
+          "PMFBY portal"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 16,
+          "line_end": 17,
+          "excerpt": "Enrollment is typically done through banks, Common Service Centres (CSCs), insurance company channels, or the PMFBY portal as notified for the season.",
+          "excerpt_id": "seed-pmfby-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0009",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What benefit does PMFBY provide when yield loss is assessed?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Financial compensation for yield loss assessed under the scheme methodology for the insured crop and area."
+        ],
+        "required_keyphrases": [
+          "Financial compensation",
+          "yield loss"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 21,
+          "line_end": 22,
+          "excerpt": "Financial compensation for yield loss assessed under the scheme methodology for the insured crop and area.",
+          "excerpt_id": "seed-pmfby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0010",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "How are PMFBY farmer premiums described in the scheme note?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Premium rates for farmers are subsidized as per the scheme design; the balance premium is shared by Central and State Governments according to the prevailing guidelines."
+        ],
+        "required_keyphrases": [
+          "subsidized",
+          "Central",
+          "State"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 23,
+          "line_end": 24,
+          "excerpt": "Premium rates for farmers are subsidized as per the scheme design; the balance premium is shared by Central and State Governments according to the prevailing guidelines.",
+          "excerpt_id": "seed-pmfby-011"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0011",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "Are PMFBY sum insured, premium, and cut-off dates fixed in the seed note?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Exact sum insured, premium, and cut-off dates are season-specific and published in official notifications."
+        ],
+        "required_keyphrases": [
+          "season-specific"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 25,
+          "line_end": 26,
+          "excerpt": "Exact sum insured, premium, and cut-off dates are season-specific and published in official notifications.",
+          "excerpt_id": "seed-pmfby-012"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0012",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What land-related document is commonly required at PMFBY enrollment?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Land records / sowing certificate as applicable"
+        ],
+        "required_keyphrases": [
+          "Land records"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "documents",
+          "line_start": 29,
+          "line_end": 29,
+          "excerpt": "Land records / sowing certificate as applicable",
+          "excerpt_id": "seed-pmfby-013"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0013",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Which identity and payment details are commonly required for PMFBY enrollment?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Bank account details and Aadhaar as required by the enrollment channel"
+        ],
+        "required_keyphrases": [
+          "Bank account",
+          "Aadhaar"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "documents",
+          "line_start": 30,
+          "line_end": 30,
+          "excerpt": "Bank account details and Aadhaar as required by the enrollment channel",
+          "excerpt_id": "seed-pmfby-014"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0014",
+      "scheme": "pmfby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What location details are commonly required for PMFBY enrollment?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Crop and survey / village details for the notified area"
+        ],
+        "required_keyphrases": [
+          "Crop",
+          "village"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "documents",
+          "line_start": 31,
+          "line_end": 31,
+          "excerpt": "Crop and survey / village details for the notified area",
+          "excerpt_id": "seed-pmfby-015"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0015",
+      "scheme": "shakti",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What is the name of the Karnataka free bus travel scheme for women?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Scheme name: Shakti Scheme (also referred to as Shakti Yojana)"
+        ],
+        "required_keyphrases": [
+          "Shakti"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "scheme_name",
+          "line_start": 3,
+          "line_end": 3,
+          "excerpt": "Scheme name: Shakti Scheme (also referred to as Shakti Yojana)",
+          "excerpt_id": "seed-shakti-001"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0016",
+      "scheme": "shakti",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Which Karnataka department is listed for the Shakti scheme?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Department: Transport Department, Government of Karnataka"
+        ],
+        "required_keyphrases": [
+          "Transport Department"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "ministry",
+          "line_start": 5,
+          "line_end": 5,
+          "excerpt": "Department: Transport Department, Government of Karnataka",
+          "excerpt_id": "seed-shakti-003"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0017",
+      "scheme": "shakti",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What is the purpose of the Shakti scheme?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "The Shakti scheme provides free travel for eligible women passengers on participating\nstate-run bus services in Karnataka. It is a state government welfare scheme intended\nto improve women's mobility and access to education, work, and essential services."
+        ],
+        "required_keyphrases": [
+          "free travel",
+          "women"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "The Shakti scheme provides free travel for eligible women passengers on participating\nstate-run bus services in Karnataka. It is a state government welfare scheme intended\nto improve women's mobility and access to education, work, and essential services.",
+          "excerpt_id": "seed-shakti-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0018",
+      "scheme": "shakti",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Who are the intended Shakti free-travel beneficiaries?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Women citizens of Karnataka are the intended beneficiaries for free travel under the scheme."
+        ],
+        "required_keyphrases": [
+          "Women",
+          "Karnataka"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 14,
+          "excerpt": "Women citizens of Karnataka are the intended beneficiaries for free travel under the scheme.",
+          "excerpt_id": "seed-shakti-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0019",
+      "scheme": "shakti",
+      "category": "factual",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "On which state transport services does Shakti apply according to the note?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Travel is available on participating Karnataka State Road Transport Corporation (KSRTC) and other notified state transport buses as per government notifications."
+        ],
+        "required_keyphrases": [
+          "KSRTC"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 15,
+          "line_end": 16,
+          "excerpt": "Travel is available on participating Karnataka State Road Transport Corporation (KSRTC) and other notified state transport buses as per government notifications.",
+          "excerpt_id": "seed-shakti-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0020",
+      "scheme": "shakti",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Are men eligible for free travel under Shakti?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Men are not eligible for free travel under this scheme."
+        ],
+        "required_keyphrases": [
+          "Men are not eligible"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 19,
+          "line_end": 19,
+          "excerpt": "Men are not eligible for free travel under this scheme.",
+          "excerpt_id": "seed-shakti-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0021",
+      "scheme": "shakti",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What fare do eligible women pay on notified Shakti bus services?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Zero fare for eligible women passengers on notified routes and participating bus services."
+        ],
+        "required_keyphrases": [
+          "Zero fare"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 24,
+          "line_end": 24,
+          "excerpt": "Zero fare for eligible women passengers on notified routes and participating bus services.",
+          "excerpt_id": "seed-shakti-012"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0022",
+      "scheme": "shakti",
+      "category": "factual",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "Is a separate online application required merely to board under Shakti?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "No separate online application is required merely to board for free travel when the scheme is active and the passenger is eligible, unless a future notification says otherwise."
+        ],
+        "required_keyphrases": [
+          "No separate online application"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "documents",
+          "line_start": 39,
+          "line_end": 40,
+          "excerpt": "No separate online application is required merely to board for free travel when the scheme is active and the passenger is eligible, unless a future notification says otherwise.",
+          "excerpt_id": "seed-shakti-018"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0023",
+      "scheme": "shakti",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What document may a conductor request under Shakti?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Government-issued photo identity proof may be requested (for example Aadhaar or other accepted ID), as per current conductor / transport guidelines."
+        ],
+        "required_keyphrases": [
+          "photo identity"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "documents",
+          "line_start": 37,
+          "line_end": 38,
+          "excerpt": "Government-issued photo identity proof may be requested (for example Aadhaar or other accepted ID), as per current conductor / transport guidelines.",
+          "excerpt_id": "seed-shakti-017"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0024",
+      "scheme": "shakti",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Which Karnataka citizen portal is listed for Shakti grievances or clarifications?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Official citizen portals: https://sevasindhu.karnataka.gov.in/ and https://www.myscheme.gov.in/"
+        ],
+        "required_keyphrases": [
+          "sevasindhu.karnataka.gov.in"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "portals",
+          "line_start": 6,
+          "line_end": 6,
+          "excerpt": "Official citizen portals: https://sevasindhu.karnataka.gov.in/ and https://www.myscheme.gov.in/",
+          "excerpt_id": "seed-shakti-004"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0025",
+      "scheme": "anna-bhagya",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What is the name of the Karnataka food security scheme in the seed note?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Scheme name: Anna Bhagya"
+        ],
+        "required_keyphrases": [
+          "Anna Bhagya"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "scheme_name",
+          "line_start": 3,
+          "line_end": 3,
+          "excerpt": "Scheme name: Anna Bhagya",
+          "excerpt_id": "seed-anna-bhagya-001"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0026",
+      "scheme": "anna-bhagya",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Which Karnataka department administers Anna Bhagya according to the note?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Department: Food, Civil Supplies and Consumer Affairs, Government of Karnataka"
+        ],
+        "required_keyphrases": [
+          "Food, Civil Supplies"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "ministry",
+          "line_start": 5,
+          "line_end": 5,
+          "excerpt": "Department: Food, Civil Supplies and Consumer Affairs, Government of Karnataka",
+          "excerpt_id": "seed-anna-bhagya-003"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0027",
+      "scheme": "anna-bhagya",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What benefit does Anna Bhagya provide?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications"
+        ],
+        "required_keyphrases": [
+          "food grains",
+          "ration card"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications",
+          "excerpt_id": "seed-anna-bhagya-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0028",
+      "scheme": "anna-bhagya",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What card must a household hold for Anna Bhagya?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Must hold a valid Karnataka ration card under the Public Distribution System"
+        ],
+        "required_keyphrases": [
+          "Karnataka ration card"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Must hold a valid Karnataka ration card under the Public Distribution System",
+          "excerpt_id": "seed-anna-bhagya-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0029",
+      "scheme": "anna-bhagya",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Which Food Department portal is listed for Anna Bhagya?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "food.karnataka.gov.in"
+        ],
+        "required_keyphrases": [
+          "food.karnataka.gov.in"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "sources",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "food.karnataka.gov.in",
+          "excerpt_id": "seed-anna-bhagya-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0030",
+      "scheme": "pmsby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What is the official name of PMSBY?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Scheme name: Pradhan Mantri Suraksha Bima Yojana (PMSBY)"
+        ],
+        "required_keyphrases": [
+          "Pradhan Mantri Suraksha Bima Yojana"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "scheme_name",
+          "line_start": 3,
+          "line_end": 3,
+          "excerpt": "Scheme name: Pradhan Mantri Suraksha Bima Yojana (PMSBY)",
+          "excerpt_id": "seed-pmsby-001"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0031",
+      "scheme": "pmsby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "Which department administers PMSBY?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Ministry / Department: Department of Financial Services, Ministry of Finance, Government of India"
+        ],
+        "required_keyphrases": [
+          "Department of Financial Services"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "ministry",
+          "line_start": 4,
+          "line_end": 4,
+          "excerpt": "Ministry / Department: Department of Financial Services, Ministry of Finance, Government of India",
+          "excerpt_id": "seed-pmsby-002"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0032",
+      "scheme": "pmsby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What sum insured does PMSBY list for accidental death?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Accidental death: Rs 2 lakh (two lakh rupees) sum insured"
+        ],
+        "required_keyphrases": [
+          "2 lakh",
+          "Accidental death"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0033",
+      "scheme": "pmsby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What sum insured does PMSBY list for permanent total disability due to accident?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Permanent total disability due to accident: Rs 2 lakh"
+        ],
+        "required_keyphrases": [
+          "2 lakh",
+          "Permanent total disability"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Permanent total disability due to accident: Rs 2 lakh",
+          "excerpt_id": "seed-pmsby-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0034",
+      "scheme": "pmsby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What sum insured does PMSBY list for permanent partial disability due to accident?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Permanent partial disability due to accident: Rs 1 lakh (as per scheme schedule)"
+        ],
+        "required_keyphrases": [
+          "1 lakh",
+          "Permanent partial disability"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 10,
+          "line_end": 10,
+          "excerpt": "Permanent partial disability due to accident: Rs 1 lakh (as per scheme schedule)",
+          "excerpt_id": "seed-pmsby-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0035",
+      "scheme": "pmsby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What annual premium does the PMSBY note list?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Annual premium is Rs 20 per member per year (subject to official notifications)"
+        ],
+        "required_keyphrases": [
+          "Rs 20"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "limits",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Annual premium is Rs 20 per member per year (subject to official notifications)",
+          "excerpt_id": "seed-pmsby-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0036",
+      "scheme": "pmsby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "How is the PMSBY premium typically collected?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Premium is typically auto-debited from the linked bank account"
+        ],
+        "required_keyphrases": [
+          "auto-debit"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "limits",
+          "line_start": 14,
+          "line_end": 14,
+          "excerpt": "Premium is typically auto-debited from the linked bank account",
+          "excerpt_id": "seed-pmsby-009"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0037",
+      "scheme": "pmsby",
+      "category": "factual",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "What age band does the PMSBY note describe as commonly notified?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)"
+        ],
+        "required_keyphrases": [
+          "18",
+          "70"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)",
+          "excerpt_id": "seed-pmsby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0038",
+      "scheme": "pmsby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What bank requirement does PMSBY list?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Must have a savings bank account and give consent for auto-debit"
+        ],
+        "required_keyphrases": [
+          "savings bank account"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 18,
+          "line_end": 18,
+          "excerpt": "Must have a savings bank account and give consent for auto-debit",
+          "excerpt_id": "seed-pmsby-011"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0039",
+      "scheme": "pmsby",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "How does a citizen enroll in PMSBY according to the note?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Enrolment is through participating banks"
+        ],
+        "required_keyphrases": [
+          "participating banks"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "procedure",
+          "line_start": 22,
+          "line_end": 22,
+          "excerpt": "Enrolment is through participating banks",
+          "excerpt_id": "seed-pmsby-013"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0040",
+      "scheme": "gruha-lakshmi",
+      "category": "factual",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "What is the name of the Karnataka women income-support scheme in the seed note?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Scheme name: Gruha Lakshmi / Gruhalakshmi"
+        ],
+        "required_keyphrases": [
+          "Gruha Lakshmi"
+        ],
+        "eligibility_status": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "scheme_name",
+          "line_start": 3,
+          "line_end": 3,
+          "excerpt": "Scheme name: Gruha Lakshmi / Gruhalakshmi",
+          "excerpt_id": "seed-gruha-lakshmi-001"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0041",
+      "scheme": "shakti",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A woman resident of Karnataka wants free travel on a participating KSRTC bus. Is she in the intended Shakti beneficiary group?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "Women citizens of Karnataka are the intended beneficiaries for free travel under the scheme."
+        ],
+        "required_keyphrases": [
+          "Women",
+          "Karnataka"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "is_woman": true,
+          "state_karnataka": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 14,
+          "excerpt": "Women citizens of Karnataka are the intended beneficiaries for free travel under the scheme.",
+          "excerpt_id": "seed-shakti-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0042",
+      "scheme": "shakti",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A man in Karnataka asks for free Shakti bus travel. Is he eligible?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Men are not eligible for free travel under this scheme."
+        ],
+        "required_keyphrases": [
+          "Men are not eligible"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "is_man": true,
+          "state_karnataka": true,
+          "is_woman": false
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 19,
+          "line_end": 19,
+          "excerpt": "Men are not eligible for free travel under this scheme.",
+          "excerpt_id": "seed-shakti-010"
+        },
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 14,
+          "excerpt": "Women citizens of Karnataka are the intended beneficiaries for free travel under the scheme.",
+          "excerpt_id": "seed-shakti-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0043",
+      "scheme": "shakti",
+      "category": "eligibility",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "A woman who lives in Maharashtra asks for Shakti free bus travel in Karnataka. Is she in the intended beneficiary group described in the note?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Women citizens of Karnataka are the intended beneficiaries for free travel under the scheme."
+        ],
+        "required_keyphrases": [
+          "Women citizens of Karnataka"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "is_woman": true,
+          "state_karnataka": false
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 14,
+          "excerpt": "Women citizens of Karnataka are the intended beneficiaries for free travel under the scheme.",
+          "excerpt_id": "seed-shakti-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0044",
+      "scheme": "shakti",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A woman citizen of Karnataka boards a participating notified state bus. Does the note treat her as an intended Shakti beneficiary?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "Women citizens of Karnataka are the intended beneficiaries for free travel under the scheme."
+        ],
+        "required_keyphrases": [
+          "Women citizens of Karnataka"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "is_woman": true,
+          "state_karnataka": true,
+          "notified_bus": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 14,
+          "excerpt": "Women citizens of Karnataka are the intended beneficiaries for free travel under the scheme.",
+          "excerpt_id": "seed-shakti-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0045",
+      "scheme": "shakti",
+      "category": "eligibility",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "A Karnataka woman eligible under Shakti did not bring ID. Does the note still describe women citizens as intended beneficiaries, with ID possibly requested?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "Government-issued photo identity proof may be requested (for example Aadhaar or other accepted ID), as per current conductor / transport guidelines."
+        ],
+        "required_keyphrases": [
+          "identity"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "is_woman": true,
+          "state_karnataka": true,
+          "has_id_now": false
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "documents",
+          "line_start": 37,
+          "line_end": 38,
+          "excerpt": "Government-issued photo identity proof may be requested (for example Aadhaar or other accepted ID), as per current conductor / transport guidelines.",
+          "excerpt_id": "seed-shakti-017"
+        },
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 14,
+          "excerpt": "Women citizens of Karnataka are the intended beneficiaries for free travel under the scheme.",
+          "excerpt_id": "seed-shakti-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0046",
+      "scheme": "pmsby",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "An Indian citizen aged 35 with a savings account and auto-debit consent asks about PMSBY. Does the note describe this profile as within the common eligibility conditions?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)"
+        ],
+        "required_keyphrases": [
+          "18",
+          "70"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "age": 35,
+          "age_in_common_band": true,
+          "has_savings_bank": true,
+          "auto_debit_consent": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)",
+          "excerpt_id": "seed-pmsby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0047",
+      "scheme": "pmsby",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A 16-year-old with a savings account asks to enroll in PMSBY. Is this age inside the commonly published 18-70 band?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)"
+        ],
+        "required_keyphrases": [
+          "18 to 70"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "age": 16,
+          "age_in_common_band": false,
+          "has_savings_bank": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)",
+          "excerpt_id": "seed-pmsby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0048",
+      "scheme": "pmsby",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A 75-year-old with a savings account asks to enroll in PMSBY. Is this age inside the commonly published 18-70 band?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)"
+        ],
+        "required_keyphrases": [
+          "18 to 70"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "age": 75,
+          "age_in_common_band": false,
+          "has_savings_bank": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)",
+          "excerpt_id": "seed-pmsby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0049",
+      "scheme": "pmsby",
+      "category": "eligibility",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "A 40-year-old Indian citizen has no savings bank account. Does the PMSBY note treat a savings account as required?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Must have a savings bank account and give consent for auto-debit"
+        ],
+        "required_keyphrases": [
+          "savings bank account"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "age": 40,
+          "age_in_common_band": true,
+          "has_savings_bank": false
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 18,
+          "line_end": 18,
+          "excerpt": "Must have a savings bank account and give consent for auto-debit",
+          "excerpt_id": "seed-pmsby-011"
+        },
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)",
+          "excerpt_id": "seed-pmsby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0050",
+      "scheme": "pmsby",
+      "category": "eligibility",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "A citizen who just turned 18 has a savings account and auto-debit consent. Is age 18 inside the commonly published PMSBY band?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)"
+        ],
+        "required_keyphrases": [
+          "18 to 70"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "age": 18,
+          "age_in_common_band": true,
+          "has_savings_bank": true,
+          "auto_debit_consent": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)",
+          "excerpt_id": "seed-pmsby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0051",
+      "scheme": "pmsby",
+      "category": "eligibility",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "A citizen aged 70 has a savings account and auto-debit consent. Is age 70 inside the commonly published PMSBY band?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)"
+        ],
+        "required_keyphrases": [
+          "18 to 70"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "age": 70,
+          "age_in_common_band": true,
+          "has_savings_bank": true,
+          "auto_debit_consent": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)",
+          "excerpt_id": "seed-pmsby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0052",
+      "scheme": "gruha-lakshmi",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A woman who is a Karnataka resident, head of her family, with an Aadhaar-linked bank account asks about Gruha Lakshmi. Does this match the listed conditions?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "Woman must be a resident of Karnataka"
+        ],
+        "required_keyphrases": [
+          "resident of Karnataka"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "is_woman": true,
+          "state_karnataka": true,
+          "is_head_of_family": true,
+          "aadhaar_linked_bank": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Woman must be a resident of Karnataka",
+          "excerpt_id": "seed-gruha-lakshmi-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0053",
+      "scheme": "gruha-lakshmi",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A man who is a Karnataka resident and head of family asks for Gruha Lakshmi. Is he eligible under the listed rules?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Woman must be a resident of Karnataka"
+        ],
+        "required_keyphrases": [
+          "Woman"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "is_woman": false,
+          "is_man": true,
+          "state_karnataka": true,
+          "is_head_of_family": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Woman must be a resident of Karnataka",
+          "excerpt_id": "seed-gruha-lakshmi-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0054",
+      "scheme": "gruha-lakshmi",
+      "category": "eligibility",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "A woman living in Tamil Nadu asks for Gruha Lakshmi. Does the note require Karnataka residence?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Woman must be a resident of Karnataka"
+        ],
+        "required_keyphrases": [
+          "resident of Karnataka"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "is_woman": true,
+          "state_karnataka": false,
+          "is_head_of_family": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Woman must be a resident of Karnataka",
+          "excerpt_id": "seed-gruha-lakshmi-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0055",
+      "scheme": "gruha-lakshmi",
+      "category": "eligibility",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "A Karnataka woman with an Aadhaar-linked bank account is not the head of the family. Does the note require head-of-family status?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month"
+        ],
+        "required_keyphrases": [
+          "head of the family"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "is_woman": true,
+          "state_karnataka": true,
+          "is_head_of_family": false,
+          "aadhaar_linked_bank": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Woman must be a resident of Karnataka",
+          "excerpt_id": "seed-gruha-lakshmi-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0056",
+      "scheme": "gruha-lakshmi",
+      "category": "eligibility",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "A Karnataka woman head of family has no Aadhaar-linked bank account. Does the note require that account?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Applicant should have a valid Aadhaar-linked bank account for Direct Benefit Transfer"
+        ],
+        "required_keyphrases": [
+          "Aadhaar-linked bank account"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "is_woman": true,
+          "state_karnataka": true,
+          "is_head_of_family": true,
+          "aadhaar_linked_bank": false
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 16,
+          "line_end": 16,
+          "excerpt": "Applicant should have a valid Aadhaar-linked bank account for Direct Benefit Transfer",
+          "excerpt_id": "seed-gruha-lakshmi-011"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Woman must be a resident of Karnataka",
+          "excerpt_id": "seed-gruha-lakshmi-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0057",
+      "scheme": "gruha-lakshmi",
+      "category": "eligibility",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "A second woman in a family already receiving Gruha Lakshmi asks to enroll. Is a second woman generally eligible?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Only one woman per family is generally eligible under the scheme norms"
+        ],
+        "required_keyphrases": [
+          "Only one woman per family"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "is_woman": true,
+          "state_karnataka": true,
+          "is_head_of_family": true,
+          "aadhaar_linked_bank": true,
+          "another_woman_already_beneficiary": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Only one woman per family is generally eligible under the scheme norms",
+          "excerpt_id": "seed-gruha-lakshmi-012"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Woman must be a resident of Karnataka",
+          "excerpt_id": "seed-gruha-lakshmi-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0058",
+      "scheme": "pmfby",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A farmer growing a notified crop in a notified area asks about PMFBY enrollment. Does the note include this farmer?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications."
+        ],
+        "required_keyphrases": [
+          "notified crops",
+          "notified areas"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "is_farmer": true,
+          "crop_notified": true,
+          "area_notified": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 15,
+          "excerpt": "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications.",
+          "excerpt_id": "seed-pmfby-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0059",
+      "scheme": "pmfby",
+      "category": "eligibility",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "A farmer grows a crop that is not notified for this season. Does PMFBY coverage apply?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Coverage applies only for crops and areas notified for that season by the state government."
+        ],
+        "required_keyphrases": [
+          "notified"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "is_farmer": true,
+          "crop_notified": false,
+          "area_notified": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 18,
+          "line_end": 18,
+          "excerpt": "Coverage applies only for crops and areas notified for that season by the state government.",
+          "excerpt_id": "seed-pmfby-009"
+        },
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 15,
+          "excerpt": "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications.",
+          "excerpt_id": "seed-pmfby-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0060",
+      "scheme": "pmfby",
+      "category": "eligibility",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "A loanee farmer growing a notified crop in a notified area asks about PMFBY. May loanee farmers enroll?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications."
+        ],
+        "required_keyphrases": [
+          "loanee"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "is_farmer": true,
+          "crop_notified": true,
+          "area_notified": true,
+          "is_loanee": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 15,
+          "excerpt": "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications.",
+          "excerpt_id": "seed-pmfby-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0061",
+      "scheme": "pmfby",
+      "category": "eligibility",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "A non-loanee farmer growing a notified crop in a notified area asks about PMFBY. May non-loanee farmers enroll?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications."
+        ],
+        "required_keyphrases": [
+          "non-loanee"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "is_farmer": true,
+          "crop_notified": true,
+          "area_notified": true,
+          "is_loanee": false
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 15,
+          "excerpt": "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications.",
+          "excerpt_id": "seed-pmfby-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0062",
+      "scheme": "pmfby",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A person who is not growing any crop asks to enroll in PMFBY. Does the note describe this person as an eligible farmer?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications."
+        ],
+        "required_keyphrases": [
+          "farmers growing notified crops"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "is_farmer": false,
+          "crop_notified": false,
+          "area_notified": false
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 15,
+          "excerpt": "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications.",
+          "excerpt_id": "seed-pmfby-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0063",
+      "scheme": "anna-bhagya",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A household holds a valid Karnataka ration card. Does the Anna Bhagya note treat this as the required eligibility document?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "Must hold a valid Karnataka ration card under the Public Distribution System"
+        ],
+        "required_keyphrases": [
+          "Karnataka ration card"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": {
+          "has_karnataka_ration_card": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Must hold a valid Karnataka ration card under the Public Distribution System",
+          "excerpt_id": "seed-anna-bhagya-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0064",
+      "scheme": "anna-bhagya",
+      "category": "eligibility",
+      "difficulty": "easy",
+      "language": "en",
+      "question": "A household has no ration card. Is Anna Bhagya eligibility described as available?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Must hold a valid Karnataka ration card under the Public Distribution System"
+        ],
+        "required_keyphrases": [
+          "ration card"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "has_karnataka_ration_card": false
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Must hold a valid Karnataka ration card under the Public Distribution System",
+          "excerpt_id": "seed-anna-bhagya-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0065",
+      "scheme": "anna-bhagya",
+      "category": "eligibility",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "A household holds only a ration card issued in another state. Does the note require a Karnataka ration card?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Must hold a valid Karnataka ration card under the Public Distribution System"
+        ],
+        "required_keyphrases": [
+          "Karnataka ration card"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": {
+          "has_karnataka_ration_card": false,
+          "has_other_state_ration_card": true
+        }
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Must hold a valid Karnataka ration card under the Public Distribution System",
+          "excerpt_id": "seed-anna-bhagya-008"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0066",
+      "scheme": "unspecified",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "How much money does PM-Kisan pay each installment?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "6000",
+          "₹6,000",
+          "rs 2000 installment",
+          "2,000 per installment"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "How much money does PM-Kisan pay each installment?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop.",
+          "excerpt_id": "seed-pmfby-006"
+        },
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "The Shakti scheme provides free travel for eligible women passengers on participating\nstate-run bus services in Karnataka. It is a state government welfare scheme intended\nto improve women's mobility and access to education, work, and essential services.",
+          "excerpt_id": "seed-shakti-006"
+        },
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        },
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications",
+          "excerpt_id": "seed-anna-bhagya-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0067",
+      "scheme": "unspecified",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "How many free electricity units does Gruha Jyothi give every month?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "200 units",
+          "200 units free"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "How many free electricity units does Gruha Jyothi give every month?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop.",
+          "excerpt_id": "seed-pmfby-006"
+        },
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "The Shakti scheme provides free travel for eligible women passengers on participating\nstate-run bus services in Karnataka. It is a state government welfare scheme intended\nto improve women's mobility and access to education, work, and essential services.",
+          "excerpt_id": "seed-shakti-006"
+        },
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        },
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications",
+          "excerpt_id": "seed-anna-bhagya-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0068",
+      "scheme": "unspecified",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "What monthly allowance does Yuva Nidhi pay unemployed graduates?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "3000",
+          "1,500",
+          "yuva nidhi rupees"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "What monthly allowance does Yuva Nidhi pay unemployed graduates?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop.",
+          "excerpt_id": "seed-pmfby-006"
+        },
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "The Shakti scheme provides free travel for eligible women passengers on participating\nstate-run bus services in Karnataka. It is a state government welfare scheme intended\nto improve women's mobility and access to education, work, and essential services.",
+          "excerpt_id": "seed-shakti-006"
+        },
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        },
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications",
+          "excerpt_id": "seed-anna-bhagya-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0069",
+      "scheme": "shakti",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "Does the Shakti scheme pay women a monthly cash grant of Rs 2,000?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "monthly cash",
+          "2000",
+          "2,000"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "Does the Shakti scheme pay women a monthly cash grant of Rs 2,000?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 24,
+          "line_end": 24,
+          "excerpt": "Zero fare for eligible women passengers on notified routes and participating bus services.",
+          "excerpt_id": "seed-shakti-012"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0070",
+      "scheme": "pmsby",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "Does PMSBY pay Rs 2 lakh for death due to illness, not an accident?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "illness",
+          "natural death",
+          "disease"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "Does PMSBY pay Rs 2 lakh for death due to illness, not an accident?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0071",
+      "scheme": "pmfby",
+      "category": "unsupported",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "What is the exact farmer premium percentage for PMFBY Kharif 2024 in Karnataka?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "1.5%",
+          "2%",
+          "kharif 2024"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "What is the exact farmer premium percentage for PMFBY Kharif 2024 in Karnataka?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 21,
+          "line_end": 22,
+          "excerpt": "Financial compensation for yield loss assessed under the scheme methodology for the insured crop and area.",
+          "excerpt_id": "seed-pmfby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0072",
+      "scheme": "anna-bhagya",
+      "category": "unsupported",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "Exactly how many kilograms of rice does Anna Bhagya give this month?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "10 kg",
+          "5 kg",
+          "35 kg"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "Exactly how many kilograms of rice does Anna Bhagya give this month?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications",
+          "excerpt_id": "seed-anna-bhagya-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0073",
+      "scheme": "unspecified",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "How many free LPG cylinders does Ujjwala provide each year?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "free cylinder",
+          "ujjwala"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "How many free LPG cylinders does Ujjwala provide each year?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop.",
+          "excerpt_id": "seed-pmfby-006"
+        },
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "The Shakti scheme provides free travel for eligible women passengers on participating\nstate-run bus services in Karnataka. It is a state government welfare scheme intended\nto improve women's mobility and access to education, work, and essential services.",
+          "excerpt_id": "seed-shakti-006"
+        },
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        },
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications",
+          "excerpt_id": "seed-anna-bhagya-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0074",
+      "scheme": "unspecified",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "What is the current MGNREGA daily wage in Karnataka?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "wage",
+          "309",
+          "349"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "What is the current MGNREGA daily wage in Karnataka?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop.",
+          "excerpt_id": "seed-pmfby-006"
+        },
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "The Shakti scheme provides free travel for eligible women passengers on participating\nstate-run bus services in Karnataka. It is a state government welfare scheme intended\nto improve women's mobility and access to education, work, and essential services.",
+          "excerpt_id": "seed-shakti-006"
+        },
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        },
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications",
+          "excerpt_id": "seed-anna-bhagya-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0075",
+      "scheme": "unspecified",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "What is the PMAY urban subsidy amount for a middle-income family?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "2.67",
+          "pmay subsidy"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "What is the PMAY urban subsidy amount for a middle-income family?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop.",
+          "excerpt_id": "seed-pmfby-006"
+        },
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "The Shakti scheme provides free travel for eligible women passengers on participating\nstate-run bus services in Karnataka. It is a state government welfare scheme intended\nto improve women's mobility and access to education, work, and essential services.",
+          "excerpt_id": "seed-shakti-006"
+        },
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        },
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications",
+          "excerpt_id": "seed-anna-bhagya-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0076",
+      "scheme": "shakti",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "Is Shakti free travel available on all private buses in Karnataka?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "private bus",
+          "all private"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "Is Shakti free travel available on all private buses in Karnataka?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 24,
+          "line_end": 24,
+          "excerpt": "Zero fare for eligible women passengers on notified routes and participating bus services.",
+          "excerpt_id": "seed-shakti-012"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0077",
+      "scheme": "gruha-lakshmi",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "Does Gruha Lakshmi pay Rs 2,000 to widower men who head a household?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "widower",
+          "men"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "Does Gruha Lakshmi pay Rs 2,000 to widower men who head a household?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0078",
+      "scheme": "pmsby",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "Does PMSBY cover crop yield loss for farmers?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "crop",
+          "yield loss"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "Does PMSBY cover crop yield loss for farmers?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0079",
+      "scheme": "unspecified",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "What fixed deposit amount does the Bhagyalakshmi scheme give at maturity?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "1,00,000",
+          "100000"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "What fixed deposit amount does the Bhagyalakshmi scheme give at maturity?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop.",
+          "excerpt_id": "seed-pmfby-006"
+        },
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "The Shakti scheme provides free travel for eligible women passengers on participating\nstate-run bus services in Karnataka. It is a state government welfare scheme intended\nto improve women's mobility and access to education, work, and essential services.",
+          "excerpt_id": "seed-shakti-006"
+        },
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        },
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications",
+          "excerpt_id": "seed-anna-bhagya-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0080",
+      "scheme": "unspecified",
+      "category": "unsupported",
+      "difficulty": "adversarial",
+      "language": "en",
+      "question": "In which year will Jal Jeevan Mission finish every household tap connection?",
+      "expected_behavior": "unsupported",
+      "ground_truth": {
+        "facts": [
+          "The requested numeric or categorical claim is not stated in the selected seed evidence."
+        ],
+        "must_not_assert": [
+          "2024",
+          "2028"
+        ],
+        "eligibility_status": null,
+        "unsupported_claim": "In which year will Jal Jeevan Mission finish every household tap connection?"
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "PMFBY provides crop insurance cover to farmers against yield losses due to non-preventable\nnatural risks such as drought, flood, pest attack, and other notified perils, as defined\nin the scheme guidelines for the insured season and crop.",
+          "excerpt_id": "seed-pmfby-006"
+        },
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "purpose",
+          "line_start": 8,
+          "line_end": 12,
+          "excerpt": "The Shakti scheme provides free travel for eligible women passengers on participating\nstate-run bus services in Karnataka. It is a state government welfare scheme intended\nto improve women's mobility and access to education, work, and essential services.",
+          "excerpt_id": "seed-shakti-006"
+        },
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 8,
+          "line_end": 8,
+          "excerpt": "Accidental death: Rs 2 lakh (two lakh rupees) sum insured",
+          "excerpt_id": "seed-pmsby-005"
+        },
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        },
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Provides subsidized / free food grains to eligible ration card holders in Karnataka as per current government notifications",
+          "excerpt_id": "seed-anna-bhagya-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0081",
+      "scheme": "pmsby",
+      "category": "multilingual",
+      "difficulty": "easy",
+      "language": "hi",
+      "question": "पीएमएसबीवाई की वार्षिक प्रीमियम राशि कितनी है?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Annual premium is Rs 20 per member per year (subject to official notifications)"
+        ],
+        "required_keyphrases": [
+          "20"
+        ],
+        "english_source_question": "What is the annual premium listed for PMSBY?",
+        "translation_validated": true
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "limits",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Annual premium is Rs 20 per member per year (subject to official notifications)",
+          "excerpt_id": "seed-pmsby-008"
+        }
+      ],
+      "translation": {
+        "source_language": "en",
+        "validated": true,
+        "source_question": "What is the annual premium listed for PMSBY?"
+      }
+    },
+    {
+      "id": "gsb1-0082",
+      "scheme": "pmsby",
+      "category": "multilingual",
+      "difficulty": "easy",
+      "language": "kn",
+      "question": "ಪಿಎಂಎಸ್‌ಬಿವೈ ವಾರ್ಷಿಕ ಪ್ರೀಮಿಯಂ ಎಷ್ಟು?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Annual premium is Rs 20 per member per year (subject to official notifications)"
+        ],
+        "required_keyphrases": [
+          "20"
+        ],
+        "english_source_question": "What is the annual premium listed for PMSBY?",
+        "translation_validated": true
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "limits",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Annual premium is Rs 20 per member per year (subject to official notifications)",
+          "excerpt_id": "seed-pmsby-008"
+        }
+      ],
+      "translation": {
+        "source_language": "en",
+        "validated": true,
+        "source_question": "What is the annual premium listed for PMSBY?"
+      }
+    },
+    {
+      "id": "gsb1-0083",
+      "scheme": "gruha-lakshmi",
+      "category": "multilingual",
+      "difficulty": "easy",
+      "language": "hi",
+      "question": "गृह लक्ष्मी योजना में पात्र महिला मुखिया को प्रति माह कितनी सहायता लिखी है?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month"
+        ],
+        "required_keyphrases": [
+          "2,000"
+        ],
+        "english_source_question": "How much monthly assistance does Gruha Lakshmi list for an eligible woman head of family?",
+        "translation_validated": true
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        }
+      ],
+      "translation": {
+        "source_language": "en",
+        "validated": true,
+        "source_question": "How much monthly assistance does Gruha Lakshmi list for an eligible woman head of family?"
+      }
+    },
+    {
+      "id": "gsb1-0084",
+      "scheme": "gruha-lakshmi",
+      "category": "multilingual",
+      "difficulty": "easy",
+      "language": "kn",
+      "question": "ಗೃಹ ಲಕ್ಷ್ಮಿ ಯೋಜನೆಯಲ್ಲಿ ಅರ್ಹ ಮಹಿಳಾ ಕುಟುಂಬ ಮುಖ್ಯಸ್ಥೆಗೆ ತಿಂಗಳಿಗೆ ಎಷ್ಟು ನೆರವು ಬರೆಯಲಾಗಿದೆ?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month"
+        ],
+        "required_keyphrases": [
+          "2,000"
+        ],
+        "english_source_question": "How much monthly assistance does Gruha Lakshmi list for an eligible woman head of family?",
+        "translation_validated": true
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        }
+      ],
+      "translation": {
+        "source_language": "en",
+        "validated": true,
+        "source_question": "How much monthly assistance does Gruha Lakshmi list for an eligible woman head of family?"
+      }
+    },
+    {
+      "id": "gsb1-0085",
+      "scheme": "shakti",
+      "category": "multilingual",
+      "difficulty": "easy",
+      "language": "hi",
+      "question": "क्या पुरुष शक्ति योजना के तहत मुफ्त यात्रा के पात्र हैं?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Men are not eligible for free travel under this scheme."
+        ],
+        "required_keyphrases": [
+          "not eligible"
+        ],
+        "english_source_question": "Are men eligible for free travel under the Shakti scheme?",
+        "translation_validated": true
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 19,
+          "line_end": 19,
+          "excerpt": "Men are not eligible for free travel under this scheme.",
+          "excerpt_id": "seed-shakti-010"
+        }
+      ],
+      "translation": {
+        "source_language": "en",
+        "validated": true,
+        "source_question": "Are men eligible for free travel under the Shakti scheme?"
+      }
+    },
+    {
+      "id": "gsb1-0086",
+      "scheme": "shakti",
+      "category": "multilingual",
+      "difficulty": "easy",
+      "language": "kn",
+      "question": "ಶಕ್ತಿ ಯೋಜನೆಯಡಿ ಪುರುಷರು ಉಚಿತ ಪ್ರಯಾಣಕ್ಕೆ ಅರ್ಹರೇ?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Men are not eligible for free travel under this scheme."
+        ],
+        "required_keyphrases": [
+          "not eligible"
+        ],
+        "english_source_question": "Are men eligible for free travel under the Shakti scheme?",
+        "translation_validated": true
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 19,
+          "line_end": 19,
+          "excerpt": "Men are not eligible for free travel under this scheme.",
+          "excerpt_id": "seed-shakti-010"
+        }
+      ],
+      "translation": {
+        "source_language": "en",
+        "validated": true,
+        "source_question": "Are men eligible for free travel under the Shakti scheme?"
+      }
+    },
+    {
+      "id": "gsb1-0087",
+      "scheme": "anna-bhagya",
+      "category": "multilingual",
+      "difficulty": "easy",
+      "language": "hi",
+      "question": "अन्न भाग्य नोट के अनुसार कौन-सा कार्ड आवश्यक है?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Must hold a valid Karnataka ration card under the Public Distribution System"
+        ],
+        "required_keyphrases": [
+          "ration card"
+        ],
+        "english_source_question": "What card does the Anna Bhagya note require?",
+        "translation_validated": true
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Must hold a valid Karnataka ration card under the Public Distribution System",
+          "excerpt_id": "seed-anna-bhagya-008"
+        }
+      ],
+      "translation": {
+        "source_language": "en",
+        "validated": true,
+        "source_question": "What card does the Anna Bhagya note require?"
+      }
+    },
+    {
+      "id": "gsb1-0088",
+      "scheme": "anna-bhagya",
+      "category": "multilingual",
+      "difficulty": "easy",
+      "language": "kn",
+      "question": "ಅನ್ನ ಭಾಗ್ಯ ಟಿಪ್ಪಣಿಯ ಪ್ರಕಾರ ಯಾವ ಕಾರ್ಡ್ ಬೇಕು?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Must hold a valid Karnataka ration card under the Public Distribution System"
+        ],
+        "required_keyphrases": [
+          "ration card"
+        ],
+        "english_source_question": "What card does the Anna Bhagya note require?",
+        "translation_validated": true
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 13,
+          "line_end": 13,
+          "excerpt": "Must hold a valid Karnataka ration card under the Public Distribution System",
+          "excerpt_id": "seed-anna-bhagya-008"
+        }
+      ],
+      "translation": {
+        "source_language": "en",
+        "validated": true,
+        "source_question": "What card does the Anna Bhagya note require?"
+      }
+    },
+    {
+      "id": "gsb1-0089",
+      "scheme": "pmfby",
+      "category": "multilingual",
+      "difficulty": "easy",
+      "language": "hi",
+      "question": "योजना नोट के अनुसार पीएमएफबीवाई किस मंत्रालय के अंतर्गत है?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Ministry: Ministry of Agriculture & Farmers Welfare, Government of India"
+        ],
+        "required_keyphrases": [
+          "Agriculture"
+        ],
+        "english_source_question": "Which ministry administers PMFBY according to the scheme note?",
+        "translation_validated": true
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "ministry",
+          "line_start": 5,
+          "line_end": 5,
+          "excerpt": "Ministry: Ministry of Agriculture & Farmers Welfare, Government of India",
+          "excerpt_id": "seed-pmfby-003"
+        }
+      ],
+      "translation": {
+        "source_language": "en",
+        "validated": true,
+        "source_question": "Which ministry administers PMFBY according to the scheme note?"
+      }
+    },
+    {
+      "id": "gsb1-0090",
+      "scheme": "pmfby",
+      "category": "multilingual",
+      "difficulty": "easy",
+      "language": "kn",
+      "question": "ಯೋಜನಾ ಟಿಪ್ಪಣಿಯ ಪ್ರಕಾರ ಪಿಎಂಎಫ್‌ಬಿವೈ ಯಾವ ಸಚಿವಾಲಯದ ಅಡಿಯಲ್ಲಿದೆ?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Ministry: Ministry of Agriculture & Farmers Welfare, Government of India"
+        ],
+        "required_keyphrases": [
+          "Agriculture"
+        ],
+        "english_source_question": "Which ministry administers PMFBY according to the scheme note?",
+        "translation_validated": true
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "ministry",
+          "line_start": 5,
+          "line_end": 5,
+          "excerpt": "Ministry: Ministry of Agriculture & Farmers Welfare, Government of India",
+          "excerpt_id": "seed-pmfby-003"
+        }
+      ],
+      "translation": {
+        "source_language": "en",
+        "validated": true,
+        "source_question": "Which ministry administers PMFBY according to the scheme note?"
+      }
+    },
+    {
+      "id": "gsb1-0091",
+      "scheme": "pmfby",
+      "category": "difficult",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "A farmer's village is notified but the crop is not notified this season. Does PMFBY coverage apply?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "Coverage applies only for crops and areas notified for that season by the state government."
+        ],
+        "required_keyphrases": [
+          "notified"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 18,
+          "line_end": 18,
+          "excerpt": "Coverage applies only for crops and areas notified for that season by the state government.",
+          "excerpt_id": "seed-pmfby-009"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0092",
+      "scheme": "pmsby",
+      "category": "difficult",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "Is a person who is exactly 18 years old inside the commonly published PMSBY age band?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)"
+        ],
+        "required_keyphrases": [
+          "18"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)",
+          "excerpt_id": "seed-pmsby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0093",
+      "scheme": "pmsby",
+      "category": "difficult",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "Is a person who is exactly 70 years old inside the commonly published PMSBY age band?",
+      "expected_behavior": "eligible",
+      "ground_truth": {
+        "facts": [
+          "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)"
+        ],
+        "required_keyphrases": [
+          "70"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Indian citizens in the eligible age band as notified (commonly 18 to 70 years)",
+          "excerpt_id": "seed-pmsby-010"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0094",
+      "scheme": "gruha-lakshmi",
+      "category": "difficult",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "Can two women in the same family both receive Gruha Lakshmi under the general norm in the note?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Only one woman per family is generally eligible under the scheme norms"
+        ],
+        "required_keyphrases": [
+          "one woman per family"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 17,
+          "line_end": 17,
+          "excerpt": "Only one woman per family is generally eligible under the scheme norms",
+          "excerpt_id": "seed-gruha-lakshmi-012"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0095",
+      "scheme": "shakti",
+      "category": "difficult",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "Do Shakti zero-fare rules automatically cover every premium or excluded bus service?",
+      "expected_behavior": "check_official_notification",
+      "ground_truth": {
+        "facts": [
+          "Applies to ordinary / notified categories of state buses as per the government order; premium or excluded services (if any) follow the latest official notification."
+        ],
+        "required_keyphrases": [
+          "notification"
+        ],
+        "eligibility_status": null,
+        "citizen_profile": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-shakti",
+          "document_path": "backend/data/demo_seeds/shakti_scheme.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 25,
+          "line_end": 26,
+          "excerpt": "Applies to ordinary / notified categories of state buses as per the government order; premium or excluded services (if any) follow the latest official notification.",
+          "excerpt_id": "seed-shakti-013"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0096",
+      "scheme": "pmfby",
+      "category": "difficult",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "What is this season's exact PMFBY sum insured for a one-hectare paddy plot in Mysuru?",
+      "expected_behavior": "check_official_notification",
+      "ground_truth": {
+        "facts": [
+          "Exact sum insured, premium, and cut-off dates are season-specific and published in official notifications."
+        ],
+        "required_keyphrases": [
+          "season-specific"
+        ],
+        "eligibility_status": null,
+        "citizen_profile": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 25,
+          "line_end": 26,
+          "excerpt": "Exact sum insured, premium, and cut-off dates are season-specific and published in official notifications.",
+          "excerpt_id": "seed-pmfby-012"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0097",
+      "scheme": "anna-bhagya",
+      "category": "difficult",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "What exact rice quantity does Anna Bhagya provide this month?",
+      "expected_behavior": "check_official_notification",
+      "ground_truth": {
+        "facts": [
+          "Quantity and price are set by Karnataka Food and Civil Supplies notifications and may be revised"
+        ],
+        "required_keyphrases": [
+          "notifications"
+        ],
+        "eligibility_status": null,
+        "citizen_profile": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-anna-bhagya",
+          "document_path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 10,
+          "line_end": 10,
+          "excerpt": "Quantity and price are set by Karnataka Food and Civil Supplies notifications and may be revised",
+          "excerpt_id": "seed-anna-bhagya-007"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0098",
+      "scheme": "pmsby",
+      "category": "difficult",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "Can one eligible member hold multiple PMSBY covers through different participating banks according to the note?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "One cover per eligible member through a participating bank"
+        ],
+        "required_keyphrases": [
+          "One cover"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmsby",
+          "document_path": "backend/data/seed_schemes/pmsby_overview.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 19,
+          "line_end": 19,
+          "excerpt": "One cover per eligible member through a participating bank",
+          "excerpt_id": "seed-pmsby-012"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0099",
+      "scheme": "gruha-lakshmi",
+      "category": "difficult",
+      "difficulty": "hard",
+      "language": "en",
+      "question": "A Karnataka woman has Aadhaar-linked banking but is not recognized as head of the family. Does the listed Gruha Lakshmi rule set treat her as eligible?",
+      "expected_behavior": "ineligible",
+      "ground_truth": {
+        "facts": [
+          "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month"
+        ],
+        "required_keyphrases": [
+          "head of the family"
+        ],
+        "eligibility_status": "ineligible",
+        "citizen_profile": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-gruha-lakshmi",
+          "document_path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+          "source_url": null,
+          "section": "benefits",
+          "line_start": 9,
+          "line_end": 9,
+          "excerpt": "Eligible woman head of the family receives Rs 2,000 (two thousand rupees) per month",
+          "excerpt_id": "seed-gruha-lakshmi-006"
+        }
+      ]
+    },
+    {
+      "id": "gsb1-0100",
+      "scheme": "pmfby",
+      "category": "difficult",
+      "difficulty": "medium",
+      "language": "en",
+      "question": "Do both loanee and non-loanee farmers growing notified crops in notified areas appear in the PMFBY enrollment description?",
+      "expected_behavior": "answer_from_evidence",
+      "ground_truth": {
+        "facts": [
+          "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications."
+        ],
+        "required_keyphrases": [
+          "loanee",
+          "non-loanee"
+        ],
+        "eligibility_status": "eligible",
+        "citizen_profile": null
+      },
+      "evidence": [
+        {
+          "document_id": "seed-pmfby",
+          "document_path": "backend/data/demo_seeds/pmfby_scheme.txt",
+          "source_url": null,
+          "section": "eligibility",
+          "line_start": 14,
+          "line_end": 15,
+          "excerpt": "All farmers growing notified crops in notified areas can enroll, including loanee and non-loanee farmers, subject to state / season notifications.",
+          "excerpt_id": "seed-pmfby-007"
+        }
+      ]
+    }
+  ]
+}

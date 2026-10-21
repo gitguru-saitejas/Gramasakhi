@@ -51,6 +51,15 @@ class LanguageDecision:
     reason: str = "default"
 
 
+@dataclass
+class PreviousAnswerTransform:
+    """Transform prior assistant answer without a new RAG query."""
+
+    apply: bool = False
+    mode: str = "none"  # translate | rephrase
+    target_language: Optional[str] = None
+
+
 def language_name(code: Optional[str]) -> str:
     if not code:
         return "English"
@@ -212,6 +221,12 @@ def _has_explicit_language_request(text: str) -> Optional[str]:
     t = (text or "").strip()
     low = t.lower()
 
+    if re.search(r"\bkannada\s+please\b", low) or re.search(r"\bplease\s+kannada\b", low):
+        return LANG_KN
+    if re.search(r"\bhindi\s+please\b", low) or re.search(r"\bplease\s+hindi\b", low):
+        return LANG_HI
+    if re.search(r"\benglish\s+please\b", low) or re.search(r"\bplease\s+english\b", low):
+        return LANG_EN
     if re.search(r"\b(in|into|to)\s+kannada\b", low) or re.search(
         r"\b(answer|reply|respond|tell|explain|give|translate|please).{0,40}\bkannada\b",
         low,
@@ -273,6 +288,32 @@ def detect_translation_intent(text: str) -> Tuple[bool, bool, Optional[str]]:
     low = t.lower()
 
     target = _has_explicit_language_request(t)
+    if target and len(t.split()) <= 8:
+        factual = re.search(
+            r"\b(eligibility|benefit|benefits|document|documents|apply|application|"
+            r"scheme|yojana|criteria|procedure|amount|deadline|money)\b",
+            low,
+        )
+        if not factual and re.search(r"\b(please|dalli|heli|mein|batao|bataiye)\b", low + t):
+            return True, True, target
+    if target and len(t.split()) <= 12:
+        factual = re.search(
+            r"\b(eligibility|benefit|benefits|document|documents|apply|application|"
+            r"scheme|yojana|criteria|procedure|amount|deadline|money)\b",
+            low,
+        )
+        if not factual and re.search(
+            r"\b(tell me|explain|say)\b.{0,30}\b(in|into|mein|dalli)\b", low
+        ):
+            return True, True, target
+    same_lang = re.search(
+        r"\bsame thing in (kannada|hindi|english)\b",
+        low,
+    )
+    if same_lang:
+        word = same_lang.group(1)
+        mapping = {"kannada": LANG_KN, "hindi": LANG_HI, "english": LANG_EN}
+        return True, True, mapping.get(word)
 
     translate_markers_en = (
         r"\btranslate\b",
@@ -355,6 +396,49 @@ def detect_translation_intent(text: str) -> Tuple[bool, bool, Optional[str]]:
         only = True
 
     return True, bool(only), target
+
+
+_REPHRASE_PREVIOUS_ANSWER_RE = re.compile(
+    r"(?:"
+    r"\bexplain again\b"
+    r"|\bsay that again\b"
+    r"|\brepeat that\b"
+    r"|\bshort answer\b"
+    r"|\bmake it easier\b"
+    r"|\bmake it simple\b"
+    r"|\bi don't understand\b"
+    r"|\bi do not understand\b"
+    r"|\bsay that simply\b"
+    r"|\btell me simply\b"
+    r"|\bexplain\s+(?:that|it|this)\s+simply\b"
+    r"|\bexplain\s+simply\b"
+    r"|\bexplain\s+(?:that\s+)?in simple words\b"
+    r"|\bi don't understand,?\s*explain\s+simply\b"
+    r")"
+)
+
+
+def detect_previous_answer_transform(
+    text: str,
+    *,
+    conversation_language: Optional[str] = None,
+) -> PreviousAnswerTransform:
+    """Conversation operations on the prior assistant answer (no new RAG)."""
+    is_tr, only, target = detect_translation_intent(text)
+    if is_tr and only:
+        tgt = target or normalize_language_code(conversation_language) or LANG_EN
+        return PreviousAnswerTransform(True, "translate", tgt)
+
+    low = (text or "").strip().lower()
+    if not low:
+        return PreviousAnswerTransform()
+
+    rephrase = _REPHRASE_PREVIOUS_ANSWER_RE.search(low)
+    if rephrase and len(low) < 160:
+        code = normalize_language_code(conversation_language) or LANG_EN
+        return PreviousAnswerTransform(True, "rephrase", code)
+
+    return PreviousAnswerTransform()
 
 
 def resolve_response_language(
@@ -477,6 +561,37 @@ def build_language_instruction(
             f"STRICT LANGUAGE MODE: No explanatory sentences in any language other than {name}. "
             "Official names, abbreviations, numbers, and URLs may remain unchanged."
         )
+    return "\n".join(parts)
+
+
+def build_rephrase_prompt(
+    previous_answer: str,
+    *,
+    response_language: str,
+    regen_note: Optional[str] = None,
+) -> str:
+    name = language_name(response_language)
+    code = normalize_language_code(response_language) or LANG_EN
+    parts = [
+        f"You are GramSakhi. Rephrase the previous answer in simpler, clearer {name}.",
+        "",
+        "Rules:",
+        "1. Keep every fact, number, date, amount, eligibility rule, document name, and URL.",
+        "2. Do not add or remove facts.",
+        "3. Use shorter sentences where helpful.",
+        f"4. Return only the rephrased answer in {name} ({code}).",
+        "",
+    ]
+    if regen_note:
+        parts.extend([regen_note, ""])
+    parts.extend(
+        [
+            "PREVIOUS ANSWER:",
+            (previous_answer or "").strip(),
+            "",
+            f"Provide the simplified {name} answer only.",
+        ]
+    )
     return "\n".join(parts)
 
 

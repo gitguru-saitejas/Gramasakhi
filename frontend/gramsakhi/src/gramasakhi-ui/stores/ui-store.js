@@ -36,7 +36,10 @@ export const useUiStore = create((set) => ({
   },
 
   initProfileFromStorage: () => {
-    const phone = typeof window !== "undefined" ? localStorage.getItem("phoneNumber") : null;
+    const phone =
+      typeof window !== "undefined"
+        ? localStorage.getItem("citizenPhone") || localStorage.getItem("phoneNumber")
+        : null;
     if (phone) {
       set((state) => ({
         userProfile: { ...state.userProfile, name: phone.slice(-4) ? `Citizen ···${phone.slice(-4)}` : "Citizen" },

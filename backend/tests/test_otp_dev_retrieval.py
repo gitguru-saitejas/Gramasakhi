@@ -189,9 +189,10 @@ class TestOTPDevRetrieval(unittest.TestCase):
         phone = "9777777777"
         buffer = io.StringIO()
         with patch.object(settings, "DATABASE_URL", "postgresql://user:pass@db.example.com/postgres"):
-            with patch.object(security, "generate_otp", return_value="112233"):
-                with redirect_stdout(buffer):
-                    res = self.client.post("/api/auth/otp/send", json={"phone_number": phone})
+            with patch.object(settings, "APP_ENV", "production"):
+                with patch.object(security, "generate_otp", return_value="112233"):
+                    with redirect_stdout(buffer):
+                        res = self.client.post("/api/auth/otp/send", json={"phone_number": phone})
         self.assertEqual(res.status_code, 200, res.text)
         self.assertEqual(res.json(), {"message": "OTP verification code sent."})
         self.assertNotIn("112233", buffer.getvalue())

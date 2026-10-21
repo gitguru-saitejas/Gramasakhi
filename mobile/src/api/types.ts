@@ -10,6 +10,7 @@ export interface TokenResponse {
   citizen_account_id: string;
   family_account_id?: string; // compatibility alias of citizen_account_id
   phone_number?: string;
+  display_name?: string | null;
 }
 
 export interface OtpSendRequest {

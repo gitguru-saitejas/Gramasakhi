@@ -86,7 +86,8 @@ function testChatLanguage() {
   record(
     'chat',
     'STT message uses request language at record start',
-    chat.includes('requestLanguage') && read('src/hooks/useVoiceInput.ts').includes('langAtRecord'),
+    read('app/chat.tsx').includes('useVoiceInput({') &&
+      read('src/hooks/useVoiceInput.ts').includes('languageAtRecordRef'),
     'chat + useVoiceInput',
     'STATIC'
   );
@@ -157,7 +158,8 @@ function testTtsLanguage() {
   record(
     'tts',
     'kn is final fallback',
-    utils.includes('DEFAULT_UI_LANGUAGE') && utils.includes('?? DEFAULT_UI_LANGUAGE'),
+    utils.includes('return DEFAULT_UI_LANGUAGE') &&
+      read('src/constants/language.ts').includes("DEFAULT_UI_LANGUAGE: UiLanguageCode = 'kn'"),
     'utils/language.ts',
     'STATIC'
   );

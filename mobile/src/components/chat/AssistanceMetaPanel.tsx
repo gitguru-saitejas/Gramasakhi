@@ -9,9 +9,18 @@ interface AssistanceMetaPanelProps {
 }
 
 function statusColor(status?: string | null): { bg: string; text: string } {
-  const s = (status || '').toUpperCase();
-  if (s === 'ELIGIBLE') return { bg: colors.secondaryContainer, text: colors.onSecondaryContainer };
-  if (s === 'NOT_ELIGIBLE') return { bg: colors.errorContainer, text: colors.onErrorContainer };
+  const raw = (status || '').trim();
+  const s = raw.toLowerCase().replace(/-/g, '_');
+  const upper = raw.toUpperCase();
+  if (s === 'eligible' || upper === 'ELIGIBLE') {
+    return { bg: colors.secondaryContainer, text: colors.onSecondaryContainer };
+  }
+  if (s === 'ineligible' || s === 'not_eligible' || upper === 'NOT_ELIGIBLE') {
+    return { bg: colors.errorContainer, text: colors.onErrorContainer };
+  }
+  if (s === 'uncertain' || s === 'cannot_determine' || upper === 'CANNOT_DETERMINE') {
+    return { bg: colors.surfaceContainerHigh, text: colors.onSurfaceVariant };
+  }
   return { bg: colors.surfaceContainerHigh, text: colors.onSurfaceVariant };
 }
 

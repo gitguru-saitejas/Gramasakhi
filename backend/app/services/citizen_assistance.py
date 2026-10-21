@@ -273,32 +273,39 @@ def classify_citizen_intent(
 
     lower = raw.lower()
 
+    # Legacy high-specificity rules (comparison, deadline, next action, clarification).
+    for intent, markers in _INTENT_RULES:
+        if intent in (
+            CitizenIntent.COMPARISON,
+            CitizenIntent.DEADLINE,
+            CitizenIntent.NEXT_ACTION,
+            CitizenIntent.CLARIFICATION,
+            CitizenIntent.GENERAL_FOLLOWUP,
+        ):
+            for marker in markers:
+                if marker.lower() in lower or marker in raw:
+                    return intent
+
+    try:
+        from app.services.human_language import interpret_human_language, map_to_citizen_intent
+
+        nlu = interpret_human_language(
+            raw,
+            conversation_history=conversation_history,
+            conversation_active_scheme=active_scheme,
+            use_llm=False,
+        )
+        mapped = map_to_citizen_intent(nlu.intent)
+        if mapped != CitizenIntent.UNKNOWN:
+            return mapped
+    except Exception:
+        pass
+
     for intent, markers in _INTENT_RULES:
         for marker in markers:
             if marker.lower() in lower or marker in raw:
                 return intent
 
-    # Reuse retrieval intent bridge when available (does not change response language).
-    try:
-        from app.services.multilingual_retrieval_service import detect_intent
-
-        bridged = detect_intent(raw)
-        if bridged:
-            mapping = {
-                "eligibility": CitizenIntent.ELIGIBILITY,
-                "benefits": CitizenIntent.BENEFITS,
-                "documents": CitizenIntent.DOCUMENTS,
-                "application": CitizenIntent.APPLICATION,
-                "deadline": CitizenIntent.DEADLINE,
-                "amount": CitizenIntent.BENEFITS,
-                "overview": CitizenIntent.OVERVIEW,
-            }
-            if bridged in mapping:
-                return mapping[bridged]
-    except Exception:
-        pass
-
-    # Contextual follow-up without explicit intent markers.
     if conversation_history and active_scheme:
         try:
             from app.services.query_rewriter import _looks_like_followup
@@ -418,6 +425,14 @@ class AssistanceContext:
     is_follow_up: bool = False
     is_comparison: bool = False
     original_query: str = ""
+    nlu_intent: Optional[str] = None
+    normalized_query: Optional[str] = None
+    scheme_id: Optional[str] = None
+    nlu_entities: Dict[str, Any] = field(default_factory=dict)
+    nlu_secondary_intents: List[str] = field(default_factory=list)
+    nlu_conversational_tags: List[str] = field(default_factory=list)
+    nlu_needs_clarification: bool = False
+    nlu_clarification_prompt: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         d = asdict(self)
@@ -443,7 +458,15 @@ def build_assistance_context(
         and bool(re.search(r"\b(compare|versus| vs |difference between)\b", raw, re.I))
     )
 
-    detected_scheme = resolve_detected_scheme(
+    from app.services.human_language import interpret_human_language, map_to_citizen_intent
+
+    nlu = interpret_human_language(
+        raw,
+        conversation_history=conversation_history,
+        rewrite_active_scheme=rewrite_active_scheme,
+        conversation_active_scheme=conversation_active_scheme,
+    )
+    detected_scheme = nlu.scheme_name or resolve_detected_scheme(
         raw,
         rewrite_active_scheme=rewrite_active_scheme,
         conversation_active_scheme=conversation_active_scheme,
@@ -452,13 +475,15 @@ def build_assistance_context(
     if is_comparison and comparison_schemes:
         detected_scheme = comparison_schemes[0]
 
-    intent = classify_citizen_intent(
-        raw,
-        conversation_history=conversation_history,
-        active_scheme=detected_scheme,
-    )
+    intent = map_to_citizen_intent(nlu.intent)
     if is_comparison:
         intent = CitizenIntent.COMPARISON
+    elif intent == CitizenIntent.UNKNOWN and not nlu.needs_clarification:
+        intent = classify_citizen_intent(
+            raw,
+            conversation_history=conversation_history,
+            active_scheme=detected_scheme,
+        )
 
     is_follow_up = False
     if conversation_history and detected_scheme:
@@ -471,6 +496,14 @@ def build_assistance_context(
 
     if intent == CitizenIntent.UNKNOWN and is_follow_up:
         intent = CitizenIntent.GENERAL_FOLLOWUP
+
+    if (
+        nlu.needs_clarification
+        and nlu.clarification_prompt
+        and intent == CitizenIntent.UNKNOWN
+        and "LANGUAGE_CHANGE" not in (nlu.conversational_tags or [])
+    ):
+        intent = CitizenIntent.CLARIFICATION
 
     mode = assistance_mode_for_intent(intent)
     required, known, missing = build_personal_eligibility_framework(intent=intent)
@@ -488,6 +521,14 @@ def build_assistance_context(
         is_follow_up=is_follow_up,
         is_comparison=is_comparison,
         original_query=raw,
+        nlu_intent=nlu.intent.value,
+        normalized_query=nlu.normalized_query,
+        scheme_id=nlu.scheme_id,
+        nlu_entities=dict(nlu.entities),
+        nlu_secondary_intents=[i.value for i in nlu.secondary_intents],
+        nlu_conversational_tags=list(nlu.conversational_tags),
+        nlu_needs_clarification=bool(nlu.needs_clarification),
+        nlu_clarification_prompt=nlu.clarification_prompt,
     )
 
 

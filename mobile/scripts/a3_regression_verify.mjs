@@ -198,9 +198,11 @@ function testChatIntegration() {
   );
   record(
     'integration',
-    'voice sends through sendMessage',
-    chat.includes('await sendMessage(text') && chat.includes('voiceOpts'),
-    'onTranscribed',
+    'voice transcript reaches composer then sendMessage',
+    chat.includes('onTranscribed') &&
+      chat.includes('setComposerText') &&
+      chat.includes('sendMessage(trimmed, language)'),
+    'chat.tsx voice → composer → send',
     'STATIC'
   );
   record(

@@ -2,99 +2,141 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { MobileInput } from "./MobileInput";
+import api from "../../services/api";
 import { Loader2 } from "lucide-react";
 
-const schema = z.object({
-  display_name: z.string().min(1, "Name is required"),
+const phoneSchema = z.object({
   phone_number: z.string().length(10, "Mobile number must be exactly 10 digits"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+const completeSchema = z.object({
+  display_name: z.string().optional(),
+  phone_number: z.string().length(10, "Mobile number must be exactly 10 digits"),
 });
 
 export const RegisterForm = () => {
   const { registerCitizen, showToast } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchParams] = useSearchParams();
+  const [sendingOtp, setSendingOtp] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const prefillPhone =
-    location.state?.phone || searchParams.get("phone") || localStorage.getItem("tempPhone") || "";
+  const verifiedPhone = sessionStorage.getItem("citizenOtpVerifiedPhone") || "";
+  const returnTo = location.state?.from || "/chat";
+  const prefillPhone = location.state?.phone || verifiedPhone || "";
 
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: { display_name: "", phone_number: prefillPhone, password: "" },
+  const phoneForm = useForm({
+    resolver: zodResolver(phoneSchema),
+    defaultValues: { phone_number: prefillPhone },
   });
 
-  const onSubmit = async (data) => {
+  const completeForm = useForm({
+    resolver: zodResolver(completeSchema),
+    defaultValues: { display_name: "", phone_number: verifiedPhone || prefillPhone },
+  });
+
+  const onSendOtp = async ({ phone_number }) => {
+    setSendingOtp(true);
+    try {
+      const res = await api.post("/auth/otp/send", { phone_number }, { skipErrorToast: true });
+      localStorage.setItem("tempPhone", phone_number);
+      showToast("success", res.data?.message || "OTP sent successfully!");
+      navigate("/citizen/verify-otp", {
+        state: { from: returnTo, phone: phone_number, intent: "register" },
+      });
+    } catch (err) {
+      showToast("error", err.response?.data?.detail || "Failed to send OTP.");
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  const onCompleteRegistration = async (data) => {
     setSubmitting(true);
     try {
       await registerCitizen({
-        credentials: {
-          phone_number: data.phone_number,
-          password: data.password,
-        },
-        display_name: data.display_name,
+        credentials: { phone_number: data.phone_number },
+        display_name: data.display_name?.trim() || undefined,
       });
-      showToast("success", "Account created. Please log in.");
-      navigate("/citizen/login");
+      navigate(returnTo, { replace: true });
     } catch (err) {
-      const msg = err.response?.data?.detail || "Registration failed.";
-      showToast("error", msg);
+      showToast("error", err.response?.data?.detail || "Registration failed.");
     } finally {
       setSubmitting(false);
     }
   };
 
+  if (!verifiedPhone) {
+    return (
+      <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xl rounded-3xl p-6 sm:p-8">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Create GramSakhi account</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">
+            Enter your mobile number. We will send a one-time code to verify it.
+          </p>
+        </div>
+
+        <form onSubmit={phoneForm.handleSubmit(onSendOtp)} className="space-y-4">
+          <Controller
+            name="phone_number"
+            control={phoneForm.control}
+            render={({ field }) => (
+              <MobileInput
+                label="Mobile Number"
+                error={phoneForm.formState.errors.phone_number?.message}
+                {...field}
+              />
+            )}
+          />
+
+          <button
+            type="submit"
+            disabled={sendingOtp}
+            aria-busy={sendingOtp}
+            className="w-full py-3 rounded-xl bg-emerald-700 text-white font-semibold text-sm hover:bg-emerald-800 disabled:opacity-60"
+          >
+            {sendingOtp ? <Loader2 className="h-4 w-4 animate-spin mx-auto" aria-hidden="true" /> : "Send OTP"}
+          </button>
+        </form>
+
+        <p className="text-center text-sm text-slate-500 mt-6">
+          Already have an account?{" "}
+          <Link to="/citizen/login" className="text-emerald-700 font-semibold hover:underline">
+            Sign in with OTP
+          </Link>
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xl rounded-3xl p-6 sm:p-8">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Create GramSakhi account</h2>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">
-          Register with your mobile number to ask about schemes
-        </p>
+        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Finish your account</h2>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">Your mobile number is verified.</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label htmlFor="register-display-name" className="text-xs font-bold text-slate-500 uppercase">Full name</label>
-          <input
-            id="register-display-name"
-            {...register("display_name")}
-            autoComplete="name"
-            className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm"
-          />
-          {errors.display_name && (
-            <p id="register-display-name-error" className="text-xs text-red-500 mt-1" role="alert">{errors.display_name.message}</p>
-          )}
-        </div>
-
+      <form onSubmit={completeForm.handleSubmit(onCompleteRegistration)} className="space-y-4">
         <Controller
           name="phone_number"
-          control={control}
+          control={completeForm.control}
           render={({ field }) => (
-            <MobileInput label="Mobile Number" error={errors.phone_number?.message} {...field} />
+            <MobileInput label="Mobile Number" error={completeForm.formState.errors.phone_number?.message} {...field} readOnly />
           )}
         />
 
         <div>
-          <label htmlFor="register-password" className="text-xs font-bold text-slate-500 uppercase">Password</label>
+          <label htmlFor="register-display-name" className="text-xs font-bold text-slate-500 uppercase">
+            Full name (optional)
+          </label>
           <input
-            id="register-password"
-            type="password"
-            {...register("password")}
-            autoComplete="new-password"
+            id="register-display-name"
+            {...completeForm.register("display_name")}
+            autoComplete="name"
             className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm"
           />
-          {errors.password && (
-            <p id="register-password-error" className="text-xs text-red-500 mt-1" role="alert">{errors.password.message}</p>
-          )}
         </div>
 
         <button
@@ -106,13 +148,6 @@ export const RegisterForm = () => {
           {submitting ? <Loader2 className="h-4 w-4 animate-spin mx-auto" aria-hidden="true" /> : "Create account"}
         </button>
       </form>
-
-      <p className="text-center text-sm text-slate-500 mt-6">
-        Already registered?{" "}
-        <Link to="/citizen/login" className="text-emerald-700 font-semibold hover:underline">
-          Log in
-        </Link>
-      </p>
     </div>
   );
 };

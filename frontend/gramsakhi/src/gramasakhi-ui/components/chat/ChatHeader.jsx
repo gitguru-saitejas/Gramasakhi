@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLanguageStore } from '@/stores/language-store';
 import { useChatStore } from '@/stores/chat-store';
-import { LANGUAGES } from '@/lib/i18n/translations';
+import { CITIZEN_LANGUAGES } from '@/lib/i18n/translations';
 import { Globe, Volume2, VolumeX, RotateCcw, ChevronDown, Check } from 'lucide-react';
 
 export function ChatHeader() {
@@ -64,7 +64,7 @@ export function ChatHeader() {
               aria-label="Languages"
               className="absolute right-0 mt-1 w-48 bg-surface-container-lowest rounded-2xl shadow-xl border border-surface-variant p-1.5 z-50 space-y-0.5"
             >
-              {LANGUAGES.map((lang) => (
+              {CITIZEN_LANGUAGES.map((lang) => (
                 <button
                   key={lang.code}
                   type="button"

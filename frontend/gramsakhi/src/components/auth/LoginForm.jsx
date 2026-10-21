@@ -73,16 +73,6 @@ export const LoginForm = () => {
       </form>
 
       <p className="text-center text-sm text-on-surface-variant mt-4">
-        <Link
-          to="/citizen/forgot-password"
-          state={{ from: returnTo }}
-          className="text-secondary font-semibold hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
-        >
-          Forgot password?
-        </Link>
-      </p>
-
-      <p className="text-center text-sm text-on-surface-variant mt-4">
         New here?{" "}
         <Link
           to="/citizen/register"

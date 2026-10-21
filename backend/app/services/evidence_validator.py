@@ -342,6 +342,22 @@ class EvidenceValidator:
             "detail": detail,
         }
 
+    def check_claim_support(self, query: str, docs: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Fourth gate — specific factual claims must be supported by evidence."""
+        try:
+            from app.services.claim_alignment import check_claim_support
+
+            result = check_claim_support(query, docs)
+            return {
+                "ok": result.ok,
+                "reason": result.reason,
+                "detail": result.detail,
+                "signals": result.signals,
+            }
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("claim_support_check_failed err=%s", type(exc).__name__)
+            return {"ok": False, "reason": "claim_support_error", "detail": type(exc).__name__}
+
     def check_agreement(self, docs: List[Dict[str, Any]]) -> Dict[str, Any]:
         if not docs:
             return {"ok": False, "score": 0.0, "detail": "no_documents"}
@@ -505,11 +521,13 @@ class EvidenceValidator:
         relevance = self.check_relevance(evidence)
         coverage = self.check_coverage(q, evidence)
         agreement = self.check_agreement(evidence)
+        claim_support = self.check_claim_support(q, evidence)
 
         signals = {
             "relevance": relevance,
             "coverage": coverage,
             "agreement": agreement,
+            "claim_support": claim_support,
             "pruning": {
                 "retrieved": len(docs),
                 "kept": len(evidence),
@@ -524,6 +542,8 @@ class EvidenceValidator:
             failures.append("insufficient_coverage")
         if not agreement.get("ok"):
             failures.append("insufficient_agreement")
+        if not claim_support.get("ok"):
+            failures.append("unsupported_claim")
 
         if failures:
             # Prefer most informative primary reason
@@ -532,6 +552,8 @@ class EvidenceValidator:
                 reason = "insufficient_coverage"
             elif "insufficient_agreement" in failures:
                 reason = "conflicting_evidence"
+            elif "unsupported_claim" in failures:
+                reason = str(claim_support.get("reason") or "unsupported_claim")
             return ValidationResult(
                 ok=False,
                 confidence="low",

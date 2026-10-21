@@ -20,7 +20,7 @@ export default function OTPVerification() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const { loginWithOtp, showToast, citizenAccountId } = useAuth();
+  const { loginWithOtp, showToast } = useAuth();
 
   const phoneFromQuery = searchParams.get("phone") || "";
   const phone = location.state?.phone || phoneFromQuery || localStorage.getItem("tempPhone") || "";
@@ -32,13 +32,6 @@ export default function OTPVerification() {
   const [resending, setResending] = useState(false);
   const [otpError, setOtpError] = useState(null);
   const [success, setSuccess] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (citizenAccountId && token) {
-      navigate(returnTo, { replace: true });
-    }
-  }, [citizenAccountId, navigate, returnTo]);
 
   useEffect(() => {
     if (!phone) {
@@ -74,6 +67,7 @@ export default function OTPVerification() {
       const result = await loginWithOtp(phone, otp);
       if (result?.needs_registration) {
         localStorage.setItem("tempPhone", phone);
+        sessionStorage.setItem("citizenOtpVerifiedPhone", phone);
         navigate("/citizen/register", {
           state: { from: returnTo, phone },
         });
@@ -189,7 +183,7 @@ export default function OTPVerification() {
                     <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
                   ) : (
                     <>
-                      Verify & Continue
+                      Verify & Sign In
                       <ArrowRight className="h-4 w-4" />
                     </>
                   )}

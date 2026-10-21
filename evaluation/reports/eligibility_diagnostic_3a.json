@@ -1,0 +1,669 @@
+[
+  {
+    "id": "gsb1-0041",
+    "scheme": "shakti",
+    "expected": "eligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "Shakti",
+    "validated": false,
+    "sources_n": 0,
+    "is_scenario": true,
+    "facts": {
+      "gender": "female",
+      "state": "Karnataka",
+      "residence": "Karnataka"
+    },
+    "criteria_n": 0,
+    "required": [],
+    "missing": [],
+    "det_status": null,
+    "api": null,
+    "llm_decides": true,
+    "fail": "A",
+    "question": "A woman resident of Karnataka wants free travel on a participating KSRTC bus. Is she in the intended Shakti beneficiary group?"
+  },
+  {
+    "id": "gsb1-0042",
+    "scheme": "shakti",
+    "expected": "ineligible",
+    "intent": "ELIGIBILITY",
+    "detected_scheme": "Shakti",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "gender": "male",
+      "state": "Karnataka",
+      "residence": "Karnataka"
+    },
+    "criteria_n": 8,
+    "required": [
+      "state",
+      "gender"
+    ],
+    "missing": [
+      "state",
+      "gender"
+    ],
+    "det_status": "NOT_ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "G",
+    "question": "A man in Karnataka asks for free Shakti bus travel. Is he eligible?"
+  },
+  {
+    "id": "gsb1-0043",
+    "scheme": "shakti",
+    "expected": "ineligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "Shakti",
+    "validated": false,
+    "sources_n": 0,
+    "is_scenario": true,
+    "facts": {
+      "gender": "female",
+      "state": "Maharashtra",
+      "residence": "Maharashtra"
+    },
+    "criteria_n": 0,
+    "required": [],
+    "missing": [],
+    "det_status": null,
+    "api": null,
+    "llm_decides": true,
+    "fail": "A",
+    "question": "A woman who lives in Maharashtra asks for Shakti free bus travel in Karnataka. Is she in the intended beneficiary group described in the note?"
+  },
+  {
+    "id": "gsb1-0044",
+    "scheme": "shakti",
+    "expected": "eligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "Shakti",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "gender": "female",
+      "state": "Karnataka",
+      "residence": "Karnataka"
+    },
+    "criteria_n": 8,
+    "required": [
+      "gender",
+      "state"
+    ],
+    "missing": [
+      "gender",
+      "state"
+    ],
+    "det_status": "ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A woman citizen of Karnataka boards a participating notified state bus. Does the note treat her as an intended Shakti beneficiary?"
+  },
+  {
+    "id": "gsb1-0045",
+    "scheme": "shakti",
+    "expected": "eligible",
+    "intent": "ELIGIBILITY",
+    "detected_scheme": "Shakti",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "gender": "female",
+      "state": "Karnataka",
+      "residence": "Karnataka"
+    },
+    "criteria_n": 8,
+    "required": [
+      "gender",
+      "state"
+    ],
+    "missing": [
+      "gender",
+      "state"
+    ],
+    "det_status": "ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "G",
+    "question": "A Karnataka woman eligible under Shakti did not bring ID. Does the note still describe women citizens as intended beneficiaries, with ID possibly requested?"
+  },
+  {
+    "id": "gsb1-0046",
+    "scheme": "pmsby",
+    "expected": "eligible",
+    "intent": "ELIGIBILITY",
+    "detected_scheme": "PM-SBY",
+    "validated": false,
+    "sources_n": 0,
+    "is_scenario": true,
+    "facts": {
+      "age": 35,
+      "has_savings_account": true,
+      "auto_debit_consent": true
+    },
+    "criteria_n": 0,
+    "required": [],
+    "missing": [],
+    "det_status": null,
+    "api": null,
+    "llm_decides": true,
+    "fail": "F",
+    "question": "An Indian citizen aged 35 with a savings account and auto-debit consent asks about PMSBY. Does the note describe this profile as within the common eligibility conditions?"
+  },
+  {
+    "id": "gsb1-0047",
+    "scheme": "pmsby",
+    "expected": "ineligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "PM-SBY",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "age": 16,
+      "has_savings_account": true
+    },
+    "criteria_n": 0,
+    "required": [],
+    "missing": [],
+    "det_status": null,
+    "api": null,
+    "llm_decides": true,
+    "fail": "A",
+    "question": "A 16-year-old with a savings account asks to enroll in PMSBY. Is this age inside the commonly published 18-70 band?"
+  },
+  {
+    "id": "gsb1-0048",
+    "scheme": "pmsby",
+    "expected": "ineligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "PM-SBY",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "age": 75,
+      "has_savings_account": true
+    },
+    "criteria_n": 0,
+    "required": [],
+    "missing": [],
+    "det_status": null,
+    "api": null,
+    "llm_decides": true,
+    "fail": "A",
+    "question": "A 75-year-old with a savings account asks to enroll in PMSBY. Is this age inside the commonly published 18-70 band?"
+  },
+  {
+    "id": "gsb1-0049",
+    "scheme": "pmsby",
+    "expected": "ineligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "PM-SBY",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": false,
+    "facts": {
+      "age": 40,
+      "has_savings_account": false
+    },
+    "criteria_n": 0,
+    "required": [],
+    "missing": [],
+    "det_status": null,
+    "api": null,
+    "llm_decides": true,
+    "fail": "A",
+    "question": "A 40-year-old Indian citizen has no savings bank account. Does the PMSBY note treat a savings account as required?"
+  },
+  {
+    "id": "gsb1-0050",
+    "scheme": "pmsby",
+    "expected": "eligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "PM-SBY",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": false,
+    "facts": {
+      "age": 18,
+      "has_savings_account": true,
+      "auto_debit_consent": true
+    },
+    "criteria_n": 0,
+    "required": [],
+    "missing": [],
+    "det_status": null,
+    "api": null,
+    "llm_decides": true,
+    "fail": "A",
+    "question": "A citizen who just turned 18 has a savings account and auto-debit consent. Is age 18 inside the commonly published PMSBY band?"
+  },
+  {
+    "id": "gsb1-0051",
+    "scheme": "pmsby",
+    "expected": "eligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "PM-SBY",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": false,
+    "facts": {
+      "age": 70,
+      "has_savings_account": true,
+      "auto_debit_consent": true
+    },
+    "criteria_n": 0,
+    "required": [],
+    "missing": [],
+    "det_status": null,
+    "api": null,
+    "llm_decides": true,
+    "fail": "A",
+    "question": "A citizen aged 70 has a savings account and auto-debit consent. Is age 70 inside the commonly published PMSBY band?"
+  },
+  {
+    "id": "gsb1-0052",
+    "scheme": "gruha-lakshmi",
+    "expected": "eligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "Gruha Lakshmi",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "gender": "female",
+      "state": "Karnataka",
+      "residence": "Karnataka",
+      "head_of_family": true,
+      "aadhaar_bank_account": true,
+      "has_savings_account": true
+    },
+    "criteria_n": 4,
+    "required": [
+      "beneficiary_status",
+      "gender",
+      "state"
+    ],
+    "missing": [
+      "beneficiary_status",
+      "gender",
+      "state"
+    ],
+    "det_status": "CANNOT_DETERMINE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A woman who is a Karnataka resident, head of her family, with an Aadhaar-linked bank account asks about Gruha Lakshmi. Does this match the listed conditions?"
+  },
+  {
+    "id": "gsb1-0053",
+    "scheme": "gruha-lakshmi",
+    "expected": "ineligible",
+    "intent": "ELIGIBILITY",
+    "detected_scheme": "Gruha Lakshmi",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "gender": "male",
+      "state": "Karnataka",
+      "residence": "Karnataka"
+    },
+    "criteria_n": 4,
+    "required": [
+      "beneficiary_status",
+      "gender",
+      "state"
+    ],
+    "missing": [
+      "beneficiary_status",
+      "gender",
+      "state"
+    ],
+    "det_status": "NOT_ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "G",
+    "question": "A man who is a Karnataka resident and head of family asks for Gruha Lakshmi. Is he eligible under the listed rules?"
+  },
+  {
+    "id": "gsb1-0054",
+    "scheme": "gruha-lakshmi",
+    "expected": "ineligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "Gruha Lakshmi",
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "gender": "female",
+      "state": "Tamil Nadu",
+      "residence": "Tamil Nadu"
+    },
+    "criteria_n": 3,
+    "required": [
+      "state"
+    ],
+    "missing": [
+      "state"
+    ],
+    "det_status": "NOT_ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A woman living in Tamil Nadu asks for Gruha Lakshmi. Does the note require Karnataka residence?"
+  },
+  {
+    "id": "gsb1-0055",
+    "scheme": "gruha-lakshmi",
+    "expected": "ineligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": null,
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "gender": "female",
+      "state": "Karnataka",
+      "residence": "Karnataka",
+      "head_of_family": false,
+      "aadhaar_bank_account": true,
+      "has_savings_account": true
+    },
+    "criteria_n": 4,
+    "required": [
+      "beneficiary_status",
+      "gender",
+      "state"
+    ],
+    "missing": [
+      "beneficiary_status",
+      "gender",
+      "state"
+    ],
+    "det_status": "CANNOT_DETERMINE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A Karnataka woman with an Aadhaar-linked bank account is not the head of the family. Does the note require head-of-family status?"
+  },
+  {
+    "id": "gsb1-0056",
+    "scheme": "gruha-lakshmi",
+    "expected": "ineligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": null,
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "gender": "female",
+      "state": "Karnataka",
+      "residence": "Karnataka",
+      "head_of_family": true,
+      "has_savings_account": false,
+      "aadhaar_bank_account": false
+    },
+    "criteria_n": 4,
+    "required": [
+      "beneficiary_status",
+      "gender",
+      "state"
+    ],
+    "missing": [
+      "beneficiary_status",
+      "gender",
+      "state"
+    ],
+    "det_status": "CANNOT_DETERMINE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A Karnataka woman head of family has no Aadhaar-linked bank account. Does the note require that account?"
+  },
+  {
+    "id": "gsb1-0057",
+    "scheme": "gruha-lakshmi",
+    "expected": "ineligible",
+    "intent": "ELIGIBILITY",
+    "detected_scheme": "Gruha Lakshmi",
+    "validated": false,
+    "sources_n": 0,
+    "is_scenario": true,
+    "facts": {
+      "gender": "female",
+      "second_woman_in_family": true
+    },
+    "criteria_n": 0,
+    "required": [],
+    "missing": [],
+    "det_status": null,
+    "api": null,
+    "llm_decides": true,
+    "fail": "F",
+    "question": "A second woman in a family already receiving Gruha Lakshmi asks to enroll. Is a second woman generally eligible?"
+  },
+  {
+    "id": "gsb1-0058",
+    "scheme": "pmfby",
+    "expected": "eligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "PMFBY",
+    "validated": true,
+    "sources_n": 3,
+    "is_scenario": true,
+    "facts": {
+      "occupation": "farmer",
+      "crop_notified": true
+    },
+    "criteria_n": 5,
+    "required": [
+      "occupation"
+    ],
+    "missing": [
+      "occupation"
+    ],
+    "det_status": "ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A farmer growing a notified crop in a notified area asks about PMFBY enrollment. Does the note include this farmer?"
+  },
+  {
+    "id": "gsb1-0059",
+    "scheme": "pmfby",
+    "expected": "ineligible",
+    "intent": "APPLICATION",
+    "detected_scheme": "PMFBY",
+    "validated": true,
+    "sources_n": 3,
+    "is_scenario": true,
+    "facts": {
+      "occupation": "farmer",
+      "crop_notified": false
+    },
+    "criteria_n": 11,
+    "required": [
+      "occupation"
+    ],
+    "missing": [
+      "occupation"
+    ],
+    "det_status": "ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A farmer grows a crop that is not notified for this season. Does PMFBY coverage apply?"
+  },
+  {
+    "id": "gsb1-0060",
+    "scheme": "pmfby",
+    "expected": "eligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "PMFBY",
+    "validated": true,
+    "sources_n": 2,
+    "is_scenario": true,
+    "facts": {
+      "occupation": "farmer",
+      "crop_notified": true
+    },
+    "criteria_n": 11,
+    "required": [
+      "occupation",
+      "scheme_specific"
+    ],
+    "missing": [
+      "occupation",
+      "scheme_specific"
+    ],
+    "det_status": "ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A loanee farmer growing a notified crop in a notified area asks about PMFBY. May loanee farmers enroll?"
+  },
+  {
+    "id": "gsb1-0061",
+    "scheme": "pmfby",
+    "expected": "eligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": "PMFBY",
+    "validated": true,
+    "sources_n": 3,
+    "is_scenario": true,
+    "facts": {
+      "occupation": "farmer",
+      "crop_notified": true
+    },
+    "criteria_n": 11,
+    "required": [
+      "occupation",
+      "scheme_specific"
+    ],
+    "missing": [
+      "occupation",
+      "scheme_specific"
+    ],
+    "det_status": "ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A non-loanee farmer growing a notified crop in a notified area asks about PMFBY. May non-loanee farmers enroll?"
+  },
+  {
+    "id": "gsb1-0062",
+    "scheme": "pmfby",
+    "expected": "ineligible",
+    "intent": "ELIGIBILITY",
+    "detected_scheme": "PMFBY",
+    "validated": true,
+    "sources_n": 2,
+    "is_scenario": true,
+    "facts": {
+      "growing_crop": false
+    },
+    "criteria_n": 5,
+    "required": [
+      "occupation"
+    ],
+    "missing": [
+      "occupation"
+    ],
+    "det_status": "NOT_ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "G",
+    "question": "A person who is not growing any crop asks to enroll in PMFBY. Does the note describe this person as an eligible farmer?"
+  },
+  {
+    "id": "gsb1-0063",
+    "scheme": "anna-bhagya",
+    "expected": "eligible",
+    "intent": "DOCUMENTS",
+    "detected_scheme": null,
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "state": "Karnataka",
+      "residence": "Karnataka",
+      "has_ration_card": true
+    },
+    "criteria_n": 4,
+    "required": [
+      "beneficiary_status",
+      "state"
+    ],
+    "missing": [
+      "beneficiary_status",
+      "state"
+    ],
+    "det_status": "ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A household holds a valid Karnataka ration card. Does the Anna Bhagya note treat this as the required eligibility document?"
+  },
+  {
+    "id": "gsb1-0064",
+    "scheme": "anna-bhagya",
+    "expected": "ineligible",
+    "intent": "ELIGIBILITY",
+    "detected_scheme": null,
+    "validated": true,
+    "sources_n": 1,
+    "is_scenario": true,
+    "facts": {
+      "has_ration_card": false
+    },
+    "criteria_n": 4,
+    "required": [
+      "beneficiary_status",
+      "state"
+    ],
+    "missing": [
+      "beneficiary_status",
+      "state"
+    ],
+    "det_status": "NOT_ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "G",
+    "question": "A household has no ration card. Is Anna Bhagya eligibility described as available?"
+  },
+  {
+    "id": "gsb1-0065",
+    "scheme": "anna-bhagya",
+    "expected": "ineligible",
+    "intent": "UNKNOWN",
+    "detected_scheme": null,
+    "validated": true,
+    "sources_n": 2,
+    "is_scenario": true,
+    "facts": {
+      "has_ration_card": true,
+      "karnataka_ration_card": false
+    },
+    "criteria_n": 7,
+    "required": [
+      "beneficiary_status",
+      "state"
+    ],
+    "missing": [
+      "beneficiary_status",
+      "state"
+    ],
+    "det_status": "NOT_ELIGIBLE",
+    "api": null,
+    "llm_decides": false,
+    "fail": "A",
+    "question": "A household holds only a ration card issued in another state. Does the note require a Karnataka ration card?"
+  }
+]

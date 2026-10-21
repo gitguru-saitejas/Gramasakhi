@@ -1,14 +1,12 @@
 'use client';
 
 import { useLanguageStore } from '@/stores/language-store';
-import { ExternalLink, CheckCircle2, Volume2 } from 'lucide-react';
-import { useSpeechSynth } from '@/lib/hooks/use-speech-synth';
+import { ExternalLink, CheckCircle2 } from 'lucide-react';
 import { safeHttpUrl } from '@/lib/utils';
 
-export function SourceList({ sources = [], textToSpeak = '' }) {
+export function SourceList({ sources = [] }) {
   const { getTranslation } = useLanguageStore();
   const t = getTranslation();
-  const { speak, isSpeaking, stop } = useSpeechSynth();
 
   if (!sources || sources.length === 0) return null;
 
@@ -18,18 +16,6 @@ export function SourceList({ sources = [], textToSpeak = '' }) {
         <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">
           {t.sources}
         </span>
-
-        {textToSpeak && (
-          <button
-            type="button"
-            onClick={() => (isSpeaking ? stop() : speak(textToSpeak))}
-            className="flex items-center gap-1 px-2.5 py-1 text-xs text-secondary hover:bg-secondary-container/50 rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-            aria-label={isSpeaking ? t.stopAudio : t.listenAudio}
-          >
-            <Volume2 className={`w-3.5 h-3.5 ${isSpeaking ? 'animate-bounce text-error' : ''}`} />
-            <span>{isSpeaking ? t.stopAudio : t.listenAudio}</span>
-          </button>
-        )}
       </div>
 
       <div className="flex flex-wrap gap-2">

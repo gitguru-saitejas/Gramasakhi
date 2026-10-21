@@ -1131,6 +1131,17 @@ _INTENT_MARKERS: Dict[str, Tuple[str, ...]] = {
         "eligible",
         "who can",
         "criteria",
+        "beneficiary",
+        "conditions",
+        "head of family",
+        "head of the family",
+        "notified crop",
+        "notified area",
+        "notified crops",
+        "age band",
+        "savings bank account",
+        "savings account",
+        "resident of",
         "section:\neligibility",
     ),
     "benefits": (
@@ -1197,6 +1208,8 @@ def select_question_aware_evidence(
     intent = query_citizen_intent(query)
     if intent == "complete":
         return items[: max(max_chunks, 8)]
+    if intent == "eligibility":
+        max_chunks = max(max_chunks, 5)
     markers = _INTENT_MARKERS.get(intent) or ()
     if not markers:
         return items[:max_chunks]
@@ -1204,7 +1217,12 @@ def select_question_aware_evidence(
     rest: List[Dict[str, Any]] = []
     for d in items:
         blob = f"{d.get('content') or ''} {d.get('scheme_name') or ''}".lower()
-        if any(m in blob for m in markers):
+        meta = d.get("metadata") if isinstance(d.get("metadata"), dict) else {}
+        tags = meta.get("section_tags") or []
+        if isinstance(tags, str):
+            tags = [tags]
+        tag_hit = intent in tags or (intent == "eligibility" and "notified_crop" in tags)
+        if tag_hit or any(m in blob for m in markers):
             preferred.append(d)
         else:
             rest.append(d)

@@ -1,12 +1,13 @@
 import { create } from 'zustand';
-import { LANGUAGES, TRANSLATIONS } from '@/lib/i18n/translations';
+import { CITIZEN_LANGUAGES, LANGUAGES, TRANSLATIONS } from '@/lib/i18n/translations';
 
 export const useLanguageStore = create((set, get) => ({
   currentLanguage: 'kn', // default to Kannada as in Stitch reference
   isTtsEnabled: true,
 
   setLanguage: (langCode) => {
-    if (TRANSLATIONS[langCode]) {
+    const allowed = CITIZEN_LANGUAGES.some((l) => l.code === langCode);
+    if (allowed) {
       set({ currentLanguage: langCode });
       if (typeof window !== 'undefined') {
         localStorage.setItem('gramsakhi_lang', langCode);
@@ -31,7 +32,7 @@ export const useLanguageStore = create((set, get) => ({
   initLanguageFromStorage: () => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('gramsakhi_lang');
-      if (saved && TRANSLATIONS[saved]) {
+      if (saved && CITIZEN_LANGUAGES.some((l) => l.code === saved)) {
         set({ currentLanguage: saved });
       }
     }

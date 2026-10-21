@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { GramSakhiLogo } from '../src/components/GramSakhiLogo';
 import { OtpInput } from '../src/components/OtpInput';
@@ -24,7 +24,7 @@ function formatTime(seconds: number): string {
 export default function OtpScreen() {
   const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState('');
-  const { verifyOtpCode, requestOtp, status } = useAuth();
+  const { verifyOtpCode, requestOtp, completeRegistration, status } = useAuth();
   const { t } = useLanguage();
 
   const [otp, setOtp] = useState('');
@@ -33,7 +33,9 @@ export default function OtpScreen() {
   const [resending, setResending] = useState(false);
   const [otpError, setOtpError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [registrationMessage, setRegistrationMessage] = useState<string | null>(null);
+  const [needsRegistration, setNeedsRegistration] = useState(false);
+  const [displayName, setDisplayName] = useState('');
+  const [registering, setRegistering] = useState(false);
 
   useEffect(() => {
     const phone = consumeOtpFlowPhone();
@@ -46,10 +48,10 @@ export default function OtpScreen() {
 
   useEffect(() => {
     if (!phoneNumber) return;
-    if (status === 'authenticated' && !registrationMessage) {
+    if (status === 'authenticated' && !needsRegistration) {
       router.replace('/chat');
     }
-  }, [status, router, registrationMessage]);
+  }, [status, router, needsRegistration]);
 
   useEffect(() => {
     if (timer <= 0 || success) return undefined;
@@ -67,7 +69,7 @@ export default function OtpScreen() {
     try {
       const result = await verifyOtpCode(phoneNumber, otp);
       if (result.needsRegistration) {
-        setRegistrationMessage(t('otp.notRegistered'));
+        setNeedsRegistration(true);
         return;
       }
       setSuccess(true);
@@ -80,6 +82,26 @@ export default function OtpScreen() {
       );
     } finally {
       setVerifying(false);
+    }
+  };
+
+  const handleCreateAccount = async () => {
+    if (registering) return;
+    setRegistering(true);
+    setOtpError(null);
+    try {
+      await completeRegistration(phoneNumber, displayName);
+      setSuccess(true);
+      setNeedsRegistration(false);
+      setTimeout(() => router.replace('/chat'), 600);
+    } catch (err) {
+      setOtpError(
+        err instanceof ApiClientError
+          ? err.message
+          : friendlyErrorMessage(err, t('otp.registerFailed'))
+      );
+    } finally {
+      setRegistering(false);
     }
   };
 
@@ -135,10 +157,25 @@ export default function OtpScreen() {
       </View>
 
       <View style={styles.card}>
-        {registrationMessage ? (
+        {needsRegistration ? (
           <View accessibilityRole="alert">
-            <Text style={styles.registrationText}>{registrationMessage}</Text>
-            <PrimaryButton label={t('otp.backToLogin')} variant="secondary" onPress={() => router.replace('/login')} />
+            <Text style={styles.registrationText}>{t('otp.notRegistered')}</Text>
+            <Text style={styles.fieldLabel}>{t('otp.displayName')}</Text>
+            <TextInput
+              accessibilityLabel={t('otp.displayName')}
+              placeholder={t('otp.displayNamePlaceholder')}
+              value={displayName}
+              onChangeText={setDisplayName}
+              style={styles.nameInput}
+              autoCapitalize="words"
+            />
+            {otpError ? <Text style={styles.inlineError}>{otpError}</Text> : null}
+            <PrimaryButton
+              label={t('otp.createAccount')}
+              onPress={() => void handleCreateAccount()}
+              loading={registering}
+              buttonStyle={styles.verifyBtn}
+            />
           </View>
         ) : success ? (
           <View style={styles.successBlock}>
@@ -284,7 +321,28 @@ const styles = StyleSheet.create({
   },
   registrationText: {
     ...typography.body,
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
+    textAlign: 'center',
+  },
+  fieldLabel: {
+    ...typography.caption,
+    color: colors.onSurfaceVariant,
+    fontWeight: '700',
+    marginBottom: spacing.xs,
+  },
+  nameInput: {
+    borderWidth: 1,
+    borderColor: colors.surfaceVariant,
+    borderRadius: radii.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    ...typography.body,
+    marginBottom: spacing.sm,
+  },
+  inlineError: {
+    ...typography.caption,
+    color: colors.error,
+    marginBottom: spacing.sm,
     textAlign: 'center',
   },
 });

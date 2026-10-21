@@ -1,0 +1,128 @@
+{
+  "schemes_discovered": 60,
+  "schemes_processed": 60,
+  "schemes_with_pdf": 9,
+  "schemes_no_pdf": 0,
+  "schemes_html_only": 35,
+  "candidate_pdfs": 29,
+  "valid_pdfs": 9,
+  "invalid_pdfs": 15,
+  "unique_pdfs": 8,
+  "duplicate_pdfs": 1,
+  "uploaded": 8,
+  "reused_existing": 1,
+  "failed": 16,
+  "original_bytes": 35992576,
+  "final_bytes": 35689107,
+  "compression_saved": 303469,
+  "pages_processed": 279,
+  "largest_pdf": 10187764,
+  "avg_pdf_size": 2806916,
+  "pagination_pages_fetched": 1,
+  "duplicate_scheme_ids_skipped": 0,
+  "api_total_reported": null,
+  "documents_ingested": 8,
+  "chunks_generated": 789,
+  "faiss_status": "built",
+  "bm25_status": "built",
+  "index_chunk_count": 2692,
+  "embedding_status": "loaded_from_db",
+  "failures": [
+    {
+      "scheme_id": "amakcbkassistance-for-major-ailments-karmika-chikitsa-bhagya-kbocwwb",
+      "scheme_name": "Assistance For Major Ailments (Karmika Chikitsa Bhagya) (K.B.O.C.W.W.B)",
+      "url": "https://www.myscheme.gov.in/schemes/amakcbkassistance-for-major-ailments-karmika-chikitsa-bhagya-kbocwwb",
+      "error": "invalid_magic"
+    },
+    {
+      "scheme_id": "copkbocwwb",
+      "scheme_name": "Continuation of Pension (K.B.O.C.W.W.B)",
+      "url": "https://www.myscheme.gov.in/schemes/copkbocwwb",
+      "error": "invalid_magic"
+    },
+    {
+      "scheme_id": "dpaexgkbocwwb",
+      "scheme_name": "Disability Pension and Ex-Gratia (K.B.O.C.W.W.B)",
+      "url": "https://www.myscheme.gov.in/schemes/dpaexgkbocwwb",
+      "error": "invalid_magic"
+    },
+    {
+      "scheme_id": "faexgkbocwwb",
+      "scheme_name": "Funeral and Ex-Gratia (K.B.O.C.W.W.B)",
+      "url": "https://www.myscheme.gov.in/schemes/faexgkbocwwb",
+      "error": "invalid_magic"
+    },
+    {
+      "scheme_id": "gls",
+      "scheme_name": "Griha Lakshmi Scheme",
+      "url": "https://www.myscheme.gov.in/schemes/gls",
+      "error": "download_failed:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)>"
+    },
+    {
+      "scheme_id": "idcm",
+      "scheme_name": "Incentive For The Devadasi Children’s Marriage",
+      "url": "https://www.myscheme.gov.in/schemes/idcm",
+      "error": "download_failed:<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "scheme_id": "iscwr",
+      "scheme_name": "Incentive for the SC Widow Re-Marriage",
+      "url": "https://www.myscheme.gov.in/schemes/iscwr",
+      "error": "download_failed:<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "scheme_id": "kaabocwwb",
+      "scheme_name": "Accident Assistance (K.B.O.C.W.W.B)",
+      "url": "https://www.myscheme.gov.in/schemes/kaabocwwb",
+      "error": "invalid_magic"
+    },
+    {
+      "scheme_id": "kbocwwb",
+      "scheme_name": "Pension Scheme (K.B.O.C.W.W.B)",
+      "url": "https://www.myscheme.gov.in/schemes/kbocwwb",
+      "error": "invalid_magic"
+    },
+    {
+      "scheme_id": "makabbocwwb",
+      "scheme_name": "Medical Assistance (Karmika Arogya Bhagya) (K.B.O.C.W.W.B)",
+      "url": "https://www.myscheme.gov.in/schemes/makabbocwwb",
+      "error": "invalid_magic"
+    },
+    {
+      "scheme_id": "makbocwwb",
+      "scheme_name": "Marriage Assistance (K.B.O.C.W.W.B)",
+      "url": "https://www.myscheme.gov.in/schemes/makbocwwb",
+      "error": "invalid_magic"
+    },
+    {
+      "scheme_id": "mbdakbocwwb",
+      "scheme_name": "Maternity Benefit/Delivery Assistance (K.B.O.C.W.W.B)",
+      "url": "https://www.myscheme.gov.in/schemes/mbdakbocwwb",
+      "error": "invalid_magic"
+    },
+    {
+      "scheme_id": "pdos",
+      "scheme_name": "Prabhuddha Overseas Scholarship",
+      "url": "https://www.myscheme.gov.in/schemes/pdos",
+      "error": "download_failed:<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "scheme_id": "sss",
+      "scheme_name": "Shrama Shakthi Scheme",
+      "url": "https://www.myscheme.gov.in/schemes/sss",
+      "error": "400: File exceeds maximum size of 10MB."
+    },
+    {
+      "scheme_id": "stkk",
+      "scheme_name": "Supply of Tool Kits to their Trained Workers ",
+      "url": "https://www.myscheme.gov.in/schemes/stkk",
+      "error": "download_failed:<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "scheme_id": "tmshkbocwwb",
+      "scheme_name": "Thayi Magu Sahaya Hastha (K.B.O.C.W.W.B)",
+      "url": "https://www.myscheme.gov.in/schemes/tmshkbocwwb",
+      "error": "invalid_magic"
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUiStore } from '@/stores/ui-store';
 import { useLanguageStore } from '@/stores/language-store';
 import { useAuth } from '../../../context/AuthContext';
-import { LANGUAGES } from '@/lib/i18n/translations';
+import { CITIZEN_LANGUAGES } from '@/lib/i18n/translations';
 import { useDialogA11y } from '@/lib/hooks/use-dialog-a11y';
 import { X, User, Save, LogOut } from 'lucide-react';
 
@@ -139,7 +139,7 @@ export function UserProfileModal() {
               onChange={(e) => setLanguage(e.target.value)}
               className="w-full p-2.5 rounded-xl border border-surface-variant bg-surface-container-low"
             >
-              {LANGUAGES.map((lang) => (
+              {CITIZEN_LANGUAGES.map((lang) => (
                 <option key={lang.code} value={lang.code}>
                   {lang.name} ({lang.englishName})
                 </option>

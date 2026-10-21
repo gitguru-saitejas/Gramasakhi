@@ -32,6 +32,9 @@ venv/
 coverage/
 htmlcov/
 
+# Local dev OTP mirror (never commit)
+backend/.dev_otp_last.txt
+
 # Local databases
 *.db
 *.sqlite
@@ -53,11 +56,19 @@ backend/test_whisper.py
 logs/
 .vscode/
 .idea/
+.obsidian/
 .DS_Store
 Thumbs.db
+
+# Playwright / E2E generated output
+**/test-results/
+playwright-report/
 
 # Keys / certs
 *.pem
 *.p12
 *.jks
 *.mobileprovision
+
+# Evaluation live-run dumps (dataset JSON under evaluation/datasets/ stays)
+evaluation/results/*.json

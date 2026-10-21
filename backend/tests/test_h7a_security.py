@@ -91,7 +91,11 @@ class TestH7ASecurity(unittest.TestCase):
         self._send_and_verify_otp()
         res = self.client.post("/api/auth/register", json=self._register_payload())
         self.assertEqual(res.status_code, 200, res.text)
-        self.assertEqual(res.json()["phone_number"], "9333333333")
+        body = res.json()
+        self.assertIn("accessToken", body)
+        self.assertEqual(body["phone_number"], "9333333333")
+        payload = security.decode_access_token(body["accessToken"])
+        self.assertTrue(security.token_use_allowed(payload, "citizen"))
 
     def test_password_reset_blocks_after_max_attempts(self):
         db = self.SessionLocal()
@@ -136,13 +140,26 @@ class TestH7ASecurity(unittest.TestCase):
         phone = "9666666666"
         buffer = io.StringIO()
         with patch.object(settings, "DATABASE_URL", "postgresql://user:pass@db.example.com/postgres"):
-            with patch.object(security, "generate_otp", return_value="987654"):
-                with redirect_stdout(buffer):
-                    res = self.client.post("/api/auth/otp/send", json={"phone_number": phone})
+            with patch.object(settings, "APP_ENV", "production"):
+                with patch.object(security, "generate_otp", return_value="987654"):
+                    with redirect_stdout(buffer):
+                        res = self.client.post("/api/auth/otp/send", json={"phone_number": phone})
         self.assertEqual(res.status_code, 200, res.text)
         output = buffer.getvalue()
         self.assertNotIn("987654", output)
         self.assertNotIn(phone, output)
+
+    def test_otp_printed_in_development_even_on_postgres(self):
+        phone = "9666666667"
+        buffer = io.StringIO()
+        with patch.object(settings, "DATABASE_URL", "postgresql://user:pass@db.example.com/postgres"):
+            with patch.object(settings, "APP_ENV", "development"):
+                with patch.object(settings, "OTP_CONSOLE_SIMULATOR_ENABLED", True):
+                    with patch.object(security, "generate_otp", return_value="987654"):
+                        with redirect_stdout(buffer):
+                            res = self.client.post("/api/auth/otp/send", json={"phone_number": phone})
+        self.assertEqual(res.status_code, 200, res.text)
+        self.assertIn("OTP: 987654", buffer.getvalue())
 
     def test_security_headers_present(self):
         res = self.client.get("/health")

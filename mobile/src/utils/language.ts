@@ -22,15 +22,17 @@ export function normalizeUiLanguage(
 
 /**
  * TTS / playback language precedence:
- * 1. authoritative message language (if supported)
- * 2. selected mobile language
+ * 1. citizen-selected UI language
+ * 2. message response language (if supported)
  * 3. default kn
  */
 export function resolveTtsLanguage(
   messageLanguage?: string | null,
   selectedLanguage?: string | null
 ): UiLanguageCode {
+  const fromSelected = normalizeUiLanguage(selectedLanguage, null);
+  if (fromSelected) return fromSelected;
   const fromMessage = normalizeUiLanguage(messageLanguage, null);
   if (fromMessage) return fromMessage;
-  return normalizeUiLanguage(selectedLanguage, DEFAULT_UI_LANGUAGE) ?? DEFAULT_UI_LANGUAGE;
+  return DEFAULT_UI_LANGUAGE;
 }

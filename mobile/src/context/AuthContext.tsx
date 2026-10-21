@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { isTokenResponse, sendOtp, validateSession, verifyOtp } from '../api/auth';
+import { isTokenResponse, registerCitizen as apiRegisterCitizen, sendOtp, validateSession, verifyOtp } from '../api/auth';
 import type { TokenResponse } from '../api/types';
 import {
   clearAuthSession,
@@ -17,6 +17,7 @@ import {
   setAccessToken,
   setCitizenAccountId,
   setPhoneNumber,
+  setDisplayName,
 } from '../storage/authTokens';
 import { ApiClientError, friendlyErrorMessage } from '../utils/errors';
 
@@ -29,6 +30,7 @@ interface AuthContextValue {
   bootstrap: () => Promise<void>;
   requestOtp: (phone: string) => Promise<void>;
   verifyOtpCode: (phone: string, code: string) => Promise<{ needsRegistration: boolean }>;
+  completeRegistration: (phone: string, displayName?: string) => Promise<void>;
   logout: () => Promise<void>;
   expireSession: () => Promise<void>;
   getToken: () => Promise<string | null>;
@@ -41,6 +43,8 @@ async function persistSession(data: TokenResponse, phone: string): Promise<void>
   await setAccessToken(data.accessToken);
   if (accountId) await setCitizenAccountId(accountId);
   if (data.phone_number || phone) await setPhoneNumber(data.phone_number || phone);
+  const name = (data.display_name || '').trim();
+  if (name) await setDisplayName(name);
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -98,6 +102,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const completeRegistration = useCallback(async (phone: string, displayName?: string) => {
+    try {
+      const data = await apiRegisterCitizen({
+        credentials: { phone_number: phone },
+        display_name: displayName?.trim() || undefined,
+      });
+      await persistSession(data, phone);
+      setCitizenAccountIdState(String(data.citizen_account_id || data.family_account_id || ''));
+      setPhoneNumberState(data.phone_number || phone);
+      setStatus('authenticated');
+    } catch (err) {
+      if (err instanceof ApiClientError) throw err;
+      throw new ApiClientError(friendlyErrorMessage(err, 'Registration failed. Please try again.'));
+    }
+  }, []);
+
   const verifyOtpCode = useCallback(async (phone: string, code: string) => {
     try {
       const data = await verifyOtp(phone, code);
@@ -139,11 +159,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       bootstrap,
       requestOtp,
       verifyOtpCode,
+      completeRegistration,
       logout,
       expireSession,
       getToken,
     }),
-    [status, citizenAccountId, phoneNumber, bootstrap, requestOtp, verifyOtpCode, logout, expireSession, getToken]
+    [status, citizenAccountId, phoneNumber, bootstrap, requestOtp, verifyOtpCode, completeRegistration, logout, expireSession, getToken]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

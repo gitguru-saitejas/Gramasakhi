@@ -21,6 +21,7 @@ from app.services.language_quality import (
     validate_answer_quality,
 )
 from app.services.language_service import (
+    build_rephrase_prompt,
     build_translation_prompt,
     controlled_language_failure_message,
     language_name,
@@ -333,6 +334,60 @@ def generate_answer(
         "latency_ms": latency_ms,
         "generation_attempt": attempt,
         "quality_scores": dict(last_quality.scores) if last_quality else {},
+    }
+
+
+def rephrase_answer(
+    previous_answer: str,
+    *,
+    response_language: str,
+    strict_language_mode: bool = False,
+) -> Dict[str, Any]:
+    """Simplify/rephrase prior assistant answer in the same language (no RAG)."""
+    model = get_llm_model()
+    code = normalize_language_code(response_language) or "EN"
+    lang = language_name(code)
+    started = time.perf_counter()
+    if not (previous_answer or "").strip():
+        return {
+            "success": False,
+            "error": "No previous answer to rephrase",
+            "model": model,
+            "language": lang,
+            "response_language": code,
+            "latency_ms": 0,
+        }
+    prompt = build_rephrase_prompt(previous_answer, response_language=code)
+    try:
+        raw = _generate_once(prompt)
+    except Exception as e:  # noqa: BLE001
+        logger.warning("LLM rephrase failure err=%s", type(e).__name__)
+        return {
+            "success": False,
+            "error": LLM_UNAVAILABLE,
+            "model": model,
+            "language": lang,
+            "response_language": code,
+            "latency_ms": int((time.perf_counter() - started) * 1000),
+        }
+    answer = clean_llm_response(raw.get("response") or "")
+    if not answer:
+        return {
+            "success": False,
+            "error": LLM_EMPTY,
+            "model": model,
+            "language": lang,
+            "response_language": code,
+            "latency_ms": int((time.perf_counter() - started) * 1000),
+        }
+    return {
+        "success": True,
+        "answer": answer,
+        "model": model,
+        "language": lang,
+        "response_language": code,
+        "latency_ms": int((time.perf_counter() - started) * 1000),
+        "knowledge_source": "rephrase",
     }
 
 

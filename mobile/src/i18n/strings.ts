@@ -28,7 +28,7 @@ const en = {
   // Login screen
   'login.backToHome': 'Back to home',
   'login.title': 'Welcome back',
-  'login.subtitle': 'Sign in to ask about government schemes',
+  'login.subtitle': 'Sign in with your mobile number',
   'login.mobileNumber': 'Mobile number',
   'login.phoneA11y': 'Mobile number, 10 digits',
   'login.phonePlaceholder': '10-digit mobile number',
@@ -49,8 +49,11 @@ const en = {
   'otp.invalidLength': 'OTP must be exactly 6 digits.',
   'otp.invalidCode': 'Invalid OTP code.',
   'otp.resendFailed': 'Failed to resend OTP.',
-  'otp.notRegistered':
-    'This mobile number is not registered yet. Please create an account using the GramSakhi web app, then sign in here with OTP.',
+  'otp.notRegistered': 'This mobile number is verified. Create your GramSakhi account to continue.',
+  'otp.displayName': 'Full name (optional)',
+  'otp.displayNamePlaceholder': 'Your name',
+  'otp.createAccount': 'Create account',
+  'otp.registerFailed': 'Could not create your account. Please try again.',
 
   // Chat screen chrome
   'chat.loading': 'Loading…',
@@ -160,6 +163,10 @@ const hi: StringTable = {
   'otp.resendFailed': 'OTP दोबारा भेजने में समस्या हुई।',
   'otp.notRegistered':
     'यह मोबाइल नंबर अभी पंजीकृत नहीं है। कृपया GramSakhi वेब ऐप से खाता बनाएँ, फिर यहाँ OTP से साइन इन करें।',
+  'otp.displayName': 'पूरा नाम (वैकल्पिक)',
+  'otp.displayNamePlaceholder': 'आपका नाम',
+  'otp.createAccount': 'खाता बनाएँ',
+  'otp.registerFailed': 'खाता नहीं बन सका। कृपया फिर से कोशिश करें।',
 
   'chat.loading': 'लोड हो रहा है…',
   'chat.generating': 'GramSakhi आपका जवाब तैयार कर रही है…',
@@ -259,6 +266,10 @@ const kn: StringTable = {
   'otp.resendFailed': 'OTP ಮತ್ತೆ ಕಳುಹಿಸಲು ಆಗಲಿಲ್ಲ.',
   'otp.notRegistered':
     'ಈ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಇನ್ನೂ ನೋಂದಣಿಯಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು GramSakhi ವೆಬ್ ಆ್ಯಪ್ ಬಳಸಿ ಖಾತೆ ರಚಿಸಿ, ನಂತರ ಇಲ್ಲಿ OTP ಮೂಲಕ ಸೈನ್ ಇನ್ ಮಾಡಿ.',
+  'otp.displayName': 'ಪೂರ್ಣ ಹೆಸರು (ಐಚ್ಛಿಕ)',
+  'otp.displayNamePlaceholder': 'ನಿಮ್ಮ ಹೆಸರು',
+  'otp.createAccount': 'ಖಾತೆ ರಚಿಸಿ',
+  'otp.registerFailed': 'ಖಾತೆ ರಚಿಸಲು ಆಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
 
   'chat.loading': 'ಲೋಡ್ ಆಗುತ್ತಿದೆ…',
   'chat.generating': 'GramSakhi ನಿಮ್ಮ ಉತ್ತರವನ್ನು ಸಿದ್ಧಪಡಿಸುತ್ತಿದೆ…',

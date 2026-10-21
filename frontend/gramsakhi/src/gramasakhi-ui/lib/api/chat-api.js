@@ -17,7 +17,12 @@ export async function sendChatMessage(payload, { onComplete, onError } = {}) {
       },
       { skipErrorToast: true, timeout: CHAT_REQUEST_TIMEOUT_MS }
     );
-    onComplete?.(mapBackendChatResponse(res.data || {}));
+    const mapped = mapBackendChatResponse(res.data || {});
+    try {
+      onComplete?.(mapped);
+    } catch (callbackErr) {
+      onError?.(callbackErr);
+    }
   } catch (err) {
     onError?.(err);
   }
@@ -44,7 +49,7 @@ export async function transcribeVoice(blob, { language } = {}) {
   return res.data || {};
 }
 
-export async function synthesizeSpeech(text, { language, request_id } = {}) {
+export async function synthesizeSpeech(text, { language, request_id, signal } = {}) {
   const res = await api.post(
     "/chat/voice/synthesize",
     {
@@ -52,7 +57,18 @@ export async function synthesizeSpeech(text, { language, request_id } = {}) {
       response_language: uiLangToApi(language),
       request_id: request_id || null,
     },
-    { skipErrorToast: true, timeout: 120000, responseType: "blob" }
+    {
+      skipErrorToast: true,
+      timeout: 120000,
+      responseType: "blob",
+      signal,
+      validateStatus: (s) => s >= 200 && s < 300,
+    }
   );
-  return res.data;
+  const blob = res.data;
+  const contentType = String(res.headers?.["content-type"] || "");
+  if (contentType.includes("json") || contentType.includes("text/")) {
+    throw new Error("tts_invalid_response");
+  }
+  return blob;
 }

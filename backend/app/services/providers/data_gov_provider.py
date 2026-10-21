@@ -180,8 +180,21 @@ def _is_stats_only_for_intent(blob: str, query: str) -> bool:
         "month-wise",
         "total beneficiaries",
     )
-    section_markers = _intent_markers_for_query(query)
-    has_section = any(m in lower for m in section_markers)
+    # Substantive section markers only — generic words like "beneficiary" appear in stats titles.
+    substantive_section = (
+        "eligibility",
+        "eligible",
+        "who can",
+        "criteria",
+        "how to apply",
+        "application process",
+        "documents required",
+        "required documents",
+        "section:\neligibility",
+        "enroll",
+        "qualify",
+    )
+    has_section = any(m in lower for m in substantive_section)
     stats_heavy = sum(1 for m in stats_markers if m in lower) >= 2
     return stats_heavy and not has_section
 

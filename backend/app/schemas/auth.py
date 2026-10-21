@@ -29,6 +29,7 @@ class TokenResponse(BaseModel):
     citizen_account_id: Union[str, UUID]
     family_account_id: Optional[Union[str, UUID]] = None  # alias of citizen_account_id; see docs/LEGACY_COMPATIBILITY.md
     phone_number: Optional[str] = None
+    display_name: Optional[str] = None
 
 
 class OTPRequest(BaseModel):

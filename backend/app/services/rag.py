@@ -310,6 +310,7 @@ def ingest_raw_bytes(
     document_type: Optional[str] = None,
     extra_metadata: Optional[Dict[str, Any]] = None,
     document_hash: Optional[str] = None,
+    storage_path: Optional[str] = None,
 ) -> RagDocument:
     """
     Shared ingestion entry used by manual upload and web ingestion.
@@ -338,12 +339,14 @@ def ingest_raw_bytes(
             detail="Uploaded file is empty.",
         )
 
-    uuid_str = str(uuid.uuid4())
-    storage_path = f"knowledge-base/schemes/{uuid_str}{ext}"
     content_type = "application/pdf" if ext == ".pdf" else "text/plain"
+    if storage_path:
+        object_path = storage_path.lstrip("/").replace("\\", "/")
+    else:
+        object_path = f"knowledge-base/schemes/{uuid.uuid4()}{ext}"
 
     try:
-        stored_path = upload_rag_document(storage_path, contents, content_type)
+        stored_path = upload_rag_document(object_path, contents, content_type)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -725,6 +728,8 @@ def hybrid_retrieve(
                 "state": meta.get("state"),
                 "ministry": meta.get("ministry"),
                 "page": meta.get("page"),
+                "document_id": meta.get("document_id"),
+                "chunk_index": meta.get("chunk_index"),
                 "similarity_score": float(item.get("hybrid_score") or 0.0),
                 # Private: reused by the evidence validator so it never re-embeds.
                 "_embedding": meta.get("embedding"),
@@ -740,6 +745,13 @@ def hybrid_retrieve(
     except Exception as exc:  # noqa: BLE001
         logger.warning("hybrid scheme filter failed: %s", type(exc).__name__)
         return []
+
+    try:
+        from app.services.evidence_expansion import boost_eligibility_ranked_docs
+
+        hydrated = boost_eligibility_ranked_docs(query, hydrated)
+    except Exception:  # noqa: BLE001
+        pass
 
     if use_rerank and hydrated:
         try:
@@ -950,13 +962,16 @@ def answer_with_evidence_gate(
     )
 
     active_scheme = None
+    nlu_intent = None
     if assistance_context is not None:
         active_scheme = getattr(assistance_context, "detected_scheme", None)
+        nlu_intent = getattr(assistance_context, "nlu_intent", None)
 
     ml_plan = build_retrieval_plan(
         q,
         language=response_language,
         active_scheme=active_scheme,
+        nlu_intent=nlu_intent,
     )
     validation_query = (ml_plan.validation_query or q).strip() or q
     live_query = (ml_plan.live_search_query or q).strip() or q
@@ -968,6 +983,15 @@ def answer_with_evidence_gate(
             # Also try original if validation query collapsed oddly
             if validation_query != q:
                 pre = v.validate(q, [])
+            if pre.reason in ("empty_query", "query_too_short") and assistance_context is not None:
+                nq = getattr(assistance_context, "normalized_query", None) or ""
+                ni = getattr(assistance_context, "nlu_intent", None)
+                if nq.strip() and ni and ni not in ("UNKNOWN", ""):
+                    pre_n = v.validate(nq.strip(), [])
+                    if pre_n.reason not in ("empty_query", "query_too_short"):
+                        validation_query = nq.strip()
+                        live_query = nq.strip()
+                        pre = pre_n
             if pre.reason in ("empty_query", "query_too_short"):
                 return {
                     "answer": safe_fallback_answer(response_language),
@@ -1013,6 +1037,23 @@ def answer_with_evidence_gate(
         docs = filter_evidence_by_scheme(validation_query or q, docs)
     except Exception:
         pass
+
+    # Bounded eligibility context expansion (neighbor chunks) after scheme filter.
+    try:
+        from app.services.evidence_expansion import (
+            boost_eligibility_ranked_docs,
+            expand_adjacent_chunks,
+        )
+
+        docs = boost_eligibility_ranked_docs(validation_query or q, docs)
+        docs = expand_adjacent_chunks(
+            db,
+            docs,
+            query=validation_query or q,
+            max_additions=2,
+        )
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("evidence expansion failed: %s", type(exc).__name__)
 
     if retrieval_error and not docs:
         return {
@@ -1265,6 +1306,38 @@ def answer_with_evidence_gate(
         llm_evidence = select_question_aware_evidence(q, evidence)
     except Exception:
         pass
+
+    # Numeric grounding must use the same evidence the LLM (and post-LLM guard) see.
+    from app.services.claim_alignment import check_claim_support
+
+    gen_support = check_claim_support(validation_query, list(llm_evidence or []))
+    if not gen_support.ok:
+        logger.info(
+            "generation_claim_support_blocked reason=%s detail=%s n_llm_docs=%s",
+            gen_support.reason,
+            gen_support.detail,
+            len(llm_evidence or []),
+        )
+        return {
+            "answer": safe_fallback_answer(response_language),
+            "confidence": "low",
+            "reason": gen_support.reason or "unsupported_claim",
+            "signals": {
+                **(result.signals or {}),
+                "generation_claim_support": {
+                    "ok": False,
+                    "reason": gen_support.reason,
+                    "detail": gen_support.detail,
+                    "signals": gen_support.signals,
+                },
+            },
+            "sources": strip_private_fields(evidence),
+            "validated": False,
+            "llm_invoked": False,
+            "knowledge_source": "indexed",
+            "response_language": response_language,
+        }
+
     if skip_llm:
         return {
             "answer": None,
@@ -1300,8 +1373,40 @@ def answer_with_evidence_gate(
             "response_language": response_language,
         }
     if llm_result.get("success"):
+        answer_text = llm_result.get("answer")
+        from app.services.output_grounding import apply_output_grounding_guard
+
+        grounded = apply_output_grounding_guard(
+            q,
+            answer_text or "",
+            llm_evidence,
+            response_language=response_language,
+        )
+        if grounded.validated:
+            full_grounded = apply_output_grounding_guard(
+                q,
+                answer_text or "",
+                evidence,
+                response_language=response_language,
+            )
+            if not full_grounded.validated:
+                grounded = full_grounded
+        if not grounded.validated:
+            return {
+                "answer": grounded.answer,
+                "confidence": "low",
+                "reason": grounded.reason,
+                "signals": {**(result.signals or {}), **grounded.signals},
+                "sources": strip_private_fields(evidence) if grounded.preserve_sources else [],
+                "validated": False,
+                "llm_invoked": True,
+                "llm_model": llm_result.get("model"),
+                "llm_latency_ms": llm_result.get("latency_ms"),
+                "knowledge_source": "indexed",
+                "response_language": llm_result.get("response_language") or response_language,
+            }
         return {
-            "answer": llm_result.get("answer"),
+            "answer": grounded.answer,
             "confidence": result.confidence,
             "reason": result.reason,
             "signals": result.signals,

@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import {
 
@@ -52,7 +52,7 @@ export default function LoginScreen() {
 
   const router = useRouter();
 
-  const { requestOtp, status } = useAuth();
+  const { requestOtp } = useAuth();
 
   const { t } = useLanguage();
 
@@ -65,12 +65,6 @@ export default function LoginScreen() {
 
 
   const isValid = useMemo(() => phone.length === 10, [phone]);
-
-  useEffect(() => {
-    if (status === 'authenticated') {
-      router.replace('/chat');
-    }
-  }, [status, router]);
 
   const handleSendOtp = async () => {
 

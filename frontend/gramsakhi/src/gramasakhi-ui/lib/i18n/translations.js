@@ -1,7 +1,12 @@
-export const LANGUAGES = [
+/** Citizen chat supports EN / HI / KN end-to-end (RAG + TTS). */
+export const CITIZEN_LANGUAGES = [
   { code: 'kn', name: 'ಕನ್ನಡ', englishName: 'Kannada', speechCode: 'kn-IN' },
   { code: 'en', name: 'English', englishName: 'English', speechCode: 'en-IN' },
   { code: 'hi', name: 'हिन्दी', englishName: 'Hindi', speechCode: 'hi-IN' },
+];
+
+export const LANGUAGES = [
+  ...CITIZEN_LANGUAGES,
   { code: 'te', name: 'తెలుగు', englishName: 'Telugu', speechCode: 'te-IN' },
   { code: 'ta', name: 'தமிழ்', englishName: 'Tamil', speechCode: 'ta-IN' },
   { code: 'mr', name: 'मराठी', englishName: 'Marathi', speechCode: 'mr-IN' },

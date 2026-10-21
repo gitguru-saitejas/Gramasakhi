@@ -59,9 +59,27 @@ function testAuth() {
   record(
     'auth',
     'Logout clears session',
-    read('src/context/AuthContext.jsx').includes('resetSession()') &&
-      read('src/context/AuthContext.jsx').includes('removeItem("accessToken")'),
-    'AuthContext.jsx',
+    read('src/context/AuthContext.jsx').includes('invalidateCitizenSession') &&
+      read('src/utils/citizenSession.js').includes('clearCitizenSessionStorage'),
+    'AuthContext.jsx + citizenSession.js',
+    'STATIC'
+  );
+  const appJsx = read('src/App.jsx');
+  record(
+    'auth',
+    'Login route does not auto-redirect to chat',
+    !appJsx.includes('CitizenGuest') &&
+      appJsx.includes('CitizenAuthPage') &&
+      !/path=\"\/citizen\/login\"[\s\S]*Navigate to=\"\/chat\"/.test(appJsx),
+    'App.jsx',
+    'STATIC'
+  );
+  record(
+    'auth',
+    'Chat route validates JWT before render',
+    appJsx.includes('CitizenProtected') &&
+      appJsx.includes('isCitizenAccessTokenValid'),
+    'App.jsx + citizenSession.js',
     'STATIC'
   );
   record(
@@ -165,6 +183,16 @@ function testVoice() {
     'Voice auth uses shared api client',
     chatApi.includes('api.post') && read('src/services/api.js').includes('Authorization'),
     'chat-api + api.js',
+    'STATIC'
+  );
+  record('voice', 'STT handles success=false responses', voice.includes('data.success === false'), 'use-voice.js', 'STATIC');
+  record('voice', 'MediaRecorder uses timesliced capture', voice.includes('recorder.start(250)'), 'use-voice.js', 'STATIC');
+  const composer = read('src/gramasakhi-ui/components/chat/MessageComposer.jsx');
+  record(
+    'voice',
+    'Transcription populates composer input',
+    composer.includes('setInputText(spokenText)') && !composer.includes('sendMessage(spokenText'),
+    'MessageComposer.jsx',
     'STATIC'
   );
 }

@@ -43,6 +43,9 @@ class ChatResponse(BaseModel):
     error: Optional[str] = None
     # Stage 6A — optional assistance metadata (additive)
     citizen_intent: Optional[str] = None
+    nlu_intent: Optional[str] = None
+    normalized_query: Optional[str] = None
+    scheme_id: Optional[str] = None
     assistance_mode: Optional[str] = None
     detected_scheme: Optional[str] = None
     comparison_schemes: List[str] = Field(default_factory=list)

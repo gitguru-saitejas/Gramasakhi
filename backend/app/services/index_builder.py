@@ -61,11 +61,25 @@ def load_all_chunks_from_db(db: Session) -> List[Dict[str, Any]]:
             continue
         doc: Optional[RagDocument] = row.document
         meta = dict(row.metadata_dict or {})
+        if doc and doc.id:
+            meta.setdefault("document_id", str(doc.id))
+        meta.setdefault("chunk_index", row.chunk_index)
+        try:
+            from app.services.evidence_expansion import chunk_section_tags
+
+            tags = chunk_section_tags(row.content or "")
+            if tags:
+                meta["section_tags"] = tags
+                meta["section_category"] = tags[0]
+        except Exception:  # noqa: BLE001
+            pass
         chunks.append(
             {
                 "chunk_id": str(row.id),
                 "content": row.content,
                 "embedding": emb,
+                "document_id": str(doc.id) if doc and doc.id else meta.get("document_id"),
+                "chunk_index": row.chunk_index,
                 "document_title": doc.title if doc else None,
                 "scheme_name": (doc.scheme_name if doc else None)
                 or meta.get("scheme_name"),
@@ -98,12 +112,15 @@ class IndexBuilder:
         # Include title/source so filename signals (e.g. "Refund Mechanism.pdf") are searchable
         docs = []
         for c in chunks:
+            meta = c.get("metadata") if isinstance(c.get("metadata"), dict) else {}
+            section_hint = " ".join(meta.get("section_tags") or [])
             text = " ".join(
                 x
                 for x in (
                     c.get("document_title"),
                     c.get("scheme_name"),
                     c.get("source"),
+                    section_hint,
                     c.get("content"),
                 )
                 if x

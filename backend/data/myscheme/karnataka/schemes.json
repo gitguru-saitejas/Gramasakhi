@@ -1,0 +1,1140 @@
+[
+  {
+    "scheme_id": "ads",
+    "scheme_name": "Ashadeepa Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/ads",
+    "slug": "ads",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/ads",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "aels",
+    "scheme_name": "Arivu Education Loan Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/aels",
+    "slug": "aels",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/aels",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "amakcbkassistance-for-major-ailments-karmika-chikitsa-bhagya-kbocwwb",
+    "scheme_name": "Assistance For Major Ailments (Karmika Chikitsa Bhagya) (K.B.O.C.W.W.B)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/amakcbkassistance-for-major-ailments-karmika-chikitsa-bhagya-kbocwwb",
+    "slug": "amakcbkassistance-for-major-ailments-karmika-chikitsa-bhagya-kbocwwb",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/amakcbkassistance-for-major-ailments-karmika-chikitsa-bhagya-kbocwwb",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+    "error": "invalid_magic",
+    "canonical_pdf_score": 57
+  },
+  {
+    "scheme_id": "bys",
+    "scheme_name": "Bhagyalaxmi Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/bys",
+    "slug": "bys",
+    "state": "Karnataka",
+    "ministry": "Woman and Child Development Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/bys",
+    "level": "State",
+    "status": "UPLOADED",
+    "pdf_status": "DOWNLOADED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kmea.karnataka.gov.in/storage/pdf-files/Reports%20and%20other%20docs/ToR%20Bhagyalakshmi.pdf",
+        "title": "Guideline",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kmea.karnataka.gov.in/storage/pdf-files/Reports%20and%20other%20docs/ToR%20Bhagyalakshmi.pdf",
+    "error": "When initializing mapper Mapper[RagDocument(rag_documents)], expression 'User' failed to locate a name ('User'). If this is a class name, consider adding this relationship() to the <class 'app.models.rag.RagDocument'> class after both dependent classes have been defined.",
+    "canonical_pdf_score": 112,
+    "document_id": "07d66149-aaa8-48fd-bc77-986dd6994d1d",
+    "storage_path": "scheme-documents/karnataka/bys_e041ae29.pdf",
+    "sha256": "e041ae2913fd030c69d88fa05a485a76a61d13791dda76c60a3ac8becca33277",
+    "size_bytes": 427515,
+    "page_count": 19
+  },
+  {
+    "scheme_id": "cbts",
+    "scheme_name": "Community Based Training Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/cbts",
+    "slug": "cbts",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/cbts",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "copkbocwwb",
+    "scheme_name": "Continuation of Pension (K.B.O.C.W.W.B)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/copkbocwwb",
+    "slug": "copkbocwwb",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/copkbocwwb",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+    "error": "invalid_magic",
+    "canonical_pdf_score": 57
+  },
+  {
+    "scheme_id": "cs",
+    "scheme_name": "Charmashilpa Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/cs",
+    "slug": "cs",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/cs",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "dbjrlcwscs",
+    "scheme_name": "Dr. Babu Jagjivan Ram Living cum work shed Construction Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/dbjrlcwscs",
+    "slug": "dbjrlcwscs",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/dbjrlcwscs",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "dlbe",
+    "scheme_name": "Direct Loans For Business Enterprise",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/dlbe",
+    "slug": "dlbe",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/dlbe",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "dlsk",
+    "scheme_name": "Direct Loan Scheme Karnataka",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/dlsk",
+    "slug": "dlsk",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/dlsk",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "dpaexgkbocwwb",
+    "scheme_name": "Disability Pension and Ex-Gratia (K.B.O.C.W.W.B)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/dpaexgkbocwwb",
+    "slug": "dpaexgkbocwwb",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/dpaexgkbocwwb",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+    "error": "invalid_magic",
+    "canonical_pdf_score": 57
+  },
+  {
+    "scheme_id": "faexgkbocwwb",
+    "scheme_name": "Funeral and Ex-Gratia (K.B.O.C.W.W.B)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/faexgkbocwwb",
+    "slug": "faexgkbocwwb",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/faexgkbocwwb",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+    "error": "invalid_magic",
+    "canonical_pdf_score": 57
+  },
+  {
+    "scheme_id": "fataps",
+    "scheme_name": "Financial Assistance to Traditional Artisans (Panchavrutthi Scheme)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/fataps",
+    "slug": "fataps",
+    "state": "Karnataka",
+    "ministry": "Backward Classes Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/fataps",
+    "level": "State",
+    "status": "UPLOADED",
+    "pdf_status": "DOWNLOADED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kvcdcl.karnataka.gov.in/storage/pdf-files/Panchavrutti.pdf",
+        "title": "Application Form",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kvcdcl.karnataka.gov.in/storage/pdf-files/Panchavrutti.pdf",
+    "error": null,
+    "canonical_pdf_score": 75,
+    "document_id": "c7eb7388-f5d0-47be-93a8-15c4396ad0ae",
+    "storage_path": "scheme-documents/karnataka/fataps_61a309bc.pdf",
+    "sha256": "61a309bca6956b2da954a9878390d0c8e107d516829a93f9d1043bb09dccdd9e",
+    "size_bytes": 433946,
+    "page_count": 3
+  },
+  {
+    "scheme_id": "fatlclnbsmec",
+    "scheme_name": "Financial Assistance to the Teachers/Lecturers Children who taken loan from Nationalised Banks for studying Medical/Engineering Courses",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/fatlclnbsmec",
+    "slug": "fatlclnbsmec",
+    "state": "Karnataka",
+    "ministry": "Department of School Education",
+    "source_url": "https://www.myscheme.gov.in/schemes/fatlclnbsmec",
+    "level": "State",
+    "status": "UPLOADED",
+    "pdf_status": "DOWNLOADED",
+    "candidate_pdfs": [
+      {
+        "url": "https://schooleducation.karnataka.gov.in/uploads/schooledu_pdfs/tbfpdfs/TBFProfCourseCircular_201819.pdf",
+        "title": "Guidelines",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://schooleducation.karnataka.gov.in/uploads/schooledu_pdfs/tbfpdfs/TBFProfCourseCircular_201819.pdf",
+    "error": null,
+    "canonical_pdf_score": 157,
+    "document_id": "ddd62a26-8e3d-4fd0-8b63-64a621fe1f28",
+    "storage_path": "scheme-documents/karnataka/fatlclnbsmec_15d81b82.pdf",
+    "sha256": "15d81b821f73da52d4b10d4947eda233853fd09c291e5712a9c40b577b0e3854",
+    "size_bytes": 6903919,
+    "page_count": 7
+  },
+  {
+    "scheme_id": "gls",
+    "scheme_name": "Griha Lakshmi Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/gls",
+    "slug": "gls",
+    "state": "Karnataka",
+    "ministry": "Woman and Child Development Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/gls",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://wcd.karnataka.gov.in/storage/pdf-files/GruhaLaxmiGO.pdf",
+        "title": "Guideline",
+        "origin": "myscheme_api_reference"
+      },
+      {
+        "url": "https://sevasindhugs.karnataka.gov.in/PDF/Gruha_Lakshmi_FAQ.pdf",
+        "title": "FAQs",
+        "origin": "myscheme_api_reference"
+      },
+      {
+        "url": "https://sevasindhugs.karnataka.gov.in/PDF/Gruha_Lakshmi_Main_GO.pdf",
+        "title": "Government Order",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://wcd.karnataka.gov.in/storage/pdf-files/GruhaLaxmiGO.pdf",
+    "error": "download_failed:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)>",
+    "canonical_pdf_score": 117
+  },
+  {
+    "scheme_id": "idcm",
+    "scheme_name": "Incentive For The Devadasi Children’s Marriage",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/idcm",
+    "slug": "idcm",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/idcm",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://sw.kar.nic.in/swincentive/Documents/DevaDasichildrensmarriageApplicantManual.pdf",
+        "title": "Devadasi Children Marriage Applicant Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://sw.kar.nic.in/swincentive/Documents/DevaDasichildrensmarriageApplicantManual.pdf",
+    "error": "download_failed:<urlopen error [Errno 11001] getaddrinfo failed>",
+    "canonical_pdf_score": 45
+  },
+  {
+    "scheme_id": "iftdcmtst",
+    "scheme_name": "Incentive For The Devadasi Children’s Marriage to Schedule Tribe",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/iftdcmtst",
+    "slug": "iftdcmtst",
+    "state": "Karnataka",
+    "ministry": "Tribal Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/iftdcmtst",
+    "level": "State",
+    "status": "UPLOADED",
+    "pdf_status": "DOWNLOADED",
+    "candidate_pdfs": [
+      {
+        "url": "https://swdservices.karnataka.gov.in/SWIncentive/Documents/DevaDasichildrensmarriageApplicantManual.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://swdservices.karnataka.gov.in/SWIncentive/Documents/DevaDasichildrensmarriageApplicantManual.pdf",
+    "error": null,
+    "canonical_pdf_score": 57,
+    "document_id": "602afad1-aa3e-4749-9f15-4b94ba7143fe",
+    "storage_path": "scheme-documents/karnataka/iftdcmtst_1671a804.pdf",
+    "sha256": "1671a804517312860ca3e516fd30dec25673691100fba9169faff67eeef828b2",
+    "size_bytes": 1631341,
+    "page_count": 18
+  },
+  {
+    "scheme_id": "ifticmc",
+    "scheme_name": "Incentive for the Inter Caste Marriage Couple",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/ifticmc",
+    "slug": "ifticmc",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/ifticmc",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "ifticmcst",
+    "scheme_name": "Incentive For The Inter Caste Marriage Couple (Scheduled Tribe)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/ifticmcst",
+    "slug": "ifticmcst",
+    "state": "Karnataka",
+    "ministry": "Tribal Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/ifticmcst",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "ifticmwstc",
+    "scheme_name": "Incentive For The Intra Caste Marriage within Scheduled Tribe Community",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/ifticmwstc",
+    "slug": "ifticmwstc",
+    "state": "Karnataka",
+    "ministry": "Tribal Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/ifticmwstc",
+    "level": "State",
+    "status": "UPLOADED",
+    "pdf_status": "REUSED_HASH",
+    "candidate_pdfs": [
+      {
+        "url": "https://swdservices.karnataka.gov.in/SWIncentive/Documents/DevaDasichildrensmarriageApplicantManual.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://swdservices.karnataka.gov.in/SWIncentive/Documents/DevaDasichildrensmarriageApplicantManual.pdf",
+    "error": null,
+    "canonical_pdf_score": 57,
+    "sha256": "1671a804517312860ca3e516fd30dec25673691100fba9169faff67eeef828b2",
+    "storage_path": "scheme-documents/karnataka/iftdcmtst_1671a804.pdf",
+    "document_id": "602afad1-aa3e-4749-9f15-4b94ba7143fe"
+  },
+  {
+    "scheme_id": "iftsm",
+    "scheme_name": "Incentive For The Simple Marriage",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/iftsm",
+    "slug": "iftsm",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/iftsm",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "iftsmst",
+    "scheme_name": "Incentive For The Simple Marriage (Scheduled Tribe)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/iftsmst",
+    "slug": "iftsmst",
+    "state": "Karnataka",
+    "ministry": "Tribal Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/iftsmst",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "iicmscc",
+    "scheme_name": "Incentive for the Intra Caste Marriage within Scheduled Caste Community",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/iicmscc",
+    "slug": "iicmscc",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/iicmscc",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "iscwr",
+    "scheme_name": "Incentive for the SC Widow Re-Marriage",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/iscwr",
+    "slug": "iscwr",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/iscwr",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://sw.kar.nic.in/swincentive/Documents/ApplicantManualWRM.pdf",
+        "title": "Applicant Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://sw.kar.nic.in/swincentive/Documents/ApplicantManualWRM.pdf",
+    "error": "download_failed:<urlopen error [Errno 11001] getaddrinfo failed>",
+    "canonical_pdf_score": 45
+  },
+  {
+    "scheme_id": "isfepqiisaradocphicdscnosiccd",
+    "scheme_name": "Integrated Scheme for Export Promotion & Quality Improvement in Spices and Research and Development of Cardamom: Post-Harvest Improvement: ICCD for Small Cardamom (nos) (Improved Cardamom Curing Devices)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/isfepqiisaradocphicdscnosiccd",
+    "slug": "isfepqiisaradocphicdscnosiccd",
+    "state": "Karnataka",
+    "ministry": "Ministry Of Commerce And Industry",
+    "source_url": "https://www.myscheme.gov.in/schemes/isfepqiisaradocphicdscnosiccd",
+    "level": "Central",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "isfepqiisaradocscildie",
+    "scheme_name": "Integrated Scheme for Export Promotion & Quality Improvement in Spices and Research and Development of Cardamom:  Small Cardamom Irrigation Land Development : Irrigation equipment (Nos.)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/isfepqiisaradocscildie",
+    "slug": "isfepqiisaradocscildie",
+    "state": "Karnataka",
+    "ministry": "Ministry Of Commerce And Industry",
+    "source_url": "https://www.myscheme.gov.in/schemes/isfepqiisaradocscildie",
+    "level": "Central",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "isfepqiisaradocscildiwss",
+    "scheme_name": "Integrated Scheme for Export Promotion & Quality Improvement in Spices and Research and Development of Cardamom : Small Cardamom Irrigation Land Development : Irrigation / Water Storage Structure (nos)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/isfepqiisaradocscildiwss",
+    "slug": "isfepqiisaradocscildiwss",
+    "state": "Karnataka",
+    "ministry": "Ministry Of Commerce And Industry",
+    "source_url": "https://www.myscheme.gov.in/schemes/isfepqiisaradocscildiwss",
+    "level": "Central",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "isfsr",
+    "scheme_name": "Incentive Scheme for Sericulture Reelers",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/isfsr",
+    "slug": "isfsr",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/isfsr",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "iss",
+    "scheme_name": "Interest Subvention Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/iss",
+    "slug": "iss",
+    "state": "Karnataka",
+    "ministry": "Finance Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/iss",
+    "level": "State",
+    "status": "UPLOADED",
+    "pdf_status": "DOWNLOADED",
+    "candidate_pdfs": [
+      {
+        "url": "https://ksfc.karnataka.gov.in/storage/pdf-files/SCHEMES/ENG%20SUBVEN%20%20BROU.pdf",
+        "title": "Guidelines - 1",
+        "origin": "myscheme_api_reference"
+      },
+      {
+        "url": "https://ksfc.karnataka.gov.in/storage/pdf-files/SCHEMES/5-5-ISub-E.pdf",
+        "title": "Guidelines -1",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://ksfc.karnataka.gov.in/storage/pdf-files/SCHEMES/5-5-ISub-E.pdf",
+    "error": null,
+    "canonical_pdf_score": 182,
+    "document_id": "6c8a64cd-b2f6-40aa-91e0-dc5ac30cec9a",
+    "storage_path": "scheme-documents/karnataka/iss_d7b35c8a.pdf",
+    "sha256": "d7b35c8a1288eb0460c76a57032e7bc4ab1deac176bb380be4391f50b0be3e82",
+    "size_bytes": 356752,
+    "page_count": 4
+  },
+  {
+    "scheme_id": "issscste",
+    "scheme_name": "Interest Subsidy Scheme for Scheduled Caste/Scheduled Tribe Entrepreneurs",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/issscste",
+    "slug": "issscste",
+    "state": "Karnataka",
+    "ministry": "Finance Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/issscste",
+    "level": "State",
+    "status": "UPLOADED",
+    "pdf_status": "DOWNLOADED",
+    "candidate_pdfs": [
+      {
+        "url": "https://ksfc.karnataka.gov.in/storage/pdf-files/SCHEMES/KSFC%20Scheme%20for%20SC%20-%20ST%20K%20&%20E-pages-deleted%20(1).pdf",
+        "title": "Guidelines",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://ksfc.karnataka.gov.in/storage/pdf-files/SCHEMES/KSFC%20Scheme%20for%20SC%20-%20ST%20K%20&%20E-pages-deleted%20(1).pdf",
+    "error": null,
+    "canonical_pdf_score": 182,
+    "document_id": "c7b7506d-ce1e-4067-8cec-ab8bde3cf863",
+    "storage_path": "scheme-documents/karnataka/issscste_0e5107b3.pdf",
+    "sha256": "0e5107b37b7ff37243001048e4d670d6d74820280a953efde4421ac45dd94422",
+    "size_bytes": 260892,
+    "page_count": 3
+  },
+  {
+    "scheme_id": "kaabocwwb",
+    "scheme_name": "Accident Assistance (K.B.O.C.W.W.B)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/kaabocwwb",
+    "slug": "kaabocwwb",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/kaabocwwb",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+    "error": "invalid_magic",
+    "canonical_pdf_score": 57
+  },
+  {
+    "scheme_id": "kapy",
+    "scheme_name": "Krushy Aranya Protsaha Yojane (kapy)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/kapy",
+    "slug": "kapy",
+    "state": "Karnataka",
+    "ministry": "Forest Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/kapy",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "kbocwwb",
+    "scheme_name": "Pension Scheme (K.B.O.C.W.W.B)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/kbocwwb",
+    "slug": "kbocwwb",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/kbocwwb",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+    "error": "invalid_magic",
+    "canonical_pdf_score": 57
+  },
+  {
+    "scheme_id": "kssk",
+    "scheme_name": "Kayaka Spoorthi Scheme Karnataka",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/kssk",
+    "slug": "kssk",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/kssk",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "kvy-k",
+    "scheme_name": "Kaimagga Vikasa Yojana - Karnataka",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/kvy-k",
+    "slug": "kvy-k",
+    "state": "Karnataka",
+    "ministry": "Department of Handlooms and Textiles",
+    "source_url": "https://www.myscheme.gov.in/schemes/kvy-k",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "madilu",
+    "scheme_name": "Madilu Kit",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/madilu",
+    "slug": "madilu",
+    "state": "Karnataka",
+    "ministry": "Rural Development and Panchayat Raj Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/madilu",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "makabbocwwb",
+    "scheme_name": "Medical Assistance (Karmika Arogya Bhagya) (K.B.O.C.W.W.B)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/makabbocwwb",
+    "slug": "makabbocwwb",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/makabbocwwb",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+    "error": "invalid_magic",
+    "canonical_pdf_score": 57
+  },
+  {
+    "scheme_id": "makbocwwb",
+    "scheme_name": "Marriage Assistance (K.B.O.C.W.W.B)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/makbocwwb",
+    "slug": "makbocwwb",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/makbocwwb",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+    "error": "invalid_magic",
+    "canonical_pdf_score": 57
+  },
+  {
+    "scheme_id": "mas",
+    "scheme_name": "Marketing Assistance Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/mas",
+    "slug": "mas",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/mas",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "mbdakbocwwb",
+    "scheme_name": "Maternity Benefit/Delivery Assistance (K.B.O.C.W.W.B)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/mbdakbocwwb",
+    "slug": "mbdakbocwwb",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/mbdakbocwwb",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+    "error": "invalid_magic",
+    "canonical_pdf_score": 57
+  },
+  {
+    "scheme_id": "nmeo-op",
+    "scheme_name": "National Mission on Edible Oils- Oil Palm",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/nmeo-op",
+    "slug": "nmeo-op",
+    "state": "Karnataka",
+    "ministry": "Ministry Of Agriculture and Farmers Welfare",
+    "source_url": "https://www.myscheme.gov.in/schemes/nmeo-op",
+    "level": "Central",
+    "status": "UPLOADED",
+    "pdf_status": "DOWNLOADED",
+    "candidate_pdfs": [
+      {
+        "url": "https://nmeo.dac.gov.in/nmeodoc/NMEO-OPGUIEDELINES.pdf",
+        "title": "Guidelines",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://nmeo.dac.gov.in/nmeodoc/NMEO-OPGUIEDELINES.pdf",
+    "error": null,
+    "canonical_pdf_score": 157,
+    "document_id": "0b201d96-ee97-4ba9-9dcf-3c84c39d9048",
+    "storage_path": "scheme-documents/karnataka/nmeo-op_b0d9b3de.pdf",
+    "sha256": "b0d9b3dea4522fbf1ffbc28ea131c8fae3d2219a573593c44cb8f50ebfafabb5",
+    "size_bytes": 10187764,
+    "page_count": 90
+  },
+  {
+    "scheme_id": "nsy",
+    "scheme_name": "Nekar Samman Yojana",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/nsy",
+    "slug": "nsy",
+    "state": "Karnataka",
+    "ministry": "Department of Handlooms and Textiles",
+    "source_url": "https://www.myscheme.gov.in/schemes/nsy",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "oels",
+    "scheme_name": "Overseas Educational Loan Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/oels",
+    "slug": "oels",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/oels",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "pdos",
+    "scheme_name": "Prabhuddha Overseas Scholarship",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/pdos",
+    "slug": "pdos",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/pdos",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://sw.kar.nic.in/foreignstudies/Pdf/1%20%E0%B2%AA%E0%B3%8D%E0%B2%B0%E0%B2%AC%E0%B3%81%E0%B2%A6%E0%B3%8D%E0%B2%A7%20%E0%B2%AF%E0%B3%8B%E0%B2%9C%E0%B2%A8%E0%B3%86%E0%B2%AF%20%E0%B2%AE%E0%B2%BE%E0%B2%B0%E0%B3%8D%E0%B2%97%E0%B2%B8%E0%B3%82%E0%B2%9A%E0%B2%BF.pdf",
+        "title": "Guidelines PDF",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://sw.kar.nic.in/foreignstudies/Pdf/1%20%E0%B2%AA%E0%B3%8D%E0%B2%B0%E0%B2%AC%E0%B3%81%E0%B2%A6%E0%B3%8D%E0%B2%A7%20%E0%B2%AF%E0%B3%8B%E0%B2%9C%E0%B2%A8%E0%B3%86%E0%B2%AF%20%E0%B2%AE%E0%B2%BE%E0%B2%B0%E0%B3%8D%E0%B2%97%E0%B2%B8%E0%B3%82%E0%B2%9A%E0%B2%BF.pdf",
+    "error": "download_failed:<urlopen error [Errno 11001] getaddrinfo failed>",
+    "canonical_pdf_score": 145
+  },
+  {
+    "scheme_id": "pksk",
+    "scheme_name": "Padhuke Kuteera Scheme Karnataka",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/pksk",
+    "slug": "pksk",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/pksk",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "scds",
+    "scheme_name": "Sikhligar’s Community Development Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/scds",
+    "slug": "scds",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/scds",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "sdtk",
+    "scheme_name": "Skill Development Training Karnataka",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/sdtk",
+    "slug": "sdtk",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/sdtk",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "ses",
+    "scheme_name": "Self Employment Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/ses",
+    "slug": "ses",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/ses",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "slg",
+    "scheme_name": "Stipend To Law Graduates",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/slg",
+    "slug": "slg",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/slg",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "ss-k",
+    "scheme_name": "Santwana Scheme - Karnataka",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/ss-k",
+    "slug": "ss-k",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/ss-k",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "ssmm",
+    "scheme_name": "Swavalambi/Sanchari Marata Malige",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/ssmm",
+    "slug": "ssmm",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/ssmm",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "sss",
+    "scheme_name": "Shrama Shakthi Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/sss",
+    "slug": "sss",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/sss",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kmea.karnataka.gov.in/storage/pdf-files/Reports%20and%20other%20docs/SHRAMA%20SHAKTHI%20YOJANA%20report.pdf",
+        "title": "Shrama Shakthi Scheme Report",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kmea.karnataka.gov.in/storage/pdf-files/Reports%20and%20other%20docs/SHRAMA%20SHAKTHI%20YOJANA%20report.pdf",
+    "error": "400: File exceeds maximum size of 10MB.",
+    "canonical_pdf_score": 77
+  },
+  {
+    "scheme_id": "ssshgm",
+    "scheme_name": "Subsidy Scheme for Self-help Groups of Minorities",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/ssshgm",
+    "slug": "ssshgm",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/ssshgm",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "ssws",
+    "scheme_name": "Shramashakthi Special Women's Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/ssws",
+    "slug": "ssws",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/ssws",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "stkk",
+    "scheme_name": "Supply of Tool Kits to their Trained Workers ",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/stkk",
+    "slug": "stkk",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/stkk",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://apbocwwb.ap.nic.in/APBOCWW3/2016LETF_MS17.PDF",
+        "title": "Guidelines",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://apbocwwb.ap.nic.in/APBOCWW3/2016LETF_MS17.PDF",
+    "error": "download_failed:<urlopen error [Errno 11001] getaddrinfo failed>",
+    "canonical_pdf_score": 145
+  },
+  {
+    "scheme_id": "supk",
+    "scheme_name": "Skill Upgradation Program Karnataka",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/supk",
+    "slug": "supk",
+    "state": "Karnataka",
+    "ministry": "Social Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/supk",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "tmshkbocwwb",
+    "scheme_name": "Thayi Magu Sahaya Hastha (K.B.O.C.W.W.B)",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/tmshkbocwwb",
+    "slug": "tmshkbocwwb",
+    "state": "Karnataka",
+    "ministry": "Labour Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/tmshkbocwwb",
+    "level": "State",
+    "status": "FAILED",
+    "pdf_status": "FAILED",
+    "candidate_pdfs": [
+      {
+        "url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+        "title": "User Manual",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://kbocwwb.karnataka.gov.in/static/media/user_manual_eng.c0bc6338.pdf",
+    "error": "invalid_magic",
+    "canonical_pdf_score": 57
+  },
+  {
+    "scheme_id": "us",
+    "scheme_name": "Udyogini Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/us",
+    "slug": "us",
+    "state": "Karnataka",
+    "ministry": "Woman and Child Development Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/us",
+    "level": "State",
+    "status": "UPLOADED",
+    "pdf_status": "DOWNLOADED",
+    "candidate_pdfs": [
+      {
+        "url": "https://fpibengaluru.karnataka.gov.in/storage/pdf-files/Academic%20reports/Budget_alloc_implement_Udyogini.pdf",
+        "title": "Budgetary Allocation And Implementation",
+        "origin": "myscheme_api_reference"
+      },
+      {
+        "url": "https://kmea.karnataka.gov.in/storage/pdf-files/Reports%20and%20other%20docs/Udyogini%20English%20report.pdf",
+        "title": "Report By The Energy And Resources Institute, Bengaluru",
+        "origin": "myscheme_api_reference"
+      }
+    ],
+    "canonical_pdf_url": "https://fpibengaluru.karnataka.gov.in/storage/pdf-files/Academic%20reports/Budget_alloc_implement_Udyogini.pdf",
+    "error": null,
+    "canonical_pdf_score": 52,
+    "document_id": "99d1872f-e54b-44e9-b0f8-8f02857e6a36",
+    "storage_path": "scheme-documents/karnataka/us_35fd7a77.pdf",
+    "sha256": "35fd7a77d2d5f7421ba35b6b9cdef1bcf7ef4c065030ac10e684f06af67490a9",
+    "size_bytes": 2253201,
+    "page_count": 53
+  },
+  {
+    "scheme_id": "vfas",
+    "scheme_name": "Vidyasiri food And Accommodation Scholarship Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/vfas",
+    "slug": "vfas",
+    "state": "Karnataka",
+    "ministry": "Backward Classes Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/vfas",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  },
+  {
+    "scheme_id": "vpls",
+    "scheme_name": "Vrutti Protsaha Loan Scheme",
+    "scheme_url": "https://www.myscheme.gov.in/schemes/vpls",
+    "slug": "vpls",
+    "state": "Karnataka",
+    "ministry": "Minorities Welfare Department",
+    "source_url": "https://www.myscheme.gov.in/schemes/vpls",
+    "level": "State",
+    "status": "HTML_ONLY",
+    "pdf_status": "HTML_ONLY",
+    "candidate_pdfs": [],
+    "canonical_pdf_url": null,
+    "error": null
+  }
+]

@@ -194,6 +194,31 @@ class TestSynthesizeEndpoint(unittest.TestCase):
         self.assertEqual(res.headers.get("X-Response-Language"), "KN")
         self.assertTrue(res.content.startswith(b"ID3FAKEMP3"))
 
+    def test_sequential_synthesize_requests(self):
+        """Multi-turn TTS must not share broken state between calls."""
+        sequence = [
+            ("Hello from GramSakhi.", "EN"),
+            ("Follow up answer one.", "EN"),
+            ("Namaste, yeh jankari hai.", "HI"),
+            ("Hindi follow up.", "HI"),
+            ("Gruha Lakshmi yojane bagge.", "KN"),
+            ("Kannada follow up.", "KN"),
+            ("Back to English.", "EN"),
+            ("Kannada again.", "KN"),
+        ]
+        for idx, (text, lang) in enumerate(sequence):
+            res = self.client.post(
+                "/api/chat/voice/synthesize",
+                json={
+                    "text": text,
+                    "response_language": lang,
+                    "request_id": f"seq-{idx}",
+                },
+            )
+            self.assertEqual(res.status_code, 200, msg=f"idx={idx} lang={lang}")
+            self.assertGreater(len(res.content), 20)
+            self.assertEqual(res.headers.get("X-Response-Language"), lang)
+
 
 class TestTtsPronunciation(unittest.TestCase):
     def test_display_text_unchanged(self):

@@ -1,0 +1,839 @@
+{
+  "generated_at": "2026-10-21T08:59:01.184655+00:00",
+  "backend_data": "C:\\Users\\tarun\\Downloads\\Gramasakhi\\backend\\data",
+  "authoritative_seed_documents": [
+    {
+      "id": "seed-pmfby",
+      "scheme_id": "pmfby",
+      "scheme_name": "Pradhan Mantri Fasal Bima Yojana",
+      "path": "backend/data/demo_seeds/pmfby_scheme.txt",
+      "authority": "seed_document",
+      "present": true,
+      "absolute_path": "C:\\Users\\tarun\\Downloads\\Gramasakhi\\backend\\data\\demo_seeds\\pmfby_scheme.txt",
+      "bytes": 2002,
+      "line_count": 37,
+      "sha256": "d6dd54f38d6ac4aa9a481a2167a95fdbf44c6464361b86f79e8555be27baa3bf",
+      "urls_in_document": [
+        "https://pmfby.gov.in/",
+        "https://www.myscheme.gov.in/"
+      ],
+      "fact_authority": true
+    },
+    {
+      "id": "seed-shakti",
+      "scheme_id": "shakti",
+      "scheme_name": "Shakti Scheme (Free Bus Travel)",
+      "path": "backend/data/demo_seeds/shakti_scheme.txt",
+      "authority": "seed_document",
+      "present": true,
+      "absolute_path": "C:\\Users\\tarun\\Downloads\\Gramasakhi\\backend\\data\\demo_seeds\\shakti_scheme.txt",
+      "bytes": 2746,
+      "line_count": 47,
+      "sha256": "6f16c3342e820f2faa95e98a5f7210936ebe529cc7cd09a48401f67fc2feadea",
+      "urls_in_document": [
+        "https://sevasindhu.karnataka.gov.in/",
+        "https://www.myscheme.gov.in/"
+      ],
+      "fact_authority": true
+    },
+    {
+      "id": "seed-anna-bhagya",
+      "scheme_id": "anna-bhagya",
+      "scheme_name": "Anna Bhagya",
+      "path": "backend/data/seed_schemes/anna_bhagya_overview.txt",
+      "authority": "seed_document",
+      "present": true,
+      "absolute_path": "C:\\Users\\tarun\\Downloads\\Gramasakhi\\backend\\data\\seed_schemes\\anna_bhagya_overview.txt",
+      "bytes": 839,
+      "line_count": 20,
+      "sha256": "1882bc7b9dfc1fecb730b7778ddd59fff12a2ccceb398028cb66276bd2d13ce0",
+      "urls_in_document": [],
+      "fact_authority": true
+    },
+    {
+      "id": "seed-pmsby",
+      "scheme_id": "pmsby",
+      "scheme_name": "Pradhan Mantri Suraksha Bima Yojana",
+      "path": "backend/data/seed_schemes/pmsby_overview.txt",
+      "authority": "seed_document",
+      "present": true,
+      "absolute_path": "C:\\Users\\tarun\\Downloads\\Gramasakhi\\backend\\data\\seed_schemes\\pmsby_overview.txt",
+      "bytes": 1388,
+      "line_count": 26,
+      "sha256": "6a506698bf592c257156c3bd55c42c07d76b2df7785646f3e0cbb3c31e29428a",
+      "urls_in_document": [],
+      "fact_authority": true
+    },
+    {
+      "id": "seed-gruha-lakshmi",
+      "scheme_id": "gruha-lakshmi",
+      "scheme_name": "Gruha Lakshmi",
+      "path": "backend/data/seed_schemes/gruha_lakshmi_overview.txt",
+      "authority": "seed_document",
+      "present": true,
+      "absolute_path": "C:\\Users\\tarun\\Downloads\\Gramasakhi\\backend\\data\\seed_schemes\\gruha_lakshmi_overview.txt",
+      "bytes": 1362,
+      "line_count": 28,
+      "sha256": "9875dce43fdb70fb407f12286e31947c77b265af96884b7eab061990a170f051",
+      "urls_in_document": [],
+      "fact_authority": true
+    }
+  ],
+  "catalog_schemes_metadata_only": [
+    {
+      "id": "pm-kisan",
+      "name": "PM-Kisan Samman Nidhi",
+      "scope": "central",
+      "state": "India",
+      "ministry": "Ministry of Agriculture & Farmers Welfare",
+      "urls": [
+        "https://pmkisan.gov.in/",
+        "https://www.myscheme.gov.in/schemes/pm-kisan"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "pmfby",
+      "name": "Pradhan Mantri Fasal Bima Yojana",
+      "scope": "central",
+      "state": "India",
+      "ministry": "Ministry of Agriculture & Farmers Welfare",
+      "urls": [
+        "https://www.pmfby.gov.in/pdf/Revised_Operational_Guidelines.pdf",
+        "https://www.pmfby.gov.in/",
+        "https://www.myscheme.gov.in/schemes/pmfby"
+      ],
+      "has_seed_document": true,
+      "fact_authority": true,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "ayushman-bharat",
+      "name": "Ayushman Bharat PM-JAY",
+      "scope": "central",
+      "state": "India",
+      "ministry": "National Health Authority",
+      "urls": [
+        "https://www.india.gov.in/spotlight/ayushman-bharat-pradhan-mantri-jan-arogya-yojana",
+        "https://nha.gov.in/",
+        "https://nha.gov.in/PM-JAY",
+        "https://nha.gov.in/strapi/landing-page",
+        "https://nha.gov.in/strapi/publication-pmjays",
+        "https://nha.gov.in/img/resources/Revised-Empanelment-and-De-empanelment-Guideline.pdf",
+        "https://nha.gov.in/img/resources/OM-Grievance-Redressal-Guideline-Dec-2021.pdf",
+        "https://www.myscheme.gov.in/schemes/ab-pmjay"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "mgnrega",
+      "name": "MGNREGA",
+      "scope": "central",
+      "state": "India",
+      "ministry": "Ministry of Rural Development",
+      "urls": [
+        "https://nrega.nic.in/",
+        "https://www.myscheme.gov.in/schemes/mgnrega",
+        "https://rural.nic.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "pmjjby",
+      "name": "Pradhan Mantri Jeevan Jyoti Bima Yojana",
+      "scope": "central",
+      "state": "India",
+      "ministry": "Department of Financial Services",
+      "urls": [
+        "https://www.myscheme.gov.in/schemes/pmjjby",
+        "https://financialservices.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "pmsby",
+      "name": "Pradhan Mantri Suraksha Bima Yojana",
+      "scope": "central",
+      "state": "India",
+      "ministry": "Department of Financial Services",
+      "urls": [
+        "https://financialservices.gov.in/",
+        "https://www.myscheme.gov.in/schemes/pmsby"
+      ],
+      "has_seed_document": true,
+      "fact_authority": true,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "ujjwala",
+      "name": "Pradhan Mantri Ujjwala Yojana",
+      "scope": "central",
+      "state": "India",
+      "ministry": "Ministry of Petroleum & Natural Gas",
+      "urls": [
+        "https://www.india.gov.in/",
+        "https://www.myscheme.gov.in/schemes/pmuy"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "jal-jeevan",
+      "name": "Jal Jeevan Mission",
+      "scope": "central",
+      "state": "India",
+      "ministry": "Ministry of Jal Shakti",
+      "urls": [
+        "https://www.india.gov.in/",
+        "https://www.myscheme.gov.in/schemes/jjm"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "pmay",
+      "name": "Pradhan Mantri Awas Yojana",
+      "scope": "central",
+      "state": "India",
+      "ministry": "Ministry of Housing and Urban Affairs",
+      "urls": [
+        "https://www.india.gov.in/",
+        "https://www.myscheme.gov.in/schemes/pmay-u"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "national-portal",
+      "name": "National Portal of India",
+      "scope": "central",
+      "state": "India",
+      "ministry": "Government of India",
+      "urls": [
+        "https://www.india.gov.in/",
+        "https://pib.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "myscheme-hub",
+      "name": "myScheme National Schemes Hub",
+      "scope": "central",
+      "state": "India",
+      "ministry": "MeitY / NeGD",
+      "urls": [
+        "https://www.myscheme.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "seva-sindhu",
+      "name": "Seva Sindhu Karnataka",
+      "scope": "karnataka",
+      "state": "Karnataka",
+      "ministry": "Government of Karnataka",
+      "urls": [
+        "https://sevasindhu.karnataka.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "anna-bhagya",
+      "name": "Anna Bhagya",
+      "scope": "karnataka",
+      "state": "Karnataka",
+      "ministry": "Food, Civil Supplies & Consumer Affairs, Karnataka",
+      "urls": [
+        "https://food.karnataka.gov.in/",
+        "https://www.myscheme.gov.in/schemes/anna-bhagya",
+        "https://rdpr.karnataka.gov.in/",
+        "https://sevasindhu.karnataka.gov.in/"
+      ],
+      "has_seed_document": true,
+      "fact_authority": true,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "gruha-jyothi",
+      "name": "Gruha Jyothi",
+      "scope": "karnataka",
+      "state": "Karnataka",
+      "ministry": "Energy Department, Karnataka",
+      "urls": [
+        "https://www.myscheme.gov.in/schemes/gruha-jyothi",
+        "https://sevasindhu.karnataka.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "gruha-lakshmi",
+      "name": "Gruha Lakshmi",
+      "scope": "karnataka",
+      "state": "Karnataka",
+      "ministry": "Women & Child Development, Karnataka",
+      "urls": [
+        "https://www.myscheme.gov.in/schemes/gruha-lakshmi",
+        "https://wcd.karnataka.gov.in/",
+        "https://sevasindhu.karnataka.gov.in/"
+      ],
+      "has_seed_document": true,
+      "fact_authority": true,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "shakti",
+      "name": "Shakti Scheme (Free Bus Travel)",
+      "scope": "karnataka",
+      "state": "Karnataka",
+      "ministry": "Transport Department, Karnataka",
+      "urls": [
+        "https://sevasindhu.karnataka.gov.in/"
+      ],
+      "has_seed_document": true,
+      "fact_authority": true,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "yuva-nidhi",
+      "name": "Yuva Nidhi",
+      "scope": "karnataka",
+      "state": "Karnataka",
+      "ministry": "Skill Development, Karnataka",
+      "urls": [
+        "https://sevasindhu.karnataka.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "karnataka-rdpr",
+      "name": "Karnataka Rural Development & Panchayat Raj",
+      "scope": "karnataka",
+      "state": "Karnataka",
+      "ministry": "RDPR Karnataka",
+      "urls": [
+        "https://rdpr.karnataka.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "karnataka-ahvs",
+      "name": "Karnataka Animal Husbandry & Veterinary Services",
+      "scope": "karnataka",
+      "state": "Karnataka",
+      "ministry": "AHVS Karnataka",
+      "urls": [
+        "https://ahvs.karnataka.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "karnataka-food",
+      "name": "Karnataka Food & Civil Supplies",
+      "scope": "karnataka",
+      "state": "Karnataka",
+      "ministry": "Food & Civil Supplies Karnataka",
+      "urls": [
+        "https://food.karnataka.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "bhagyalakshmi",
+      "name": "Bhagyalakshmi Scheme",
+      "scope": "karnataka",
+      "state": "Karnataka",
+      "ministry": "Women and Child Development, Karnataka",
+      "urls": [
+        "https://bhagyalaxmi.karnataka.gov.in/",
+        "https://sevasindhu.karnataka.gov.in/",
+        "https://wcd.karnataka.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    },
+    {
+      "id": "ysr-vahana-mitra",
+      "name": "YSR Vahana Mitra",
+      "scope": "andhra_pradesh",
+      "state": "Andhra Pradesh",
+      "ministry": "Transport / Government of Andhra Pradesh",
+      "urls": [
+        "https://web.umang.gov.in/landing/scheme/detail/ysr-vahana-mitra_ysrvm.html",
+        "https://www.ap.gov.in/"
+      ],
+      "has_seed_document": false,
+      "fact_authority": false,
+      "note": "Catalog metadata (name/URL/keywords) only. Do not treat as eligibility or benefit evidence."
+    }
+  ],
+  "trusted_registry_metadata_only": [
+    {
+      "id": "curated-myscheme",
+      "name": "myScheme (Central Schemes Portal)",
+      "domain": "myscheme.gov.in",
+      "base_urls": [
+        "https://www.myscheme.gov.in/",
+        "https://www.myscheme.gov.in/search",
+        "https://www.myscheme.gov.in/external/search"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-myscheme-rules",
+      "name": "myScheme Eligibility / Rules Catalogue",
+      "domain": "rules.myscheme.gov.in",
+      "base_urls": [
+        "https://rules.myscheme.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-pmkisan",
+      "name": "PM-KISAN Portal",
+      "domain": "pmkisan.gov.in",
+      "base_urls": [
+        "https://pmkisan.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-pmfby",
+      "name": "PMFBY Portal",
+      "domain": "pmfby.gov.in",
+      "base_urls": [
+        "https://www.pmfby.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-india-gov",
+      "name": "National Portal of India",
+      "domain": "india.gov.in",
+      "base_urls": [
+        "https://www.india.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-data-gov",
+      "name": "Open Government Data Platform India",
+      "domain": "data.gov.in",
+      "base_urls": [
+        "https://data.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-pib",
+      "name": "Press Information Bureau",
+      "domain": "pib.gov.in",
+      "base_urls": [
+        "https://www.pib.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-nha",
+      "name": "National Health Authority",
+      "domain": "nha.gov.in",
+      "base_urls": [
+        "https://nha.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-pmjay",
+      "name": "Ayushman Bharat PM-JAY",
+      "domain": "pmjay.gov.in",
+      "base_urls": [
+        "https://www.pmjay.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-financialservices",
+      "name": "Department of Financial Services",
+      "domain": "financialservices.gov.in",
+      "base_urls": [
+        "https://financialservices.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-mohfw",
+      "name": "Ministry of Health and Family Welfare",
+      "domain": "mohfw.gov.in",
+      "base_urls": [
+        "https://www.mohfw.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-rural-nic",
+      "name": "Ministry of Rural Development",
+      "domain": "rural.nic.in",
+      "base_urls": [
+        "https://rural.nic.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-nrega",
+      "name": "MGNREGA",
+      "domain": "nrega.nic.in",
+      "base_urls": [
+        "https://nrega.nic.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-education",
+      "name": "Ministry of Education",
+      "domain": "education.gov.in",
+      "base_urls": [
+        "https://www.education.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-labour",
+      "name": "Ministry of Labour and Employment",
+      "domain": "labour.gov.in",
+      "base_urls": [
+        "https://labour.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-wcd",
+      "name": "Ministry of Women and Child Development",
+      "domain": "wcd.gov.in",
+      "base_urls": [
+        "https://wcd.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-socialjustice",
+      "name": "Ministry of Social Justice and Empowerment",
+      "domain": "socialjustice.gov.in",
+      "base_urls": [
+        "https://socialjustice.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-parent",
+      "name": "Karnataka State Government (parent domain)",
+      "domain": "karnataka.gov.in",
+      "base_urls": [
+        "https://www.karnataka.gov.in/",
+        "https://karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-sevasindhu",
+      "name": "Seva Sindhu Karnataka",
+      "domain": "sevasindhu.karnataka.gov.in",
+      "base_urls": [
+        "https://sevasindhu.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-agriculture",
+      "name": "Agriculture Department, Karnataka",
+      "domain": "raitamitra.karnataka.gov.in",
+      "base_urls": [
+        "https://raitamitra.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-agri-marketing",
+      "name": "Agricultural Marketing Department, Karnataka",
+      "domain": "krishimaratavahini.karnataka.gov.in",
+      "base_urls": [
+        "https://krishimaratavahini.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-ahf",
+      "name": "Animal Husbandry and Fisheries Department, Karnataka",
+      "domain": "ahf.karnataka.gov.in",
+      "base_urls": [
+        "https://ahf.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-housing",
+      "name": "Housing Department, Karnataka",
+      "domain": "housing.karnataka.gov.in",
+      "base_urls": [
+        "https://housing.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-labour",
+      "name": "Labour Department, Karnataka",
+      "domain": "labour.karnataka.gov.in",
+      "base_urls": [
+        "https://labour.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-food",
+      "name": "Food, Civil Supplies and Consumer Affairs, Karnataka",
+      "domain": "ahara.kar.nic.in",
+      "base_urls": [
+        "https://ahara.kar.nic.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-education",
+      "name": "Education Department, Karnataka",
+      "domain": "schooleducation.kar.nic.in",
+      "base_urls": [
+        "https://schooleducation.kar.nic.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-higher-edu",
+      "name": "Higher Education Department, Karnataka",
+      "domain": "highereducation.karnataka.gov.in",
+      "base_urls": [
+        "https://highereducation.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-energy",
+      "name": "Energy Department, Karnataka",
+      "domain": "energy.karnataka.gov.in",
+      "base_urls": [
+        "https://energy.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-forest",
+      "name": "Forest Department, Karnataka",
+      "domain": "forest.karnataka.gov.in",
+      "base_urls": [
+        "https://forest.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-industries",
+      "name": "Industries and Commerce Department, Karnataka",
+      "domain": "kum.karnataka.gov.in",
+      "base_urls": [
+        "https://kum.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "ka-bcwd",
+      "name": "Backward Classes Department, Karnataka",
+      "domain": "bcwd.karnataka.gov.in",
+      "base_urls": [
+        "https://bcwd.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "central-agriculture-ministry",
+      "name": "Ministry of Agriculture and Farmers Welfare",
+      "domain": "agriwelfare.gov.in",
+      "base_urls": [
+        "https://agriwelfare.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "central-meity",
+      "name": "Ministry of Electronics and Information Technology",
+      "domain": "meity.gov.in",
+      "base_urls": [
+        "https://www.meity.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "central-mohua",
+      "name": "Ministry of Housing and Urban Affairs",
+      "domain": "mohua.gov.in",
+      "base_urls": [
+        "https://mohua.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "central-jalshakti",
+      "name": "Ministry of Jal Shakti",
+      "domain": "jalshakti.gov.in",
+      "base_urls": [
+        "https://jalshakti.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "igod-directory",
+      "name": "Integrated Government Online Directory",
+      "domain": "igod.gov.in",
+      "base_urls": [
+        "https://igod.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-ap-gov",
+      "name": "Government of Andhra Pradesh",
+      "domain": "ap.gov.in",
+      "base_urls": [
+        "https://www.ap.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-bhagyalaxmi-ka",
+      "name": "Bhagyalaxmi Scheme Portal (Karnataka)",
+      "domain": "bhagyalaxmi.karnataka.gov.in",
+      "base_urls": [
+        "https://bhagyalaxmi.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    },
+    {
+      "id": "curated-wcd-ka",
+      "name": "Women & Child Development Karnataka",
+      "domain": "wcd.karnataka.gov.in",
+      "base_urls": [
+        "https://wcd.karnataka.gov.in/"
+      ],
+      "enabled": true,
+      "fact_authority": false,
+      "note": "Trusted-domain registry entry; not a scheme fact sheet."
+    }
+  ],
+  "authoritative_scheme_ids": [
+    "pmfby",
+    "shakti",
+    "anna-bhagya",
+    "pmsby",
+    "gruha-lakshmi"
+  ],
+  "gap": "Only seed/overview text files are treated as fact authority. Catalog and registry entries without a seed document cannot ground factual or eligibility cases."
+}

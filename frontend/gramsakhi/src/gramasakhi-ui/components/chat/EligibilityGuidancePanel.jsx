@@ -5,10 +5,18 @@ import { useLanguageStore } from '@/stores/language-store';
 import { safeHttpUrl } from '@/lib/utils';
 
 function statusTone(status) {
-  const s = (status || '').toUpperCase();
-  if (s === 'ELIGIBLE') return 'bg-secondary-container text-on-secondary-container';
-  if (s === 'NOT_ELIGIBLE') return 'bg-error-container text-on-error-container';
-  if (s === 'CANNOT_DETERMINE') return 'bg-surface-container-high text-on-surface-variant';
+  const raw = (status || '').trim();
+  const s = raw.toLowerCase().replace(/-/g, '_');
+  const upper = raw.toUpperCase();
+  if (s === 'eligible' || upper === 'ELIGIBLE') {
+    return 'bg-secondary-container text-on-secondary-container';
+  }
+  if (s === 'ineligible' || s === 'not_eligible' || upper === 'NOT_ELIGIBLE') {
+    return 'bg-error-container text-on-error-container';
+  }
+  if (s === 'uncertain' || s === 'cannot_determine' || upper === 'CANNOT_DETERMINE') {
+    return 'bg-surface-container-high text-on-surface-variant';
+  }
   return 'bg-surface-container text-on-surface-variant';
 }
 

@@ -45,10 +45,8 @@ function ChatScreenBody() {
     disabled: !initialized || loadingMessages || isGenerating,
     getChatGeneration,
     onAuthExpired: handleAuthFailure,
-    onTranscribed: async (text, voiceOpts, requestLanguage) => {
+    onTranscribed: async (text) => {
       setComposerText(text);
-      await sendMessage(text, requestLanguage, voiceOpts);
-      setComposerText('');
     },
     onLowConfidence: (text) => {
       setComposerText(text);

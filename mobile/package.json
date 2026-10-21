@@ -27,7 +27,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify:a6": "node scripts/a6_golden_journey_verify.mjs",
+    "verify:api-golden": "python scripts/phase5_android_golden_api.py"
   },
   "private": true
 }

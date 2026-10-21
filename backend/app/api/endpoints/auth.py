@@ -40,22 +40,10 @@ def _is_expired(expires_at: datetime | None) -> bool:
     return exp < _utc_now()
 
 
-def _otp_console_enabled() -> bool:
-    """Full OTP console output is allowed only for local SQLite dev workflows."""
-    if not settings.OTP_CONSOLE_SIMULATOR_ENABLED:
-        return False
-    return settings.DATABASE_URL.startswith("sqlite")
-
-
 def _log_otp_simulator(phone_number: str, code: str, *, purpose: str) -> None:
-    tail = (phone_number or "")[-4:]
-    if _otp_console_enabled():
-        print("\n==============================================", flush=True)
-        print(f"[SMS GATEWAY SIMULATOR] {purpose} phone=***{tail}", flush=True)
-        print(f"VERIFICATION OTP: {code}", flush=True)
-        print("==============================================\n", flush=True)
-    else:
-        logger.info("otp_sent purpose=%s phone=***%s", purpose, tail)
+    from app.services.otp_console import emit_dev_otp_to_terminal
+
+    emit_dev_otp_to_terminal(phone_number, code, purpose=purpose)
 
 
 def _consume_verified_otp(db: Session, phone_number: str) -> OTPVerification:
@@ -85,6 +73,7 @@ def _token_payload(account: CitizenAccount) -> dict:
         "citizen_account_id": account.id,
         "family_account_id": account.id,  # backward-compatible alias
         "phone_number": account.phone_number,
+        "display_name": account.display_name,
     }
 
 
@@ -257,12 +246,14 @@ def verify_otp(request: OTPVerifyRequest, http_request: Request, db: Session = D
         CitizenAccount.phone_number == request.phone_number
     ).first()
     if account:
+        otp_rec.verified = False
+        db.commit()
         return _token_payload(account)
 
     return {"message": "OTP verification completed. Proceed to register your citizen account."}
 
 
-@router.post("/register")
+@router.post("/register", response_model=TokenResponse)
 def register(request: RegisterRequest, db: Session = Depends(get_db)):
     _consume_verified_otp(db, request.credentials.phone_number)
 
@@ -275,8 +266,8 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
             detail="An account with this mobile number already exists. Please login.",
         )
 
-    raw_password = request.credentials.password or secrets.token_urlsafe(24)
-    password_hash = security.get_password_hash(raw_password)
+    # DB column requires a hash; citizens authenticate via OTP only (no user-facing password).
+    password_hash = security.get_password_hash(secrets.token_urlsafe(32))
     account = CitizenAccount(
         phone_number=request.credentials.phone_number,
         password_hash=password_hash,
@@ -286,11 +277,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(account)
 
-    return {
-        "message": "Registration successful.",
-        "citizen_account_id": account.id,
-        "phone_number": account.phone_number,
-    }
+    return _token_payload(account)
 
 
 @router.post("/forgot-password/request")

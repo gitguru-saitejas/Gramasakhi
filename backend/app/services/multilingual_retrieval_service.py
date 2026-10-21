@@ -321,6 +321,7 @@ def build_retrieval_plan(
     *,
     language: Optional[str] = None,
     active_scheme: Optional[str] = None,
+    nlu_intent: Optional[str] = None,
 ) -> RetrievalPlan:
     original = (query or "").strip()
     # Include measured STT scheme spelling fixes in the retrieval normalize path.
@@ -332,7 +333,7 @@ def build_retrieval_plan(
     lang = script or ("EN" if not has_non_latin else (normalize_language_code(language) or "EN"))
 
     cache_key = hashlib.sha256(
-        f"{normalized}|{lang}|{active_scheme or ''}".encode("utf-8")
+        f"{normalized}|{lang}|{active_scheme or ''}|{nlu_intent or ''}".encode("utf-8")
     ).hexdigest()
     with _CACHE_LOCK:
         hit = _CACHE.get(cache_key)
@@ -354,10 +355,26 @@ def build_retrieval_plan(
         ):
             entities = [active_scheme] + entities
     intent = detect_intent(normalized)
+    if nlu_intent:
+        try:
+            from app.services.human_language.intent_models import (
+                HumanLanguageIntent,
+                retrieval_intent_hint,
+            )
+
+            hint = retrieval_intent_hint(HumanLanguageIntent(nlu_intent))
+            if hint:
+                intent = hint
+        except Exception:
+            pass
     alias_terms = _alias_english_terms(normalized)
 
-    # Expand only when the QUERY itself is multilingual / non-Latin.
+    # Expand when multilingual script, or short contextual follow-ups (NLU + scheme).
     needs_expansion = bool(script in ("KN", "HI")) or has_non_latin
+    if nlu_intent and active_scheme and len(normalized.split()) <= 4:
+        needs_expansion = True
+    if nlu_intent and active_scheme and active_scheme not in entities:
+        entities = [active_scheme] + entities
 
     semantic_parts: List[str] = []
     for e in entities:
@@ -367,7 +384,15 @@ def build_retrieval_plan(
         if intent == "eligibility":
             semantic_parts.extend(["eligible", "criteria"])
         elif intent == "benefits":
-            semantic_parts.extend(["benefit", "amount"])
+            semantic_parts.extend(["benefit", "assistance"])
+        elif intent == "amount":
+            semantic_parts.extend(["amount", "financial assistance", "benefit amount"])
+        elif intent == "application":
+            semantic_parts.extend(["apply", "application process", "registration"])
+        elif intent == "documents":
+            semantic_parts.extend(["required documents", "certificates"])
+        elif intent == "status":
+            semantic_parts.extend(["application status", "track application"])
     for t in alias_terms:
         if t not in semantic_parts:
             semantic_parts.append(t)
