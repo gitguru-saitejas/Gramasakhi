@@ -98,8 +98,8 @@ export function useVoice() {
             stt_language: uiLangToApi(langObj?.code),
             voice_request_id: data.voice_request_id || data.request_id,
           });
-        } catch {
-          setError("Couldn't understand the audio. Please try again.");
+        } catch (err) {
+          setError(err?.message || "Couldn't understand the audio. Please try again.");
         } finally {
           setIsProcessing(false);
         }
@@ -145,7 +145,19 @@ export function useVoice() {
         onResultCallback?.(text.trim(), { input_mode: 'voice', stt_language: uiLangToApi(langObj?.code) });
       }
     };
-    recognition.onerror = () => setIsListening(false);
+    recognition.onerror = (event) => {
+      const code = event?.error;
+      if (code === 'not-allowed' || code === 'service-not-allowed') {
+        setError('Microphone access was denied.');
+      } else if (code === 'no-speech') {
+        setError('No speech was detected. Please try again.');
+      } else if (code === 'network') {
+        setError('Voice input needs a network connection.');
+      } else {
+        setError('Voice input failed. Please try again or type your question.');
+      }
+      setIsListening(false);
+    };
     recognition.onend = () => setIsListening(false);
     recognitionRef.current = recognition;
     recognition.start();

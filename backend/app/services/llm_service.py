@@ -1,7 +1,8 @@
-"""Grounded Ollama LLM generation for GramSakhi (Phase 5).
+"""Grounded LLM generation for GramSakhi (Phase 5).
 
-Call ONLY after Evidence Sufficiency Validator PASS. This module does not
-retrieve documents or talk to the database — it receives validated evidence.
+Supports configurable providers (Gemini API or local Ollama). Call ONLY after
+Evidence Sufficiency Validator PASS. Does not retrieve documents or talk to the
+database — it receives validated evidence.
 """
 
 from __future__ import annotations
@@ -28,6 +29,7 @@ from app.services.language_service import (
     normalize_language_code,
     resolve_response_language,
 )
+from app.services.gemini_llm import GeminiGenerationError
 from app.services.prompt_builder import build_prompt, detect_language
 
 logger = logging.getLogger(__name__)
@@ -43,7 +45,15 @@ def get_ollama_base_url() -> str:
     return base.rstrip("/")
 
 
+def get_llm_provider() -> str:
+    return (settings.LLM_PROVIDER or "ollama").strip().lower()
+
+
 def get_llm_model() -> str:
+    if get_llm_provider() == "gemini":
+        from app.services.gemini_llm import get_gemini_model
+
+        return get_gemini_model()
     return (settings.OLLAMA_LLM_MODEL or settings.OLLAMA_MODEL or "llama3.2:3b").strip()
 
 
@@ -128,14 +138,79 @@ def check_ollama_llm() -> Dict[str, Any]:
 
 
 def _generate_once(prompt: str) -> Dict[str, Any]:
-    """Single Ollama call; raises on transport errors."""
-    return _post_generate(prompt)
+    """
+    Single completion call using configured provider.
+    Optional fallback: Gemini → Ollama when LLM_FALLBACK_TO_OLLAMA is true.
+    Raises urllib errors for transport failures (Ollama) or mapped Gemini failures.
+    """
+    provider = get_llm_provider()
+    chain: List[tuple[str, Any]] = []
+    from app.services.runtime_profile import is_cloud_runtime
+
+    allow_ollama_fallback = settings.LLM_FALLBACK_TO_OLLAMA and not is_cloud_runtime()
+    if provider == "gemini":
+        chain.append(("gemini", None))
+        if allow_ollama_fallback:
+            chain.append(("ollama", _post_generate))
+    elif provider == "ollama":
+        chain.append(("ollama", _post_generate))
+    else:
+        logger.warning("Unknown LLM_PROVIDER=%s; using ollama", provider)
+        chain.append(("ollama", _post_generate))
+
+    last_gemini_code: Optional[str] = None
+    for idx, (name, fn) in enumerate(chain):
+        try:
+            if name == "gemini":
+                from app.services.gemini_llm import gemini_generate
+
+                raw = gemini_generate(prompt)
+            else:
+                raw = fn(prompt)
+            logger.info(
+                "LLM provider_used=%s model=%s",
+                name,
+                (raw.get("model") if isinstance(raw, dict) else None) or get_llm_model(),
+            )
+            return raw
+        except GeminiGenerationError as exc:
+            last_gemini_code = exc.code
+            logger.warning(
+                "Gemini generation failed code=%s retryable=%s",
+                exc.code,
+                exc.retryable,
+            )
+            if name == "gemini" and idx + 1 < len(chain):
+                continue
+            if exc.code == "empty_response":
+                return {"response": "", "model": get_llm_model()}
+            reason = f"gemini:{exc.code}"
+            if exc.code == "timeout":
+                reason = "gemini:timeout"
+            raise urllib.error.URLError(reason) from exc
+        except TimeoutError:
+            if idx + 1 < len(chain):
+                continue
+            raise
+        except urllib.error.HTTPError:
+            if idx + 1 < len(chain):
+                continue
+            raise
+        except (urllib.error.URLError, ConnectionError, OSError):
+            if idx + 1 < len(chain):
+                continue
+            raise
+
+    raise urllib.error.URLError(f"gemini:{last_gemini_code or 'unavailable'}")
 
 
 def generate_from_fixed_prompt(prompt: str) -> Dict[str, Any]:
     """Constrained single-shot generation (e.g. eligibility explanation)."""
-    model = get_llm_model()
-    raw = _generate_once(prompt)
+    try:
+        raw = _generate_once(prompt)
+    except Exception:  # noqa: BLE001
+        return {"model": get_llm_model(), "response": ""}
+    model = (raw.get("model") if isinstance(raw, dict) else None) or get_llm_model()
     return {
         "model": model,
         "response": raw.get("response") or "",
@@ -152,7 +227,7 @@ def generate_answer(
     assistance_context: Any = None,
 ) -> Dict[str, Any]:
     """
-    Generate a grounded GramSakhi answer via Ollama.
+    Generate a grounded GramSakhi answer via the configured LLM provider.
 
     After generation, runs the language quality gate and may regenerate
     up to MAX_LANGUAGE_REGEN_ATTEMPTS times. Does not bypass Evidence Validator
@@ -237,7 +312,19 @@ def generate_answer(
             )
             transport_error = LLM_UNAVAILABLE
             break
-        except (urllib.error.URLError, ConnectionError, OSError) as e:
+        except urllib.error.URLError as e:
+            reason = str(getattr(e, "reason", e))
+            if reason.startswith("gemini:timeout") or "timeout" in reason.lower():
+                transport_error = LLM_TIMEOUT
+            else:
+                transport_error = LLM_UNAVAILABLE
+            logger.warning(
+                "LLM generation transport failure model=%s reason=%s",
+                model,
+                reason[:80],
+            )
+            break
+        except (ConnectionError, OSError) as e:
             logger.warning(
                 "LLM generation connection failure model=%s err=%s",
                 model,

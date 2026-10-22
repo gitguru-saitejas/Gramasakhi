@@ -194,7 +194,10 @@ class TestOTPDevRetrieval(unittest.TestCase):
                     with redirect_stdout(buffer):
                         res = self.client.post("/api/auth/otp/send", json={"phone_number": phone})
         self.assertEqual(res.status_code, 200, res.text)
-        self.assertEqual(res.json(), {"message": "OTP verification code sent."})
+        body = res.json()
+        self.assertEqual(body["message"], "OTP verification code sent.")
+        self.assertNotIn("dev_otp", body)
+        self.assertIn("otp_verification_id", body)
         self.assertNotIn("112233", buffer.getvalue())
 
     def test_otp_verify_behavior_unchanged(self):

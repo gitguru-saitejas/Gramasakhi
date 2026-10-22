@@ -25,12 +25,16 @@ Converted from Sahyog 1.0. Historical notes: `migration_audit.md`, `docs/sahyog_
 
 ## Local development
 
-### Terminal 1 — Ollama (if not already a service)
+### Terminal 1 — Ollama (embeddings; optional LLM fallback)
 
 ```powershell
 ollama serve
-# ollama pull nomic-embed-text && ollama pull llama3.2:3b
+ollama pull nomic-embed-text
+# For local LLM generation only (LLM_PROVIDER=ollama or fallback):
+# ollama pull llama3.2:3b
 ```
+
+**Gemini for text generation (recommended):** set `LLM_PROVIDER=gemini` and `GEMINI_API_KEY` in `backend/.env`. See [`backend/docs/LLM_PROVIDERS.md`](backend/docs/LLM_PROVIDERS.md). Embeddings still use Ollama by default.
 
 ### Terminal 2 — Backend (port 8000)
 
@@ -42,7 +46,7 @@ cd backend
 
 API docs: http://127.0.0.1:8000/docs
 
-**PostgreSQL dev + Android OTP testing:** see [`backend/docs/OTP_DEV_RETRIEVAL.md`](backend/docs/OTP_DEV_RETRIEVAL.md) for the development-only OTP retrieval endpoint (manual use; never enable in production).
+**Dev OTP (FYP demo):** set `OTP_DELIVERY_MODE=dev_popup` and `OTP_DEV_POPUP_ENABLED=true` in `backend/.env` — see [`backend/docs/OTP_DEV_POPUP.md`](backend/docs/OTP_DEV_POPUP.md). Legacy terminal/file OTP and [`OTP_DEV_RETRIEVAL.md`](backend/docs/OTP_DEV_RETRIEVAL.md) remain available.
 
 ### Terminal 3 — Unified frontend (port 5173)
 
@@ -51,6 +55,8 @@ cd frontend/gramsakhi
 npm install
 npm run dev
 ```
+
+Copy `frontend/gramsakhi/.env.example` to `.env.local` if needed. To point the local UI at the **deployed** API, set `VITE_API_BASE_URL=https://gramasakhi.onrender.com` (see [`docs/FRONTEND_BACKEND.md`](docs/FRONTEND_BACKEND.md)).
 
 App: http://127.0.0.1:5173
 

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { clearCitizenAuthMemory, getAccessToken } from "./auth-token";
+import { resolveCitizenApiBaseUrl } from "./api-config";
 
 export const apiEvents = {
   listeners: {},
@@ -16,14 +18,10 @@ export const apiEvents = {
   },
 };
 
-const API_ORIGIN = (
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL ||
-  "http://127.0.0.1:8000"
-).replace(/\/$/, "");
+export const API_ORIGIN = resolveCitizenApiBaseUrl().replace(/\/api$/, "");
 
 const api = axios.create({
-  baseURL: API_ORIGIN.endsWith("/api") ? API_ORIGIN : `${API_ORIGIN}/api`,
+  baseURL: resolveCitizenApiBaseUrl(),
   timeout: 0,
   headers: {
     "Content-Type": "application/json",
@@ -33,7 +31,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     apiEvents.emit("loading", true);
-    const token = localStorage.getItem("accessToken");
+    const token = getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -62,12 +60,9 @@ api.interceptors.response.use(
     apiEvents.emit("loading", false);
     const status = error?.response?.status;
     const url = String(error?.config?.url || "");
-    const hadToken = Boolean(localStorage.getItem("accessToken"));
+    const hadToken = Boolean(getAccessToken());
     if (status === 401 && hadToken && !url.includes("/auth/")) {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("citizenAccountId");
-      localStorage.removeItem("familyAccountId"); // transitional key; see docs/LEGACY_COMPATIBILITY.md
-      localStorage.removeItem("citizenPhone");
+      clearCitizenAuthMemory();
       localStorage.removeItem("gramsakhiConversationId");
       sessionStorage.removeItem("gramsakhiForceNewChat");
       apiEvents.emit("auth-expired");

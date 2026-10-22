@@ -44,6 +44,7 @@ class OTPRequest(BaseModel):
 class OTPVerifyRequest(BaseModel):
     phone_number: str
     code: str
+    otp_verification_id: Optional[str] = None
 
     @field_validator("phone_number", mode="before")
     @classmethod
@@ -56,6 +57,15 @@ class OTPVerifyRequest(BaseModel):
         if isinstance(v, str):
             return v.strip()
         return v
+
+
+class OTPSendResponse(BaseModel):
+    message: str
+    otp_verification_id: str
+    expires_in_seconds: int
+    delivery_mode: str = "sms"
+    dev_otp: Optional[str] = None
+    dev_notice: Optional[str] = None
 
 
 class ForgotPasswordResetRequest(BaseModel):

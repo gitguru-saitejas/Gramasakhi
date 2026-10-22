@@ -51,7 +51,13 @@ export function AssistantMessage({ message }) {
           {message.schemes && message.schemes.length > 0 && (
             <div className="space-y-3 mt-4">
               {message.schemes.map((scheme) => (
-                <SchemeCard key={scheme.id} scheme={scheme} />
+                <SchemeCard
+                  key={scheme.id}
+                  scheme={scheme}
+                  meta={message.meta}
+                  raw={message.rawResponse}
+                  sources={message.sources}
+                />
               ))}
             </div>
           )}

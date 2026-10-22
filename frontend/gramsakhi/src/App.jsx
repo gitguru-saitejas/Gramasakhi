@@ -18,62 +18,35 @@ import AdminShell from "./admin/AdminShell";
 
 import { AlertCircle, CheckCircle2, Info, X } from "lucide-react";
 
-import {
-
-  clearCitizenSessionStorage,
-
-  isCitizenAccessTokenValid,
-
-} from "./utils/citizenSession";
+import { clearCitizenSessionStorage } from "./utils/citizenSession";
 
 import "./admin/App.css";
 
 
 
 const CitizenProtected = ({ children }) => {
-
-  const { citizenAccountId, invalidateCitizenSession } = useAuth();
-
+  const { authReady, isAuthenticated } = useAuth();
   const location = useLocation();
 
-  const token = localStorage.getItem("accessToken");
-
-  const sessionValid =
-
-    Boolean(citizenAccountId && token) && isCitizenAccessTokenValid(token);
-
-
-
-  if (!sessionValid) {
-
-    if (token || citizenAccountId) {
-
-      invalidateCitizenSession();
-
-    } else {
-
-      clearCitizenSessionStorage();
-
-    }
-
+  if (!authReady) {
     return (
-
-      <Navigate
-
-        to="/citizen/login"
-
-        replace
-
-        state={{ from: location.pathname + location.search }}
-
-      />
-
+      <div className="min-h-screen flex items-center justify-center bg-background text-on-surface-variant text-sm">
+        Loading…
+      </div>
     );
+  }
 
+  if (!isAuthenticated) {
+    return (
+      <Navigate
+        to="/citizen/login"
+        replace
+        state={{ from: location.pathname + location.search }}
+      />
+    );
   }
 
   return children;
-
 };
 
 
@@ -85,19 +58,14 @@ const CitizenAuthPage = ({ children }) => children;
 
 
 const LandingRoute = () => {
-
-  const { citizenAccountId } = useAuth();
-
-  const token = localStorage.getItem("accessToken");
-
-  if (citizenAccountId && token && isCitizenAccessTokenValid(token)) {
-
-    return <Navigate to="/chat" replace />;
-
+  const { authReady, isAuthenticated } = useAuth();
+  if (!authReady) {
+    return null;
   }
-
+  if (isAuthenticated) {
+    return <Navigate to="/chat" replace />;
+  }
   return <Landing />;
-
 };
 
 

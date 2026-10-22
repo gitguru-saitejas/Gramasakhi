@@ -363,6 +363,64 @@ def build_myscheme_scheme_url(slug: str) -> str:
     return f"https://www.myscheme.gov.in/schemes/{slug}"
 
 
+def is_trusted_government_apply_url(url: str) -> bool:
+    """HTTPS (or HTTP) gov / myScheme destinations safe for Apply Online."""
+    try:
+        parsed = urlparse((url or "").strip())
+    except Exception:
+        return False
+    if parsed.scheme not in ("http", "https"):
+        return False
+    host = (parsed.hostname or "").lower()
+    if not host:
+        return False
+    if host.endswith((".gov.in", ".nic.in")) or is_myscheme_host(host):
+        return True
+    return False
+
+
+def resolve_scheme_apply_targets(
+    scheme_name: Optional[str],
+    *,
+    application_url: Optional[str] = None,
+    scheme_id: Optional[str] = None,
+    source_urls: Optional[Sequence[str]] = None,
+) -> Dict[str, Any]:
+    """Verified application portal vs official scheme information page (no invented URLs)."""
+    trusted_app: Optional[str] = None
+    app = (application_url or "").strip()
+    if app and is_trusted_government_apply_url(app):
+        trusted_app = app
+    if not trusted_app:
+        for raw in source_urls or ():
+            u = str(raw or "").strip()
+            if not u or not is_trusted_government_apply_url(u):
+                continue
+            low = u.lower()
+            if any(k in low for k in ("apply", "registration", "register", "sevasindhu", "portal")):
+                trusted_app = u
+                break
+    slug = (scheme_id or "").strip() or None
+    if not slug and scheme_name:
+        slug = slug_hint_from_query(scheme_name)
+    if not slug:
+        for raw in source_urls or ():
+            slug = extract_scheme_id_from_url(str(raw or ""))
+            if slug:
+                break
+    info_url = build_myscheme_scheme_url(slug) if slug else None
+    if info_url and not is_trusted_government_apply_url(info_url):
+        info_url = None
+    if info_url and trusted_app and info_url.rstrip("/") == trusted_app.rstrip("/"):
+        info_url = None
+    return {
+        "scheme_id": slug,
+        "application_url": trusted_app,
+        "official_information_url": info_url,
+        "has_verified_application_url": bool(trusted_app),
+    }
+
+
 def build_myscheme_search_url(query: str) -> str:
     q = normalize_myscheme_search_query(query) or (query or "").strip()[:80]
     return f"{MYSCHEME_SEARCH}?q={quote_plus(q)}"

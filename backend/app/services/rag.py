@@ -163,10 +163,14 @@ def _select_chunks_for_query(
 
 def get_embeddings(text: str) -> List[float]:
     """
-    Retrieves embedding from the configured provider (Ollama) using settings configurations.
-    Uses POST /api/embed Ollama endpoint.
+    Retrieves embedding from the configured provider (Ollama or Gemini).
     """
-    if settings.EMBEDDING_PROVIDER != "ollama":
+    provider = (settings.EMBEDDING_PROVIDER or "ollama").strip().lower()
+    if provider == "gemini":
+        from app.services.gemini_embedding import embed_text
+
+        return embed_text(text)
+    if provider != "ollama":
         raise ValueError(f"Unsupported embedding provider: {settings.EMBEDDING_PROVIDER}")
         
     if not settings.OLLAMA_API_URL:
@@ -220,9 +224,14 @@ def get_embeddings_batch(texts: List[str]) -> List[List[float]]:
     if not texts:
         return []
         
-    if settings.EMBEDDING_PROVIDER != "ollama":
+    provider = (settings.EMBEDDING_PROVIDER or "ollama").strip().lower()
+    if provider == "gemini":
+        from app.services.gemini_embedding import embed_texts
+
+        return embed_texts(texts)
+    if provider != "ollama":
         raise ValueError(f"Unsupported embedding provider: {settings.EMBEDDING_PROVIDER}")
-        
+
     if not settings.OLLAMA_API_URL:
         raise ValueError("Ollama API URL is not configured. Please check settings.")
 

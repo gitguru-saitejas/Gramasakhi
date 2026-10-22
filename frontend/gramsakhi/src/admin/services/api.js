@@ -1,4 +1,5 @@
 import axios from "axios";
+import { resolveAdminApiBaseUrl } from "../../services/api-config";
 
 export const apiEvents = {
   listeners: {},
@@ -16,14 +17,8 @@ export const apiEvents = {
   }
 };
 
-const API_ORIGIN = (
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL ||
-  "http://127.0.0.1:8000"
-).replace(/\/$/, "");
-
 const api = axios.create({
-  baseURL: `${API_ORIGIN.replace(/\/api$/, "")}/api/v1/super-admin`,
+  baseURL: resolveAdminApiBaseUrl(),
   timeout: 30000, // Large timeout for file upload text extraction processing
   headers: {
     "Content-Type": "application/json",

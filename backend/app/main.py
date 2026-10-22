@@ -77,11 +77,36 @@ def _guard_production_config() -> None:
 _guard_production_config()
 
 
+def _guard_otp_delivery_config() -> None:
+    from app.services.otp_delivery import validate_otp_delivery_config
+
+    validate_otp_delivery_config()
+
+
+_guard_otp_delivery_config()
+
+
+def _guard_cloud_runtime_config() -> None:
+    from app.services.runtime_profile import validate_runtime_profile
+
+    validate_runtime_profile()
+
+
+_guard_cloud_runtime_config()
+
+
 def _log_dev_otp_console_hint() -> None:
     if any(name in sys.modules for name in ("pytest", "unittest")):
         return
     from app.services.otp_console import otp_console_simulator_enabled
 
+    from app.services.otp_delivery import dev_popup_active
+
+    if dev_popup_active():
+        print(
+            "GramSakhi OTP: dev_popup mode — API may return dev_otp (non-production only).",
+            flush=True,
+        )
     if otp_console_simulator_enabled():
         from app.services.otp_console import DEV_OTP_MIRROR_FILE
 
@@ -234,10 +259,16 @@ async def startup_event():
         f"Storage={'configured' if settings.SUPABASE_SERVICE_ROLE_KEY else 'missing'}; "
         f"Ollama={'configured'}; "
         f"Embed={settings.EMBEDDING_MODEL}/{settings.EMBEDDING_DIMENSIONS}; "
-        f"LLM={settings.OLLAMA_LLM_MODEL or settings.OLLAMA_MODEL}",
+        f"LLM provider={getattr(settings, 'LLM_PROVIDER', 'ollama')}; "
+        f"LLM model={(settings.GEMINI_MODEL if (settings.LLM_PROVIDER or '').strip().lower() == 'gemini' else (settings.OLLAMA_LLM_MODEL or settings.OLLAMA_MODEL))}",
         flush=True,
     )
-    _check_ollama_connection()
+    from app.services.runtime_profile import is_cloud_runtime
+
+    if not is_cloud_runtime():
+        _check_ollama_connection()
+    else:
+        print("Cloud runtime: Ollama embedding ping skipped.", flush=True)
     try:
         from app.background_jobs.web_ingest_scheduler import start_web_ingest_scheduler_if_enabled
 
@@ -245,8 +276,16 @@ async def startup_event():
     except Exception as e:
         print(f"Web ingest scheduler not started: {e}", flush=True)
 
-    if settings.HYBRID_RERANK_ENABLED:
+    from app.services.runtime_profile import should_warm_cross_encoder_at_startup
+
+    if should_warm_cross_encoder_at_startup():
         threading.Thread(target=_warm_reranker, daemon=True).start()
+    elif settings.HYBRID_RERANK_ENABLED:
+        print(
+            "CrossEncoder startup warmup disabled (STARTUP_WARM_CROSS_ENCODER=false); "
+            "reranker loads on first hybrid query.",
+            flush=True,
+        )
 
 
 # Local knowledge-base files are served only via authenticated admin download.
@@ -320,6 +359,34 @@ def db_health():
             "detail": detail,
         },
     )
+
+
+@app.get("/health/llm")
+def llm_health():
+    """Generation LLM health (Gemini or Ollama per LLM_PROVIDER)."""
+    provider = (settings.LLM_PROVIDER or "ollama").strip().lower()
+    if provider == "gemini":
+        from app.services.gemini_llm import check_gemini_llm
+
+        status = check_gemini_llm()
+        return {
+            "llm_provider": "gemini",
+            "configured": status.get("gemini_configured"),
+            "available": status.get("gemini_available"),
+            "model": status.get("model"),
+            "fallback_to_ollama": bool(settings.LLM_FALLBACK_TO_OLLAMA),
+            "detail": status.get("detail"),
+        }
+    from app.services.llm_service import check_ollama_llm
+
+    status = check_ollama_llm()
+    return {
+        "llm_provider": "ollama",
+        "available": status.get("ollama_available"),
+        "model_available": status.get("model_available"),
+        "model": status.get("model"),
+        "detail": status.get("detail"),
+    }
 
 
 @app.get("/health/ollama")

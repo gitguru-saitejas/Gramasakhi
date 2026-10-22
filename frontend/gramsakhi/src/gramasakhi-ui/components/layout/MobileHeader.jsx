@@ -2,18 +2,22 @@
 
 import { useUiStore } from '@/stores/ui-store';
 import { useLanguageStore } from '@/stores/language-store';
+import { useChatStore } from '@/stores/chat-store';
 import { CITIZEN_LANGUAGES } from '@/lib/i18n/translations';
 import { Menu, Sprout, Globe } from 'lucide-react';
 
 export function MobileHeader() {
   const { openMobileSidebar } = useUiStore();
   const { currentLanguage, setLanguage, getCurrentLanguageObj } = useLanguageStore();
+  const requestLanguageTransform = useChatStore((s) => s.requestLanguageTransform);
   const currentLang = getCurrentLanguageObj();
 
   const handleNextLanguage = () => {
     const currentIndex = CITIZEN_LANGUAGES.findIndex((l) => l.code === currentLanguage);
     const nextIndex = (currentIndex + 1) % CITIZEN_LANGUAGES.length;
-    setLanguage(CITIZEN_LANGUAGES[nextIndex].code);
+    const nextCode = CITIZEN_LANGUAGES[nextIndex].code;
+    setLanguage(nextCode);
+    requestLanguageTransform(nextCode);
   };
 
   return (

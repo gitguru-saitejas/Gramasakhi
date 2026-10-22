@@ -1,25 +1,54 @@
 'use client';
 
+import { useState } from 'react';
 import { useChatStore } from '@/stores/chat-store';
 import { useLanguageStore } from '@/stores/language-store';
-import { Sprout, ChevronRight } from 'lucide-react';
+import { openExternalApplyUrl, resolveSchemeApplyTarget } from '@/lib/scheme-apply';
+import { Sprout, ChevronRight, ExternalLink } from 'lucide-react';
 
 /** Displays backend-detected scheme name only — no hard-coded catalogue. */
-export function SchemeCard({ scheme }) {
+export function SchemeCard({ scheme, meta, raw, sources }) {
   const { sendMessage } = useChatStore();
   const { currentLanguage, getTranslation } = useLanguageStore();
   const t = getTranslation();
+  const [applyNotice, setApplyNotice] = useState(null);
 
   if (!scheme?.name) return null;
 
-  const askAbout = () => {
+  const applyTarget = resolveSchemeApplyTarget({ scheme, meta, raw, sources });
+
+  const askHowToApply = () => {
     const prompts = {
-      en: `Tell me more about ${scheme.name} — eligibility, documents, and how to apply.`,
-      kn: `${scheme.name} ಬಗ್ಗೆ ಹೆಚ್ಚಿನ ಮಾಹಿತಿ ನೀಡಿ — ಅರ್ಹತೆ, ದಾಖಲೆಗಳು ಮತ್ತು ಅರ್ಜಿ ಹಂತಗಳು.`,
-      hi: `${scheme.name} के बारे में अधिक बताएं — पात्रता, दस्तावेज़ और आवेदन प्रक्रिया।`,
+      en: `How do I apply for ${scheme.name}?`,
+      kn: `${scheme.name} ಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ವಿಧಾನ ಏನು?`,
+      hi: `${scheme.name} के लिए आवेदन कैसे करें?`,
     };
     sendMessage(prompts[currentLanguage] || prompts.en, currentLanguage);
   };
+
+  const handleApplyOnline = () => {
+    if (applyTarget?.url) {
+      const opened = openExternalApplyUrl(applyTarget.url);
+      if (!opened) {
+        setApplyNotice(
+          t.applyLinkBlocked ||
+            'This link could not be opened safely. Use the official sources below.'
+        );
+      }
+      return;
+    }
+    setApplyNotice(
+      t.noVerifiedApplyUrl ||
+        'No verified online application link is available yet. You can ask how to apply in chat.'
+    );
+  };
+
+  const applyLabel =
+    applyTarget?.kind === 'application'
+      ? t.applyNow || 'Apply Online'
+      : applyTarget?.kind === 'official_information'
+        ? t.openOfficialSchemePage || 'Open Official Scheme Page'
+        : t.applyNow || 'Apply Online';
 
   return (
     <div className="bg-surface-container rounded-[28px] p-5 shadow-ambient border border-surface-variant max-w-md w-full mt-4">
@@ -35,21 +64,33 @@ export function SchemeCard({ scheme }) {
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={askAbout}
-        className="w-full bg-primary text-on-primary py-2.5 px-4 rounded-full font-bold text-xs hover:bg-surface-tint transition-all flex items-center justify-center gap-1"
-      >
-        <span>{t.applyNow || 'Learn more'}</span>
-        <ChevronRight className="w-3.5 h-3.5" />
-      </button>
+      <div className="flex flex-col gap-2">
+        <button
+          type="button"
+          onClick={handleApplyOnline}
+          className="w-full bg-primary text-on-primary py-2.5 px-4 rounded-full font-bold text-xs hover:bg-surface-tint transition-all flex items-center justify-center gap-1"
+        >
+          <span>{applyLabel}</span>
+          {applyTarget?.url ? (
+            <ExternalLink className="w-3.5 h-3.5" />
+          ) : (
+            <ChevronRight className="w-3.5 h-3.5" />
+          )}
+        </button>
+        <button
+          type="button"
+          onClick={askHowToApply}
+          className="w-full bg-surface-container-high text-primary py-2 px-4 rounded-full font-semibold text-xs border border-surface-variant hover:bg-surface-variant transition-all"
+        >
+          {t.howToApplyInChat || 'How to Apply (in chat)'}
+        </button>
+      </div>
+
+      {applyNotice && (
+        <p className="text-[11px] text-on-surface-variant mt-2" role="status">
+          {applyNotice}
+        </p>
+      )}
     </div>
   );
 }
-
-
-
-
-
-
-

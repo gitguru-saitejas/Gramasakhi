@@ -165,7 +165,9 @@ class TestAuthOtpFlow(unittest.TestCase):
                     with self.assertLogs("uvicorn.error", level="WARNING") as captured:
                         res = self.client.post("/api/auth/otp/send", json={"phone_number": phone})
         self.assertEqual(res.status_code, 200, res.text)
-        self.assertEqual(res.json(), {"message": "OTP verification code sent."})
+        body = res.json()
+        self.assertEqual(body["message"], "OTP verification code sent.")
+        self.assertNotIn("dev_otp", body)
         joined = "\n".join(captured.output)
         self.assertIn("OTP: 556677", joined)
         self.assertNotIn("556677", res.text)

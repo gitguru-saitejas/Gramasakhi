@@ -26,6 +26,29 @@ function defaultMessageState() {
   return { phase: 'idle', error: null };
 }
 
+const SPEECH_LANG = { kn: 'kn-IN', hi: 'hi-IN', en: 'en-IN' };
+
+function tryBrowserSpeech(text, langCode, onEnd) {
+  if (typeof window === 'undefined' || !window.speechSynthesis) {
+    return Promise.resolve(false);
+  }
+  return new Promise((resolve) => {
+    try {
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = SPEECH_LANG[langCode] || SPEECH_LANG.en;
+      utter.onend = () => {
+        onEnd?.();
+        resolve(true);
+      };
+      utter.onerror = () => resolve(false);
+      window.speechSynthesis.speak(utter);
+    } catch {
+      resolve(false);
+    }
+  });
+}
+
 export function TtsPlaybackProvider({ children }) {
   const { isTtsEnabled, currentLanguage } = useLanguageStore();
   const [tick, setTick] = useState(0);
@@ -71,6 +94,9 @@ export function TtsPlaybackProvider({ children }) {
       playSeqRef.current += 1;
       abortRef.current?.abort();
       abortRef.current = null;
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
       cleanupAudio();
       if (messageId) {
         setMessageState(messageId, { phase: 'idle' });
@@ -149,9 +175,19 @@ export function TtsPlaybackProvider({ children }) {
           language: apiLang,
           status: status ?? err?.message,
         });
+        const uiLang = (responseLanguage || currentLanguage || 'en').toLowerCase();
+        const usedBrowser = await tryBrowserSpeech(cleanText, uiLang, () => {
+          if (seq !== playSeqRef.current) return;
+          setMessageState(messageId, { phase: 'idle', error: null });
+          activeMessageIdRef.current = null;
+        });
+        if (usedBrowser && seq === playSeqRef.current) {
+          setMessageState(messageId, { phase: 'playing', error: null });
+          return;
+        }
         setMessageState(messageId, {
           phase: 'idle',
-          error: 'Voice playback is not available right now.',
+          error: err?.message || 'Voice playback is not available right now.',
         });
         cleanupAudio();
         activeMessageIdRef.current = null;

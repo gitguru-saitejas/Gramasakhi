@@ -8,7 +8,7 @@ import { Globe, Volume2, VolumeX, RotateCcw, ChevronDown, Check } from 'lucide-r
 
 export function ChatHeader() {
   const { currentLanguage, setLanguage, isTtsEnabled, toggleTts, getCurrentLanguageObj, getTranslation } = useLanguageStore();
-  const { clearChat } = useChatStore();
+  const { clearChat, requestLanguageTransform } = useChatStore();
   const t = getTranslation();
   const currentLangObj = getCurrentLanguageObj();
   const [langOpen, setLangOpen] = useState(false);
@@ -71,7 +71,10 @@ export function ChatHeader() {
                   role="option"
                   aria-selected={currentLanguage === lang.code}
                   onClick={() => {
-                    setLanguage(lang.code);
+                    if (lang.code !== currentLanguage) {
+                      setLanguage(lang.code);
+                      requestLanguageTransform(lang.code);
+                    }
                     setLangOpen(false);
                   }}
                   className={`w-full text-left px-3 py-2 text-xs rounded-xl transition-colors font-medium flex items-center justify-between ${

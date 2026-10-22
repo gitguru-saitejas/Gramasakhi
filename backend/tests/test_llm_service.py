@@ -113,6 +113,10 @@ class TestPromptBuilder(unittest.TestCase):
 
 
 class TestLlmServiceGeneration(unittest.TestCase):
+    def setUp(self):
+        settings.LLM_PROVIDER = "ollama"
+        settings.LLM_FALLBACK_TO_OLLAMA = False
+
     def test_basic_generation_calls_ollama_once(self):
         fake = _fake_urlopen_factory(
             {"response": "PM-KISAN gives farmers Rs 6000 per year in three installments."}
@@ -208,6 +212,8 @@ class TestLlmServiceGeneration(unittest.TestCase):
 
 class TestEvidenceGateWithLlm(unittest.TestCase):
     def setUp(self):
+        settings.LLM_PROVIDER = "ollama"
+        settings.LLM_FALLBACK_TO_OLLAMA = False
         settings.EVIDENCE_GATE_ENABLED = True
 
     def test_unsupported_penalties_never_calls_ollama(self):

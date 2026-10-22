@@ -8,9 +8,19 @@ from app.core.config import Settings
 from app.services.ivr.public_url import validate_ivr_public_base_url
 
 
+def ivr_production_validation_required(settings: Settings) -> bool:
+    """Chat-only web deploys use IVR_PROVIDER=mock and skip telephony env requirements."""
+    if not hasattr(settings, "IVR_PROVIDER"):
+        return True
+    provider = str(getattr(settings, "IVR_PROVIDER", "") or "mock").strip().lower()
+    return provider not in ("mock", "disabled", "off")
+
+
 def collect_ivr_production_config_errors(settings: Settings) -> List[str]:
     """Return human-readable config errors; empty list means OK."""
     if settings.APP_ENV.strip().lower() != "production":
+        return []
+    if not ivr_production_validation_required(settings):
         return []
 
     errors: List[str] = []
@@ -34,13 +44,11 @@ def collect_ivr_production_config_errors(settings: Settings) -> List[str]:
     if settings.OTP_CONSOLE_SIMULATOR_ENABLED and not settings.DATABASE_URL.startswith("sqlite"):
         errors.append("OTP_CONSOLE_SIMULATOR_ENABLED should be false in production.")
 
-    provider = str(getattr(settings, "IVR_PROVIDER", "mock") or "mock").strip().lower()
-    if provider not in {"", "mock", "disabled", "off"}:
-        secret = str(getattr(settings, "IVR_WEBHOOK_SHARED_SECRET", "") or "").strip()
-        if not secret:
-            errors.append(
-                "IVR_WEBHOOK_SHARED_SECRET is required when IVR_PROVIDER is not mock."
-            )
+    secret = str(getattr(settings, "IVR_WEBHOOK_SHARED_SECRET", "") or "").strip()
+    if not secret:
+        errors.append(
+            "IVR_WEBHOOK_SHARED_SECRET is required when IVR telephony is enabled in production."
+        )
 
     return errors
 

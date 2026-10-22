@@ -589,7 +589,7 @@ def handle_citizen_chat(
             "active_scheme_context": conv.active_scheme_context,
             "error": rag_result.get("error"),
             "detected_language": meta["detected_language"],
-            "response_language": meta["response_language"],
+            "response_language": rag_result.get("response_language") or meta["response_language"],
             "target_language": meta["target_language"],
             "language_operation": meta.get("language_operation"),
             "input_mode": mode,
@@ -1109,6 +1109,30 @@ def handle_citizen_chat(
             eligibility_evaluation.get("status")
         ) or eligibility_evaluation.get("status")
     api_eligibility_status = eligibility_status_for_api(eligibility_status)
+    scheme_apply_meta: Optional[Dict[str, Any]] = None
+    scheme_for_apply = assistance.detected_scheme or conv.active_scheme_context
+    if scheme_for_apply:
+        from app.services.myscheme_service import resolve_scheme_apply_targets
+
+        apply_url = None
+        apply_scheme_id = getattr(assistance, "scheme_id", None)
+        if isinstance(scheme_guidance_meta, dict):
+            apply_url = scheme_guidance_meta.get("application_url") or apply_url
+            apply_scheme_id = scheme_guidance_meta.get("scheme_id") or apply_scheme_id
+        if isinstance(action_plan_meta, dict):
+            apply_url = action_plan_meta.get("application_url") or apply_url
+            apply_scheme_id = action_plan_meta.get("scheme_id") or apply_scheme_id
+        source_url_list = [
+            str(x.get("url") or "")
+            for x in (official_sources or [])
+            if isinstance(x, dict) and x.get("url")
+        ]
+        scheme_apply_meta = resolve_scheme_apply_targets(
+            scheme_for_apply,
+            application_url=apply_url,
+            scheme_id=apply_scheme_id,
+            source_urls=source_url_list,
+        )
     assistance_meta = build_message_assistance_meta(
         citizen_intent=assistance.intent.value,
         assistance_mode=assistance.assistance_mode.value,
@@ -1211,5 +1235,6 @@ def handle_citizen_chat(
         ),
         "scheme_guidance": scheme_guidance_meta,
         "action_plan": action_plan_meta,
+        "scheme_apply": scheme_apply_meta,
         **session_fields,
     }

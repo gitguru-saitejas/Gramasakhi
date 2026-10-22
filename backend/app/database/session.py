@@ -3,15 +3,19 @@ from urllib.parse import urlparse
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from app.core.config import settings
 
-is_sqlite = settings.DATABASE_URL.startswith("sqlite")
+from app.core.config import settings
+from app.database.database_url import normalize_database_url
+
+DATABASE_URL = normalize_database_url(settings.DATABASE_URL)
+
+is_sqlite = DATABASE_URL.startswith("sqlite")
 connect_args = {"check_same_thread": False} if is_sqlite else {}
 
 # Prefer IPv4 for Postgres hosts. Direct db.*.supabase.co is often IPv6-only;
 # forcing an IPv6 hostaddr on networks without IPv6 yields "Network is unreachable".
 if not is_sqlite:
-    host = urlparse(settings.DATABASE_URL).hostname or ""
+    host = urlparse(DATABASE_URL).hostname or ""
     if host.endswith(".supabase.co") and host.startswith("db."):
         has_v4 = False
         try:
@@ -31,7 +35,7 @@ if not is_sqlite:
 
 # Pool pre ping checks connection liveliness before executing SQL commands
 engine = create_engine(
-    settings.DATABASE_URL,
+    DATABASE_URL,
     connect_args=connect_args,
     pool_pre_ping=not is_sqlite,
 )

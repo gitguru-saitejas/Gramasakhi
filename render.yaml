@@ -1,0 +1,45 @@
+# Render blueprint (optional) — set secrets in Render dashboard, not here.
+services:
+  - type: web
+    name: gramsakhi-api
+    runtime: python
+    rootDir: backend
+    # Also pinned via backend/.python-version (Render reads it when rootDir is backend)
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: APP_ENV
+        value: production
+      - key: RUNTIME_PROFILE
+        value: cloud
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: EMBEDDING_PROVIDER
+        value: gemini
+      - key: LLM_FALLBACK_TO_OLLAMA
+        value: false
+      - key: OTP_DELIVERY_MODE
+        value: sms
+      - key: OTP_DEV_POPUP_ENABLED
+        value: false
+      - key: OTP_CONSOLE_SIMULATOR_ENABLED
+        value: false
+      - key: IVR_PROVIDER
+        value: mock
+      - key: STARTUP_WARM_CROSS_ENCODER
+        value: false
+      - key: STT_ENABLED
+        value: false
+      - key: LIVE_GOV_BROWSER_ENABLED
+        value: false
+      - key: BACKEND_CORS_ORIGINS
+        value: '["https://gramasakhi-1.onrender.com","http://127.0.0.1:5173","http://localhost:5173"]'
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        sync: false

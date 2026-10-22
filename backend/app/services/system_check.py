@@ -71,6 +71,22 @@ def _check_supabase_storage() -> Dict[str, Any]:
 
 
 def _check_ollama() -> Tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any]]:
+    from app.services.runtime_profile import is_cloud_runtime
+
+    if is_cloud_runtime():
+        from app.services.gemini_llm import check_gemini_llm
+
+        gem = check_gemini_llm()
+        llm_ok = bool(gem.get("gemini_configured"))
+        llm_detail = gem.get("model") or "gemini"
+        emb_ok = bool((settings.GEMINI_API_KEY or "").strip())
+        emb_detail = settings.GEMINI_EMBEDDING_MODEL
+        return (
+            _status(True, "cloud runtime (Ollama not required)"),
+            _status(emb_ok, emb_detail),
+            _status(llm_ok, llm_detail),
+        )
+
     base = (settings.OLLAMA_API_URL or settings.OLLAMA_BASE_URL or "").rstrip("/")
     ollama_ok = False
     tags: List[str] = []
@@ -95,6 +111,7 @@ def _check_ollama() -> Tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any]]:
 
     emb_model = settings.EMBEDDING_MODEL
     llm_model = settings.OLLAMA_LLM_MODEL or settings.OLLAMA_MODEL
+    llm_provider = (settings.LLM_PROVIDER or "ollama").strip().lower()
 
     # Probe embedding endpoint (stronger than tag list alone)
     emb_probe = False
@@ -112,11 +129,24 @@ def _check_ollama() -> Tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any]]:
     except Exception:
         emb_probe = _model_present(emb_model)
 
-    llm_ok = _model_present(llm_model)
+    if llm_provider == "gemini":
+        from app.services.gemini_llm import check_gemini_llm, get_gemini_model
+
+        gem = check_gemini_llm()
+        llm_ok = bool(gem.get("gemini_configured") and gem.get("gemini_available"))
+        llm_detail = get_gemini_model()
+        if not gem.get("gemini_configured"):
+            llm_detail = "GEMINI_API_KEY missing"
+        elif not gem.get("gemini_available"):
+            llm_detail = f"{get_gemini_model()} ({gem.get('detail')})"
+    else:
+        llm_ok = _model_present(llm_model)
+        llm_detail = llm_model
+
     return (
         _status(ollama_ok, base.replace("http://", "").replace("https://", "")),
         _status(emb_probe, emb_model),
-        _status(llm_ok, llm_model),
+        _status(llm_ok, llm_detail),
     )
 
 
@@ -247,7 +277,12 @@ def run_system_check() -> Dict[str, Any]:
             "ollama": "configured",
             "embedding_model": settings.EMBEDDING_MODEL,
             "embedding_dimensions": settings.EMBEDDING_DIMENSIONS,
-            "llm_model": settings.OLLAMA_LLM_MODEL or settings.OLLAMA_MODEL,
+            "llm_provider": (settings.LLM_PROVIDER or "ollama").strip().lower(),
+            "llm_model": (
+                settings.GEMINI_MODEL
+                if (settings.LLM_PROVIDER or "").strip().lower() == "gemini"
+                else (settings.OLLAMA_LLM_MODEL or settings.OLLAMA_MODEL)
+            ),
             "hybrid_index_dir": str(default_index_dir()),
             "live_gov_fallback": bool(settings.LIVE_GOV_FALLBACK_ENABLED),
             "stt_enabled": bool(settings.STT_ENABLED),

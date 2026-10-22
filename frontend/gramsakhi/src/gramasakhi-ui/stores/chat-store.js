@@ -186,6 +186,23 @@ export const useChatStore = create((set, get) => ({
     });
   },
 
+  requestLanguageTransform: (targetLangCode) => {
+    const code = (targetLangCode || "").toLowerCase();
+    const commands = {
+      en: "English please",
+      kn: "Kannada please",
+      hi: "Hindi please",
+    };
+    const phrase = commands[code];
+    if (!phrase) return false;
+    const messages = get().messages || [];
+    const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant" && m.content?.trim());
+    if (!lastAssistant) return false;
+    if (get().isGenerating) return false;
+    get().sendMessage(phrase, code);
+    return true;
+  },
+
   sendMessage: async (text, language = "kn", voiceOpts = {}) => {
     if (!text?.trim()) return;
     if (get().isGenerating) return;
@@ -258,6 +275,7 @@ export const useChatStore = create((set, get) => ({
               schemes: data.schemes || [],
               grounding: data.grounding,
               meta: data.meta,
+              rawResponse: data.raw || null,
               language: responseLang,
             };
 

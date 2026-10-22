@@ -60,6 +60,7 @@ export function buildAssistantMeta(data) {
     missing_information: data.missing_information,
     required_information: data.required_information,
     action_plan: data.action_plan,
+    scheme_apply: data.scheme_apply,
   };
   const has = Object.values(meta).some(
     (v) => v != null && v !== "" && !(Array.isArray(v) && v.length === 0)
@@ -88,8 +89,16 @@ export function mapBackendChatResponse(data) {
     assistant_message_id: data?.assistant_message_id || null,
     sources: normalizeSources(data?.sources, data?.official_sources),
     schemes: data?.detected_scheme
-      ? [{ id: String(data.detected_scheme), name: data.detected_scheme }]
+      ? [
+          {
+            id: String(data.detected_scheme),
+            name: data.detected_scheme,
+            scheme_id: data?.scheme_apply?.scheme_id || data?.scheme_id || null,
+            apply: data?.scheme_apply || null,
+          },
+        ]
       : [],
+    scheme_apply: data?.scheme_apply || null,
     grounding: {
       sufficiency: validated ? "SUPPORTED" : data?.live_status === "FAILED" ? "UNSUPPORTED" : "PARTIAL",
       confidenceScore: validated ? 0.95 : undefined,

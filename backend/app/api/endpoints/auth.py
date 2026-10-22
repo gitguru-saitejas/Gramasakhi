@@ -14,6 +14,12 @@ from app.schemas.auth import (
     RegisterRequest,
     ForgotPasswordResetRequest,
     OTPDevRetrievalResponse,
+    OTPSendResponse,
+)
+from app.services.otp_delivery import (
+    build_otp_send_response,
+    dev_popup_active,
+    dispatch_otp_sms,
 )
 from app.core.config import settings
 from app.core import security
@@ -44,6 +50,37 @@ def _log_otp_simulator(phone_number: str, code: str, *, purpose: str) -> None:
     from app.services.otp_console import emit_dev_otp_to_terminal
 
     emit_dev_otp_to_terminal(phone_number, code, purpose=purpose)
+
+
+def _create_otp_record(db: Session, phone_number: str) -> tuple[OTPVerification, str]:
+    code = security.generate_otp()
+    otp_hash = security.get_otp_hash(code)
+    otp_record = OTPVerification(
+        phone_number=phone_number,
+        otp_hash=otp_hash,
+        expires_at=_utc_now() + timedelta(minutes=3),
+        verified=False,
+        attempt_count=0,
+    )
+    db.add(otp_record)
+    db.commit()
+    db.refresh(otp_record)
+    return otp_record, code
+
+
+def _active_otp_record(
+    db: Session,
+    phone_number: str,
+    *,
+    otp_verification_id: str | None = None,
+) -> OTPVerification | None:
+    q = db.query(OTPVerification).filter(
+        OTPVerification.phone_number == phone_number,
+        OTPVerification.verified == False,  # noqa: E712
+    )
+    if otp_verification_id:
+        q = q.filter(OTPVerification.id == otp_verification_id)
+    return q.order_by(OTPVerification.created_at.desc()).first()
 
 
 def _consume_verified_otp(db: Session, phone_number: str) -> OTPVerification:
@@ -143,7 +180,7 @@ def login(request: LoginRequest, http_request: Request, db: Session = Depends(ge
     return _token_payload(account)
 
 
-@router.post("/otp/send")
+@router.post("/otp/send", response_model=OTPSendResponse, response_model_exclude_none=True)
 def send_otp(request: OTPRequest, db: Session = Depends(get_db)):
     if not auth_rate_limit_ok(request.phone_number, bucket="otp_send"):
         raise HTTPException(
@@ -151,22 +188,17 @@ def send_otp(request: OTPRequest, db: Session = Depends(get_db)):
             detail="Too many OTP requests. Please wait before trying again.",
         )
 
-    code = security.generate_otp()
-    otp_hash = security.get_otp_hash(code)
+    otp_record, code = _create_otp_record(db, request.phone_number)
 
-    otp_record = OTPVerification(
-        phone_number=request.phone_number,
-        otp_hash=otp_hash,
-        expires_at=_utc_now() + timedelta(minutes=3),
-        verified=False,
-        attempt_count=0,
-    )
-    db.add(otp_record)
-    db.commit()
-
+    if not dev_popup_active():
+        dispatch_otp_sms(request.phone_number, code, purpose="verification")
     _log_otp_simulator(request.phone_number, code, purpose="verification")
 
-    return {"message": "OTP verification code sent."}
+    return build_otp_send_response(
+        otp_verification_id=str(otp_record.id),
+        expires_at=otp_record.expires_at,
+        dev_code=code if dev_popup_active() else None,
+    )
 
 
 @router.get(
@@ -215,14 +247,10 @@ def verify_otp(request: OTPVerifyRequest, http_request: Request, db: Session = D
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
             detail="Too many attempts. Please wait before trying again.",
         )
-    otp_rec = (
-        db.query(OTPVerification)
-        .filter(
-            OTPVerification.phone_number == request.phone_number,
-            OTPVerification.verified == False,  # noqa: E712
-        )
-        .order_by(OTPVerification.created_at.desc())
-        .first()
+    otp_rec = _active_otp_record(
+        db,
+        request.phone_number,
+        otp_verification_id=request.otp_verification_id,
     )
 
     if not otp_rec:
@@ -294,22 +322,16 @@ def request_password_reset(request: OTPRequest, db: Session = Depends(get_db)):
     if not account:
         return {"message": "OTP verification code sent."}
 
-    code = security.generate_otp()
-    otp_hash = security.get_otp_hash(code)
-
-    otp_record = OTPVerification(
-        phone_number=request.phone_number,
-        otp_hash=otp_hash,
-        expires_at=_utc_now() + timedelta(minutes=3),
-        verified=False,
-        attempt_count=0,
-    )
-    db.add(otp_record)
-    db.commit()
-
+    otp_record, code = _create_otp_record(db, request.phone_number)
+    if not dev_popup_active():
+        dispatch_otp_sms(request.phone_number, code, purpose="password_reset")
     _log_otp_simulator(request.phone_number, code, purpose="password_reset")
 
-    return {"message": "OTP verification code sent."}
+    return build_otp_send_response(
+        otp_verification_id=str(otp_record.id),
+        expires_at=otp_record.expires_at,
+        dev_code=code if dev_popup_active() else None,
+    )
 
 
 @router.post("/forgot-password/reset")

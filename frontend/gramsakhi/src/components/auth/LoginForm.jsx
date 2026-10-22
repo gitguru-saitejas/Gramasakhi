@@ -34,10 +34,25 @@ export const LoginForm = () => {
       const res = await api.post("/auth/otp/send", { phone_number }, { skipErrorToast: true });
       localStorage.setItem("tempPhone", phone_number);
       showToast("success", res.data?.message || "OTP sent successfully!");
+      const data = res.data || {};
+      const otpSession =
+        data.delivery_mode === "dev_popup" && data.dev_otp
+          ? {
+              deliveryMode: data.delivery_mode,
+              devOtp: data.dev_otp,
+              devNotice: data.dev_notice,
+              otpVerificationId: data.otp_verification_id,
+              expiresInSeconds: data.expires_in_seconds,
+            }
+          : {
+              deliveryMode: data.delivery_mode || "sms",
+              otpVerificationId: data.otp_verification_id,
+              expiresInSeconds: data.expires_in_seconds,
+            };
       // Phone travels via navigation state + tempPhone, never in the URL
       // (query strings end up in browser history and server access logs).
       navigate("/citizen/verify-otp", {
-        state: { from: returnTo, phone: phone_number },
+        state: { from: returnTo, phone: phone_number, otpSession },
       });
     } catch (err) {
       const msg = err.response?.data?.detail || "Failed to send OTP.";

@@ -4,6 +4,7 @@
 **/.env
 !.env.example
 !**/.env.example
+!**/.env.production.example
 
 # Node
 node_modules/
@@ -46,6 +47,7 @@ backend/test_hybrid_indexes/
 backend/tmp_e2e_indexes/
 backend/static/uploads/
 backend/data/myscheme_discovery_cache.json
+backend/data/embedding_migrations/
 
 # Local scratch
 scratch_test.py
